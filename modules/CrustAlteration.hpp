@@ -10,9 +10,9 @@ public:
     }
 
     void evolve(void) {
-        double flux = F0*exp(-s->time/tau);
         int oc = s->idx_map["Oceans"];
         int cr = s->idx_map["OCrust"];
+        double flux = s->masses[oc+1]*F0*exp(-s->time/tau)/1e18;
         s->fluxes[oc+1] += -flux;
         s->fluxes[cr+2] += flux;
         if(DEBUG) cout << "CrustAlteration: " << flux << endl;

@@ -9,7 +9,7 @@
         Oceans:
         {
             InitMasses: [0, 0, 0],
-            Processes: ["Sedimentation"]
+            Processes: ["CrustAlteration"]
         },
         CCrust:
         {
@@ -19,36 +19,51 @@
         OCrust:
         {
             InitMasses: [0, 0, 0],
-            Processes: []
+            Processes: ["Subduction"]
         },
         UMantle:
         {
             InitMasses: [0, 0, 0],
-            Processes: []
+            Processes: ["UMDegassing"]
         },
         LMantle:
         {
             InitMasses: [0, 0, 0],
-            Processes: []
+            Processes: ["LMDegassing"]
         }
     },
 
     Lightning: {
-        tau: 20e8,
-        F0: 21e12
+        tau: 20e9,
+        F0: 1e12
     },
     Impacts: {
         tau: 1e6,
-        F0: 1e15
+        F0: 1e14
     },
-    Sedimentation: {
+    CrustAlteration: {
         tau: 1e9, 
         F0: 1e12
     },
+    Subduction: {
+        tau: 20e9, 
+        F0: 1e11
+    },
+    UMDegassing: {
+        tau: 20e9, 
+        F0: 1e11,
+        speciation: 0.5,
+        subaqueous: 0.25
+    },
+    LMDegassing: {
+        tau: 20e9, 
+        F0: 1e11,
+        subaqueous: 0.05
+    },
 
-    Tmax: 1e8,
-    Output: 1e6,
-    Timestep: 1e3,
+    Tmax: 13000e6,
+    Output: 100e6,
+    Timestep: 10e3,
     Debug: false
 }
 
