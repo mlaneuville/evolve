@@ -10,10 +10,12 @@ public:
     }
 
     void evolve(void) {
+        double flux = F0*exp(-s->time/tau);
         int oc = s->idx_map["Oceans"];
         int cr = s->idx_map["OCrust"];
-        s->fluxes[oc+1] += -F0*exp(-s->time/tau);
-        s->fluxes[cr+2] += F0*exp(-s->time/tau);
+        s->fluxes[oc+1] += -flux;
+        s->fluxes[cr+2] += flux;
+        if(DEBUG) cout << "Sedimentation: " << flux << endl;
     }
 
     bool exec(string param) {

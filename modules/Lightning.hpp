@@ -10,10 +10,12 @@ public:
     }
 
     void evolve(void) {
+        double flux = F0*exp(-s->time/tau);
         int atm = s->idx_map["Atmosphere"];
         int oc = s->idx_map["Oceans"];
-        s->fluxes[atm] += -F0*exp(-s->time/tau);
-        s->fluxes[oc+1] += F0*exp(-s->time/tau);
+        s->fluxes[atm] += -flux;
+        s->fluxes[oc+1] += flux;
+        if(DEBUG) cout << "Lightning: " << flux << endl;
     }
 
     bool exec(string param) {
