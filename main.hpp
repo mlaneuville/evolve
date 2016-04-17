@@ -3,6 +3,7 @@
 #include <fstream>
 #include <valarray>
 #include <cstdio>
+#include <cassert>
 
 // personal modules
 #include "config.hpp"
