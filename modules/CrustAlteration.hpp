@@ -1,12 +1,12 @@
-class Sedimentation: public Module {
+class CrustAlteration: public Module {
 public:
-    Sedimentation(string name): Module(name) { init(); }
+    CrustAlteration(string name): Module(name) { init(); }
 
     double tau, F0;
 
     void init(void) {
-        F0 = config->data["Sedimentation"]["F0"].as<double>();
-        tau = config->data["Sedimentation"]["tau"].as<double>();
+        F0 = config->data["CrustAlteration"]["F0"].as<double>();
+        tau = config->data["CrustAlteration"]["tau"].as<double>();
     }
 
     void evolve(void) {
@@ -15,7 +15,7 @@ public:
         int cr = s->idx_map["OCrust"];
         s->fluxes[oc+1] += -flux;
         s->fluxes[cr+2] += flux;
-        if(DEBUG) cout << "Sedimentation: " << flux << endl;
+        if(DEBUG) cout << "CrustAlteration: " << flux << endl;
     }
 
     bool exec(string param) {
@@ -30,4 +30,4 @@ public:
         return false;
     }
 };
-REGISTER_MODULE(Sedimentation)
+REGISTER_MODULE(CrustAlteration)
