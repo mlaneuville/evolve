@@ -1,0 +1,54 @@
+{
+    Reservoirs:
+    {
+        Atmosphere:
+        {
+            InitMasses: [4e21, 0, 0],
+            Processes: ["Lightning", "Impacts"]
+        },
+        Oceans:
+        {
+            InitMasses: [0, 0, 0],
+            Processes: ["Sedimentation"]
+        },
+        CCrust:
+        {
+            InitMasses: [0, 0, 0],
+            Processes: []
+        },
+        OCrust:
+        {
+            InitMasses: [0, 0, 0],
+            Processes: []
+        },
+        UMantle:
+        {
+            InitMasses: [0, 0, 0],
+            Processes: []
+        },
+        LMantle:
+        {
+            InitMasses: [0, 0, 0],
+            Processes: []
+        }
+    },
+
+    Lightning: {
+        tau: 20e8,
+        F0: 21e12
+    },
+    Impacts: {
+        tau: 1e6,
+        F0: 1e15
+    },
+    Sedimentation: {
+        tau: 1e9, 
+        F0: 1e12
+    },
+
+    Tmax: 1e8,
+    Output: 1e6,
+    Timestep: 1e3,
+    Debug: false
+}
+
