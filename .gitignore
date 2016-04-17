@@ -3,3 +3,4 @@ syntax: glob
 evolve
 *.txt
 *.o
+*.png

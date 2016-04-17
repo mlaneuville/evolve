@@ -35,6 +35,7 @@ public:
     void run(void);
     void to_screen(void);
     void to_file(void);
+    void file_header(void);
 };
 
 Simulation *s = new Simulation();

@@ -57,6 +57,7 @@ void Simulation::init(void) {
     
     cout << "=========================" << endl;
     this->to_screen();
+    this->file_header();
     this->to_file();
 
     return; 
@@ -81,9 +82,20 @@ void Simulation::to_screen(void) {
 void Simulation::to_file(void) {
     fstream file;
     file.open("out.txt", fstream::app);
-    file << current_iter << " ";
-    file << time/1e6 << " ";
-    for (int i=0; i<masses.size(); i++) file << masses[i] << " ";
+    file << current_iter << ",";
+    file << time/1e6;
+    for (int i=0; i<masses.size(); i++) file << "," << masses[i];
+    file << endl;
+    file.close();
+}
+
+void Simulation::file_header(void) {
+    fstream file;
+    file.open("out.txt", fstream::app);
+    file << "iter,time";
+    for (int i=0; i<world.size(); i++)
+        for (int j=0; j<3; j++)
+            file << "," << world[i]->name << j;
     file << endl;
     file.close();
 }
