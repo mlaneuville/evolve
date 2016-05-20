@@ -7,10 +7,10 @@ parser.add_argument("datafile")
 
 args = parser.parse_args()
 
-print args.datafile
+print(args.datafile)
 
 df = pd.read_csv(args.datafile)
-print df.head()
+print(df.head())
 
 for feature in df:
     if feature == "iter" or feature == "time":
