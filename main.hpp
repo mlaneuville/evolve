@@ -32,7 +32,7 @@ public:
     vector<double> masses;
 
     Simulation() {};
-    void init(void);
+    void init(string);
     void run(void);
     void to_screen(void);
     void to_file(void);

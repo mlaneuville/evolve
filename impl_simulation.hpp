@@ -29,10 +29,10 @@ void Simulation::run(void) {
 }
 
 
-void Simulation::init(void) { 
+void Simulation::init(string suffix) { 
 
     fstream file;
-    this->output_file = config->data["OutFolder"].as<string>() + "/out.txt";
+    this->output_file = config->data["OutFolder"].as<string>() + "/out_" + suffix + ".txt";
     file.open(this->output_file.c_str(), fstream::out);
     file.close();
 
