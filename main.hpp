@@ -17,6 +17,7 @@ class Reservoir;
 class Simulation {
 public:
 
+    string output_file;
     int current_iter;
     double timestep, time;
     double output, tmax;

@@ -28,10 +28,12 @@ void Simulation::run(void) {
     return; 
 }
 
+
 void Simulation::init(void) { 
 
     fstream file;
-    file.open("out.txt", fstream::out);
+    this->output_file = config->data["OutFolder"].as<string>() + "/out.txt";
+    file.open(this->output_file.c_str(), fstream::out);
     file.close();
 
     DEBUG = config->data["Debug"].as<bool>();
@@ -63,6 +65,7 @@ void Simulation::init(void) {
     return; 
 }
 
+
 void Simulation::to_screen(void) {
     printf("TS : %8d, Time: %4g, ", current_iter, time/1e6);
 
@@ -79,9 +82,10 @@ void Simulation::to_screen(void) {
     cout << endl;
 }
 
+
 void Simulation::to_file(void) {
     fstream file;
-    file.open("out.txt", fstream::app);
+    file.open(this->output_file.c_str(), fstream::app);
     file << current_iter << ",";
     file << time/1e6;
     for (int i=0; i<masses.size(); i++) file << "," << masses[i];
@@ -89,9 +93,10 @@ void Simulation::to_file(void) {
     file.close();
 }
 
+
 void Simulation::file_header(void) {
     fstream file;
-    file.open("out.txt", fstream::app);
+    file.open(this->output_file.c_str(), fstream::app);
     file << "iter,time";
     for (int i=0; i<world.size(); i++)
         for (int j=0; j<3; j++)

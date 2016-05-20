@@ -37,33 +37,38 @@
         tau: 20e9,
         F0: 1e12
     },
+
     Impacts: {
         tau: 1e6,
         F0: 1e14
     },
+
     CrustAlteration: {
         tau: 1e9, 
         F0: 1e12
     },
+
     Subduction: {
         tau: 20e9, 
         F0: 1e11
     },
+
     UMDegassing: {
         tau: 20e9, 
         F0: 1e11,
         speciation: 0.5,
         subaqueous: 0.25
     },
+
     LMDegassing: {
         tau: 20e9, 
         F0: 1e11,
         subaqueous: 0.05
     },
 
-    Tmax: 13000e6,
-    Output: 100e6,
+    OutFolder: "output",
+    Tmax: 4500e6,
+    Output: 25e6,
     Timestep: 10e3,
     Debug: false
 }
-
