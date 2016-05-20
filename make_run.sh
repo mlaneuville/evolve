@@ -23,5 +23,11 @@ cmd="cp $BASE_CONFIG $NEW_CONFIG"
 echo $cmd
 $cmd
 
+nline=`grep -in OutFolder $BASE_CONFIG | awk -F: '{print $1}'`
+oldname=`grep -in OutFolder $BASE_CONFIG | awk '{print $3}' | awk -F"\"" '{print $2}'`
+sed -i "${nline},${nline}s/$oldname/$FOLDER/g" $NEW_CONFIG
+
+mkdir -p $FOLDER
+
 ./evolve $NAME
 mv $NEW_CONFIG $FOLDER/$NEW_CONFIG
