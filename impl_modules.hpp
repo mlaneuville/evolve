@@ -1,7 +1,12 @@
 class Module {
 public:
     string name;
-    Module(string name) { this->name = name; }
+    vector<double> fluxes;
+
+    Module(string name) {
+        this->name = name;
+        this->fluxes.push_back(0);
+    }
     virtual bool exec(string param) = 0;
 };
 

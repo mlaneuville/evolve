@@ -17,6 +17,7 @@ public:
         s->fluxes[atm] += -flux;
         s->fluxes[oc+1] += flux;
         if(DEBUG) cout << "Impacts: " << flux << endl;
+        this->fluxes.push_back(flux);
     }
 
     bool exec(string param) {

@@ -16,6 +16,7 @@ public:
         s->fluxes[cr+2] += -flux;
         s->fluxes[um+2] += flux;
         if(DEBUG) cout << "Subduction: " << flux << endl;
+        this->fluxes.push_back(flux);
     }
 
     bool exec(string param) {

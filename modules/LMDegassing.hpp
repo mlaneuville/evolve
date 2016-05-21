@@ -19,6 +19,7 @@ public:
         s->fluxes[atm] += (1-eps)*flux;
         s->fluxes[oc+1] += eps*flux;
         if(DEBUG) cout << "LMDegassing: " << flux << endl;
+        this->fluxes.push_back(flux);
     }
 
     bool exec(string param) {

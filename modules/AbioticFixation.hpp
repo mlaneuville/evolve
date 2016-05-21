@@ -21,6 +21,7 @@ public:
             cout << "AbioticFixation: NOx=" << flux_NOx << endl;
             cout << "AbioticFixation: NH3=" << flux_NH3 << endl;
         }
+        this->fluxes.push_back(flux_NOx+flux_NH3);
     }
 
     bool exec(string param) {

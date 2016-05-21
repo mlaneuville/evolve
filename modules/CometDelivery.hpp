@@ -15,6 +15,7 @@ public:
         int oc = s->idx_map["Oceans"];
         s->fluxes[oc+1] += flux; // this is a net source, so no need to balance
         if(DEBUG) cout << "CometDelivery: " << flux << endl;
+        this->fluxes.push_back(flux);
     }
 
     bool exec(string param) {

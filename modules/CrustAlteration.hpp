@@ -25,6 +25,7 @@ public:
             cout << "CrustAlteration: NOx=" << f_NOx << endl;
             cout << "CrustAlteration: N2=" << f_N2 << endl;
         }
+        this->fluxes.push_back(f_N2+f_NOx);
     }
 
     bool exec(string param) {

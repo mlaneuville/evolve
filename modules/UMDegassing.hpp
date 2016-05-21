@@ -22,6 +22,7 @@ public:
         s->fluxes[oc+1] += eps1*eps2*flux;
         s->fluxes[lm+2] += (1-eps1)*flux;
         if(DEBUG) cout << "UMDegassing: " << flux << endl;
+        this->fluxes.push_back(flux);
     }
 
     bool exec(string param) {

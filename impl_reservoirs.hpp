@@ -1,11 +1,11 @@
 class Reservoir {
+public:
     int num_modules;
     vector<Module*> mchain;
     vector<double> mass;
 
     void init(void);
 
-public:
     string name;
 
     Reservoir(string name, int num_modules) {

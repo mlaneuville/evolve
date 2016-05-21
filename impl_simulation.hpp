@@ -89,6 +89,13 @@ void Simulation::to_file(void) {
     file << current_iter << ",";
     file << time/1e6;
     for (int i=0; i<masses.size(); i++) file << "," << masses[i];
+
+    for (int i=0; i<this->num_reservoirs; i++) {
+        for (int j=0; j<world[i]->num_modules; j++) {
+            file << "," << world[i]->mchain[j]->fluxes.back();
+        }
+    }
+
     file << endl;
     file.close();
 }
@@ -98,9 +105,17 @@ void Simulation::file_header(void) {
     fstream file;
     file.open(this->output_file.c_str(), fstream::app);
     file << "iter,time";
+
     for (int i=0; i<world.size(); i++)
         for (int j=0; j<3; j++)
             file << "," << world[i]->name << j;
+
+    for (int i=0; i<this->num_reservoirs; i++) {
+        for (int j=0; j<world[i]->num_modules; j++) {
+            file << "," << world[i]->mchain[j]->name;
+        }
+    }
+
     file << endl;
     file.close();
 }
