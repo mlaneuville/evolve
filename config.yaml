@@ -4,12 +4,12 @@
         Atmosphere:
         {
             InitMasses: [4e21, 0, 0],
-            Processes: ["Lightning", "Impacts"]
+            Processes: ["Lightning", "Impacts", "AbioticFixation"]
         },
         Oceans:
         {
             InitMasses: [0, 0, 0],
-            Processes: ["CrustAlteration"]
+            Processes: ["CrustAlteration", "CometDelivery"]
         },
         CCrust:
         {
@@ -39,13 +39,29 @@
     },
 
     Impacts: {
-        tau: 1e6,
-        F0: 1e14
+        tau: 0.15e9,
+        F0: 4.7e8,
+        F1: 4.7e11
+    },
+
+    AbioticFixation: {
+        M_REF: 4e21,
+        F_NOx: 4.0e10,
+        F_NH3: 1.6e7
+    },
+
+    CometDelivery: {
+        tau: 0.15e9,
+        F0: 2.4e5,
+        F1: 2.4e8
     },
 
     CrustAlteration: {
         tau: 1e9, 
-        F0: 1e12
+        F0: 1e-5,
+        F1: 3e-5,
+        F_NOx: 1,
+        F_N2: 1e-3
     },
 
     Subduction: {
