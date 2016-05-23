@@ -15,12 +15,15 @@ public:
     void evolve(void) {
         int atm = s->idx_map["Atmosphere"];
         int oc = s->idx_map["Oceans"];
+
         double mtot = s->masses[atm] + s->masses[oc];
         double cst = Pref/Mref*H0;
         double m_oc_eq = mtot*cst/(1./V0/MN2-cst);
         double flux = (m_oc_eq-s->masses[oc])/s->timestep;
+
         s->fluxes[atm] += -flux;
         s->fluxes[oc] += flux;
+
         if(DEBUG) cout << "Henry: " << flux << endl;
         this->fluxes.push_back(flux);
     }

@@ -6,4 +6,5 @@
 #include "Subduction.hpp"
 #include "UMDegassing.hpp"
 #include "LMDegassing.hpp"
-
+#include "FreundlichAdsorption.hpp"
+#include "Volcanism.hpp"

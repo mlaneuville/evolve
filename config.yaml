@@ -11,20 +11,15 @@
             InitMasses: [0, 0, 0],
             Processes: ["CrustAlteration", "Henry"]
         },
-        CCrust:
-        {
-            InitMasses: [0, 0, 0],
-            Processes: []
-        },
         OCrust:
         {
             InitMasses: [0, 0, 0],
-            Processes: []
+            Processes: ["Subduction"]
         },
         UMantle:
         {
             InitMasses: [0, 0, 0],
-            Processes: []
+            Processes: ["Volcanism"]
         },
         LMantle:
         {
@@ -65,21 +60,16 @@
     },
 
     Subduction: {
-        tau: 20e9, 
-        F0: 1e11
+        tau: 200e6, 
+        VCrust: 369e15
     },
 
-    UMDegassing: {
-        tau: 20e9, 
-        F0: 1e11,
-        speciation: 0.5,
-        subaqueous: 0.25
-    },
-
-    LMDegassing: {
-        tau: 20e9, 
-        F0: 1e11,
-        subaqueous: 0.05
+    Volcanism: {
+        F_arc: 5,
+        F_MORB: 20,
+        F_hotspot: 2.5, 
+        density: 2800,
+        scaling: 1e21
     },
 
     OutFolder: "output",
