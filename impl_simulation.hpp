@@ -126,12 +126,17 @@ void Simulation::generate_graph(void) {
     fstream file;
     file.open(this->output_file_graph.c_str(), fstream::out);
     file << "digraph {" << endl;
+
     for (int i=0; i<this->num_reservoirs; i++) { // loop over reservoirs
+        if (world[i]->num_modules == 0) continue;
+
+        // draw boxes around reservoirs
         file << "\tsubgraph cluster_" << i << " { label = \"" << this->world[i]->name << "\"; ";
         for (int tmp=0; tmp<3; tmp++) file << this->world[i]->name << tmp << "; ";
         file << "}" << endl;
-        for (int j=0; j<world[i]->num_modules; j++) {
-            for (int k=0; k<world[i]->mchain[j]->links.size(); k++) {
+
+        for (int j=0; j<world[i]->num_modules; j++) { // over modules within reservoir
+            for (int k=0; k<world[i]->mchain[j]->links.size(); k++) { // over links
                 file << "\t" << world[i]->mchain[j]->links[k];
                 file << "[label=" << world[i]->mchain[j]->name;
                 if (world[i]->mchain[j]->isBidirectional) file << ", dir=\"both\"";
