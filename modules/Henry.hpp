@@ -7,7 +7,7 @@ public:
     void init(void) {
         H0 = config->data["Henry"]["H0"].as<double>();
         V0 = config->data["Henry"]["V0"].as<double>();
-        MN2 = 28;
+        MN2 = 28e-3; // the masses are in kg
         Pref = 0.8e5;
         Mref = 4e21;
     }
