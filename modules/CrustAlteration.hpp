@@ -18,12 +18,15 @@ public:
     void evolve(void) {
         int oc = s->idx_map["Oceans"];
         int cr = s->idx_map["OCrust"];
+
         double vol_fraction = F0 + (F1-F0)*exp(-s->time/tau);
         double f_NOx = s->masses[oc+1]*vol_fraction*F_NOx;
         double f_N2 = s->masses[oc]*vol_fraction*F_N2;
+
         s->fluxes[oc] += -f_N2;
         s->fluxes[oc+1] += -f_NOx;
         s->fluxes[cr+2] += (f_N2+f_NOx);
+
         if(DEBUG) {
             cout << "CrustAlteration: NOx=" << f_NOx << endl;
             cout << "CrustAlteration: N2=" << f_N2 << endl;

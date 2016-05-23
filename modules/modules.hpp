@@ -6,3 +6,4 @@
 #include "Subduction.hpp"
 #include "FreundlichAdsorption.hpp"
 #include "Volcanism.hpp"
+#include "Convection.hpp"

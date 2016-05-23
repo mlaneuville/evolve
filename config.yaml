@@ -24,7 +24,7 @@
         LMantle:
         {
             InitMasses: [0, 0, 0],
-            Processes: []
+            Processes: ["Convection"]
         }
     },
 
@@ -57,6 +57,12 @@
         F1: 3e-7,
         F_NOx: 1,
         F_N2: 1e-3
+    },
+
+    Convection: {
+        tau: 1e9, 
+        F0: 1e-8,
+        F1: 3e-8,
     },
 
     Subduction: {
