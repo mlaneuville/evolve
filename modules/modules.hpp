@@ -1,4 +1,5 @@
 #include "AbioticFixation.hpp"
+#include "Henry.hpp"
 #include "Impacts.hpp"
 #include "CometDelivery.hpp"
 #include "CrustAlteration.hpp"
