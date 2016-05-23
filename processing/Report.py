@@ -35,7 +35,7 @@ class Report:
 
         for k, v in self.timeseries.items():
             print("Plotting "+k)
-            for column in v['colnames']:
+            for column in sorted(v['colnames']):
                 v['ax'].plot(self.data['time'][1:], 
                              self.data[column][1:]/v['norm'], 
                              lw=2, label=column)
