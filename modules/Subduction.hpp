@@ -5,6 +5,8 @@ public:
     double tau, VCrust;
 
     void init(void) {
+        this->links.push_back("OCrust2 -> UMantle2");
+
         VCrust = config->data["Subduction"]["VCrust"].as<double>();
         tau = config->data["Subduction"]["tau"].as<double>();
     }

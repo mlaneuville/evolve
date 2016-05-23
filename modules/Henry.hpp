@@ -5,6 +5,9 @@ public:
     double MN2, H0, V0, Mref, Pref;
 
     void init(void) {
+        this->links.push_back("Atmosphere0 -> Oceans0");
+        this->isBidirectional = true;
+
         H0 = config->data["Henry"]["H0"].as<double>();
         V0 = config->data["Henry"]["V0"].as<double>();
         MN2 = 28e-3; // the masses are in kg

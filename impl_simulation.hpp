@@ -33,6 +33,7 @@ void Simulation::init(string suffix) {
 
     fstream file;
     this->output_file = config->data["OutFolder"].as<string>() + "/out_" + suffix + ".txt";
+    this->output_file_graph = config->data["OutFolder"].as<string>() + "/out_" + suffix + ".dot";
     file.open(this->output_file.c_str(), fstream::out);
     file.close();
 
@@ -58,6 +59,7 @@ void Simulation::init(string suffix) {
     }
     
     cout << "=========================" << endl;
+    this->generate_graph();
     this->to_screen();
     this->file_header();
     this->to_file();
@@ -118,4 +120,24 @@ void Simulation::file_header(void) {
 
     file << endl;
     file.close();
+}
+
+void Simulation::generate_graph(void) {
+    fstream file;
+    file.open(this->output_file_graph.c_str(), fstream::out);
+    file << "digraph {" << endl;
+    for (int i=0; i<this->num_reservoirs; i++) { // loop over reservoirs
+        file << "\tsubgraph cluster_" << i << " { label = \"" << this->world[i]->name << "\"; ";
+        for (int tmp=0; tmp<3; tmp++) file << this->world[i]->name << tmp << "; ";
+        file << "}" << endl;
+        for (int j=0; j<world[i]->num_modules; j++) {
+            for (int k=0; k<world[i]->mchain[j]->links.size(); k++) {
+                file << "\t" << world[i]->mchain[j]->links[k];
+                file << "[label=" << world[i]->mchain[j]->name;
+                if (world[i]->mchain[j]->isBidirectional) file << ", dir=\"both\"";
+                file << "]" << endl;
+            }
+        }
+    }
+    file << "}" << endl;
 }

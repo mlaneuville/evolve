@@ -17,7 +17,7 @@ class Reservoir;
 class Simulation {
 public:
 
-    string output_file;
+    string output_file_graph, output_file;
     int current_iter;
     double timestep, time;
     double output, tmax;
@@ -37,6 +37,7 @@ public:
     void to_screen(void);
     void to_file(void);
     void file_header(void);
+    void generate_graph(void);
 };
 
 Simulation *s = new Simulation();

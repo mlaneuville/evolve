@@ -5,6 +5,8 @@ public:
     double F_NOx, F_NH3, M_REF;
 
     void init(void) {
+        this->links.push_back("Atmosphere0 -> Oceans1");
+
         F_NOx = config->data["AbioticFixation"]["F_NOx"].as<double>();
         F_NH3 = config->data["AbioticFixation"]["F_NH3"].as<double>();
         M_REF = config->data["AbioticFixation"]["M_REF"].as<double>();

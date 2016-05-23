@@ -2,6 +2,8 @@ syntax: glob
 
 evolve
 *.txt
+*.ps
+*.dot
 *.o
 *.png
 *.pdf

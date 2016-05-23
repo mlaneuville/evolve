@@ -5,6 +5,9 @@ public:
     double F_arc, F_MORB, F_hotspot, density, scaling;
 
     void init(void) {
+        this->links.push_back("UMantle2 -> Atmosphere0");
+        this->links.push_back("UMantle2 -> Oceans1");
+
         // these are given in km3/yr
         F_arc = config->data["Volcanism"]["F_arc"].as<double>();
         F_MORB = config->data["Volcanism"]["F_MORB"].as<double>();

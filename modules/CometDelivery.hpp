@@ -5,6 +5,8 @@ public:
     double tau, F0, F1;
 
     void init(void) {
+        this->links.push_back("Space -> Oceans1");
+
         F0 = config->data["CometDelivery"]["F0"].as<double>();
         F1 = config->data["CometDelivery"]["F1"].as<double>();
         tau = config->data["CometDelivery"]["tau"].as<double>();

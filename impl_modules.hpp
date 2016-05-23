@@ -2,10 +2,13 @@ class Module {
 public:
     string name;
     vector<double> fluxes;
+    vector<string> links;
+    bool isBidirectional;
 
     Module(string name) {
         this->name = name;
         this->fluxes.push_back(0);
+        this->isBidirectional = false;
     }
     virtual bool exec(string param) = 0;
 };
