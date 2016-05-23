@@ -5,13 +5,14 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
+from collections import OrderedDict
 
 class Report:
     def __init__(self, name, sim_dir="../output"):
         self.fname = sim_dir + "/out_" + name + ".txt"
         self.data = self.load_data(self.fname)
         self.output_file = "report_"+name+".pdf"
-        self.timeseries = {}
+        self.timeseries = OrderedDict()
         print(self.data.info())
 
 
