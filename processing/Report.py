@@ -35,7 +35,9 @@ class Report:
         for k, v in self.timeseries.items():
             print("Plotting "+k)
             for column in v['colnames']:
-                v['ax'].plot(self.data['time'][1:], self.data[column][1:], lw=2)
+                v['ax'].plot(self.data['time'][1:], self.data[column][1:], 
+                             lw=2, label=column)
+            v['ax'].legend(loc='best')
             v['ax'].set_ylabel(v['ylabel'])
             v['ax'].set_xlabel("Time since formation [Ma]")
             v['ax'].set_title(k)
