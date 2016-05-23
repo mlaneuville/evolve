@@ -20,12 +20,12 @@ class Report:
         return pd.read_csv(fname)
 
 
-    def add_timeseries(self, name, colnames=[], ylabel="", isLog=False):
+    def add_timeseries(self, name, colnames=[], ylabel="", isLog=False, norm=1):
         fig, ax = plt.subplots(1, 1)
         if len(colnames) == 0:
             colnames = [name]
         self.timeseries[name] = {'fig':fig, 'ax':ax, 'ylabel':ylabel,
-                                 'isLog':isLog, 'colnames':colnames} 
+                                 'isLog':isLog, 'colnames':colnames, 'norm':norm} 
 
 
     def process(self):
@@ -36,8 +36,10 @@ class Report:
         for k, v in self.timeseries.items():
             print("Plotting "+k)
             for column in v['colnames']:
-                v['ax'].plot(self.data['time'][1:], self.data[column][1:], 
+                v['ax'].plot(self.data['time'][1:], 
+                             self.data[column][1:]/v['norm'], 
                              lw=2, label=column)
+
             v['ax'].legend(loc='best')
             v['ax'].set_ylabel(v['ylabel'])
             v['ax'].set_xlabel("Time since formation [Ma]")
