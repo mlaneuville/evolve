@@ -18,15 +18,18 @@ public:
 
     void evolve(void) {
         int um = s->idx_map["UMantle"];
+        int lm = s->idx_map["LMantle"];
         int atm = s->idx_map["Atmosphere"];
         int oc = s->idx_map["Oceans"];
 
-        double factor = s->masses[um+2]/scaling;
-        double flux_arc = F_arc*density*1e9*factor;
-        double flux_MORB = F_MORB*density*1e9*factor;
-        double flux_hotspot = F_hotspot*density*1e9*factor;
+        double factor_um = s->masses[um+2]/scaling;
+        double factor_lm = s->masses[lm+2]/scaling;
+        double flux_arc = F_arc*density*1e9*factor_um;
+        double flux_MORB = F_MORB*density*1e9*factor_um;
+        double flux_hotspot = F_hotspot*density*1e9*factor_lm;
 
-        s->fluxes[um+2] -= (flux_arc + flux_MORB + flux_hotspot);
+        s->fluxes[um+2] -= (flux_arc + flux_MORB);
+        s->fluxes[lm+2] -= flux_hotspot;
         s->fluxes[atm] += flux_arc;
         // s->fluxes[atm+1] += (flux_MORB + flux_hotspot); this goes directly
         // back to the oceans in practice
