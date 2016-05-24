@@ -12,7 +12,7 @@ public:
         V0 = config->data["Henry"]["V0"].as<double>();
         MN2 = 28e-3; // the masses are in kg
         Pref = 0.8e5;
-        Mref = 4e21;
+        Mref = 4e18;
     }
 
     void evolve(void) {
