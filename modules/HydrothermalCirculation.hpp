@@ -5,8 +5,8 @@ public:
     double tau, F_NOx, F_N2, F0, F1;
 
     void init(void) {
-        this->links.push_back("Oceans0 -> Oceans1");
-        this->links.push_back("Oceans0 -> OCrust2");
+        this->links.push_back("Oceans0 -> Oceans2");
+        this->links.push_back("Oceans1 -> Oceans2");
 
         F0 = config->data["HydrothermalCirculation"]["F0"].as<double>();
         F1 = config->data["HydrothermalCirculation"]["F1"].as<double>();

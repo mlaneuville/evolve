@@ -5,7 +5,7 @@ public:
     double Kf, VCrust, VOceans, rho_cr;
 
     void init(void) {
-        this->links.push_back("Oceans2 -> Crust2");
+        this->links.push_back("Oceans2 -> OCrust2");
         this->isBidirectional = true;
 
         Kf = config->data["FreundlichAdsorption"]["Kf"].as<double>();
