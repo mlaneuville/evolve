@@ -7,6 +7,7 @@ public:
     void init(void) {
         this->links.push_back("UMantle2 -> Atmosphere0");
         this->links.push_back("UMantle2 -> Oceans1");
+        this->links.push_back("LMantle2 -> Oceans1");
 
         // these are given in km3/yr
         F_arc = config->data["Volcanism"]["F_arc"].as<double>();
