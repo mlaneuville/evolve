@@ -7,5 +7,5 @@ evolve
 *.o
 *.png
 *.pdf
-output/*.yaml
+output/*
 */__pycache__/
