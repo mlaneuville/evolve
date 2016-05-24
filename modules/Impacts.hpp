@@ -13,9 +13,12 @@ public:
     }
 
     void evolve(void) {
-        double flux = F0 + (F1-F0)*exp(-s->time/tau);
         int atm = s->idx_map["Atmosphere"];
         int oc = s->idx_map["Oceans"];
+
+        double scaling = s->masses[atm]/1e19;
+        double flux = scaling*(F0 + (F1-F0)*exp(-s->time/tau));
+
         s->fluxes[atm] += -flux;
         s->fluxes[oc+1] += flux;
         if(DEBUG) cout << "Impacts: " << flux << endl;
