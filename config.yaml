@@ -9,7 +9,7 @@
         Oceans:
         {
             InitMasses: [0, 0, 0],
-            Processes: ["CrustAlteration", "Henry", "FreundlichAdsorption"]
+            Processes: ["HydrothermalCirculation", "Henry", "FreundlichAdsorption"]
         },
         OCrust:
         {
@@ -55,7 +55,7 @@
         Kf: 1e-3
     },
 
-    CrustAlteration: {
+    HydrothermalCirculation: {
         tau: 1e9, 
         F0: 1e-7,
         F1: 3e-7,

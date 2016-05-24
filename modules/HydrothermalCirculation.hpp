@@ -1,6 +1,6 @@
-class CrustAlteration: public Module {
+class HydrothermalCirculation: public Module {
 public:
-    CrustAlteration(string name): Module(name) { init(); }
+    HydrothermalCirculation(string name): Module(name) { init(); }
 
     double tau, F_NOx, F_N2, F0, F1;
 
@@ -8,11 +8,11 @@ public:
         this->links.push_back("Oceans0 -> Oceans1");
         this->links.push_back("Oceans0 -> OCrust2");
 
-        F0 = config->data["CrustAlteration"]["F0"].as<double>();
-        F1 = config->data["CrustAlteration"]["F1"].as<double>();
-        F_NOx = config->data["CrustAlteration"]["F_NOx"].as<double>();
-        F_N2 = config->data["CrustAlteration"]["F_N2"].as<double>();
-        tau = config->data["CrustAlteration"]["tau"].as<double>();
+        F0 = config->data["HydrothermalCirculation"]["F0"].as<double>();
+        F1 = config->data["HydrothermalCirculation"]["F1"].as<double>();
+        F_NOx = config->data["HydrothermalCirculation"]["F_NOx"].as<double>();
+        F_N2 = config->data["HydrothermalCirculation"]["F_N2"].as<double>();
+        tau = config->data["HydrothermalCirculation"]["tau"].as<double>();
     }
 
     void evolve(void) {
@@ -28,8 +28,8 @@ public:
         s->fluxes[oc+2] += (f_N2+f_NOx);
 
         if(DEBUG) {
-            cout << "CrustAlteration: NOx=" << f_NOx << endl;
-            cout << "CrustAlteration: N2=" << f_N2 << endl;
+            cout << "HydrothermalCirculation: NOx=" << f_NOx << endl;
+            cout << "HydrothermalCirculation: N2=" << f_N2 << endl;
         }
         this->fluxes.push_back(f_N2+f_NOx);
     }
@@ -46,4 +46,4 @@ public:
         return false;
     }
 };
-REGISTER_MODULE(CrustAlteration)
+REGISTER_MODULE(HydrothermalCirculation)

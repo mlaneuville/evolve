@@ -2,7 +2,7 @@
 #include "Henry.hpp"
 #include "Impacts.hpp"
 #include "CometDelivery.hpp"
-#include "CrustAlteration.hpp"
+#include "HydrothermalCirculation.hpp"
 #include "Subduction.hpp"
 #include "FreundlichAdsorption.hpp"
 #include "Volcanism.hpp"
