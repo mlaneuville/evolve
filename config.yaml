@@ -3,13 +3,13 @@
     {
         Atmosphere:
         {
-            InitMasses: [4e21, 0, 0],
+            InitMasses: [0, 0, 0],
             Processes: ["Impacts", "CometDelivery", "AbioticFixation"]
         },
         Oceans:
         {
             InitMasses: [0, 0, 0],
-            Processes: ["CrustAlteration", "Henry"]
+            Processes: ["CrustAlteration", "Henry", "FreundlichAdsorption"]
         },
         OCrust:
         {
@@ -18,12 +18,12 @@
         },
         UMantle:
         {
-            InitMasses: [0, 0, 0],
+            InitMasses: [0.5e19, 0, 0],
             Processes: ["Volcanism"]
         },
         LMantle:
         {
-            InitMasses: [0, 0, 0],
+            InitMasses: [1.5e19, 0, 0],
             Processes: ["Convection"]
         }
     },
@@ -35,8 +35,8 @@
 
     Impacts: {
         tau: 0.15e9,
-        F0: 4.7e8,
-        F1: 4.7e11
+        F0: 4.7e6,
+        F1: 4.7e9
     },
 
     AbioticFixation: {
@@ -49,6 +49,10 @@
         tau: 0.15e9,
         F0: 2.4e5,
         F1: 2.4e8
+    },
+
+    FreundlichAdsorption: {
+        Kf: 1e-3
     },
 
     CrustAlteration: {
@@ -81,6 +85,6 @@
     OutFolder: "output",
     Tmax: 4500e6,
     Output: 25e6,
-    Timestep: 10e3,
+    Timestep: 5e3,
     Debug: false
 }

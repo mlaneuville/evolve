@@ -2,17 +2,31 @@ class FreundlichAdsorption: public Module {
 public:
     FreundlichAdsorption(string name): Module(name) { init(); }
 
-    double Kf;
+    double Kf, VCrust, VOceans, rho_cr;
 
     void init(void) {
+        this->links.push_back("Oceans2 -> Crust2");
+        this->isBidirectional = true;
+
         Kf = config->data["FreundlichAdsorption"]["Kf"].as<double>();
+
+        // read that from somewhere later
+        VCrust = config->data["Subduction"]["VCrust"].as<double>();
+        VOceans = config->data["Henry"]["V0"].as<double>();
+        rho_cr = 2800.;
     }
 
     void evolve(void) {
         int oc = s->idx_map["Oceans"];
-        int cr = s->idx_map["Crust"];
+        int cr = s->idx_map["OCrust"];
 
-        double flux = Kf;
+        double mtot = s->masses[oc+2] + s->masses[cr+2];
+        double cst = VCrust/VOceans*rho_cr*Kf;
+        double m_oc_eq = mtot/(1+cst);
+        double flux = -(m_oc_eq-s->masses[oc+2])/s->timestep;
+
+        s->fluxes[cr+2] += flux;
+        s->fluxes[oc+2] += -flux;
 
         if(DEBUG) cout << "FreundlichAdsorption: " << flux << endl;
         this->fluxes.push_back(flux);

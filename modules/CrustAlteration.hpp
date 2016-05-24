@@ -25,7 +25,7 @@ public:
 
         s->fluxes[oc] += -f_N2;
         s->fluxes[oc+1] += -f_NOx;
-        s->fluxes[cr+2] += (f_N2+f_NOx);
+        s->fluxes[oc+2] += (f_N2+f_NOx);
 
         if(DEBUG) {
             cout << "CrustAlteration: NOx=" << f_NOx << endl;
