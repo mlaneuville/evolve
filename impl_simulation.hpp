@@ -124,6 +124,11 @@ void Simulation::file_header(void) {
 
 void Simulation::generate_graph(void) {
     fstream file;
+    vector<string> colors;
+    colors.push_back("yellow");
+    colors.push_back("green");
+    colors.push_back("red");
+
     file.open(this->output_file_graph.c_str(), fstream::out);
     file << "digraph {" << endl;
 
@@ -132,7 +137,10 @@ void Simulation::generate_graph(void) {
 
         // draw boxes around reservoirs
         file << "\tsubgraph cluster_" << i << " { label = \"" << this->world[i]->name << "\"; ";
-        for (int tmp=0; tmp<3; tmp++) file << this->world[i]->name << tmp << "; ";
+        for (int tmp=0; tmp<3; tmp++) {
+            file << this->world[i]->name << tmp << "[style=\"filled\", color=\"black\", ";
+            file << "fillcolor=\"" << colors[tmp] << "\"];";
+        }
         file << "}" << endl;
 
         for (int j=0; j<world[i]->num_modules; j++) { // over modules within reservoir
