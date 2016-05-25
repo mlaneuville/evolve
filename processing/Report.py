@@ -33,10 +33,13 @@ class Report:
         return label
 
 
-    def add_timeseries(self, name, colnames=[], ylabel="", isLog=False, norm=1):
+    def add_timeseries(self, name, colnames=[], ylabel="", isLog=False, norm=[]):
         if len(colnames) == 0:
             colnames = [name]
-
+        if len(colnames) != len(norm):
+            val = 1 if len(norm) == 0 else norm[0]
+            norm = [val for x in colnames]
+    
         fig, ax = plt.subplots(1, 1)
         self.timeseries[name] = {'fig':fig, 'ax':ax, 'ylabel':ylabel,
                                  'isLog':isLog, 'colnames':colnames, 'norm':norm} 
@@ -46,9 +49,9 @@ class Report:
 
         for k, v in self.timeseries.items():
             print("Plotting "+k)
-            for column in sorted(v['colnames']):
+            for column, norm in zip(v['colnames'], v['norm']):
                 label = self.get_label(column)
-                data = self.data[column][1:]/v['norm']
+                data = self.data[column][1:]/norm
                 if v['isLog']:
                     data = abs(data)
                 v['ax'].plot(self.data['time'][1:], data, 
