@@ -10,7 +10,7 @@ public:
 
         Kf = config->data["FreundlichAdsorption"]["Kf"].as<double>();
         VSed = config->data["FreundlichAdsorption"]["VSed"].as<double>();
-        rhoSed = config->data["FreundlichAdsorption"]["rho_sed"].as<double>();
+        rhoSed = config->data["FreundlichAdsorption"]["rhoSed"].as<double>();
         VOceans = config->data["Henry"]["V0"].as<double>();
     }
 
