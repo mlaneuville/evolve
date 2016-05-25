@@ -3,27 +3,27 @@
     {
         Atmosphere:
         {
-            InitMasses: [0, 0, 0],
+            InitMasses: [2e19, 0, 0],
             Processes: ["Impacts", "CometDelivery", "AbioticFixation"]
         },
         Oceans:
         {
             InitMasses: [0, 0, 0],
-            Processes: ["HydrothermalCirculation", "Henry", "FreundlichAdsorption"]
+            Processes: ["Henry", "HydrothermalCirculation"]
         },
         OCrust:
         {
             InitMasses: [0, 0, 0],
-            Processes: ["Subduction"]
+            Processes: ["FreundlichAdsorption", "Subduction"]
         },
         UMantle:
         {
-            InitMasses: [0.5e19, 0, 0],
+            InitMasses: [0, 0, 0],
             Processes: ["Volcanism"]
         },
         LMantle:
         {
-            InitMasses: [1.5e19, 0, 0],
+            InitMasses: [0, 0, 0],
             Processes: ["Convection"]
         }
     },
@@ -52,6 +52,8 @@
     },
 
     FreundlichAdsorption: {
+        VSed: 6.1e17,
+        rhoSed: 1700,
         Kf: 1e-3
     },
 
