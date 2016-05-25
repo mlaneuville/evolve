@@ -5,7 +5,7 @@ public:
     double tau, F0, F1;
 
     void init(void) {
-        this->links.push_back("Space -> Oceans1");
+        this->links.push_back("Space -> Oceans2");
 
         F0 = config->data["CometDelivery"]["F0"].as<double>();
         F1 = config->data["CometDelivery"]["F1"].as<double>();
@@ -13,9 +13,12 @@ public:
     }
 
     void evolve(void) {
-        double flux = F0 + (F1-F0)*exp(-s->time/tau);
         int oc = s->idx_map["Oceans"];
-        s->fluxes[oc+1] += flux; // this is a net source, so no need to balance
+
+        double flux = F0 + (F1-F0)*exp(-s->time/tau);
+
+        s->fluxes[oc+2] += flux; // this is a net source, so no need to balance
+
         if(DEBUG) cout << "CometDelivery: " << flux << endl;
         this->fluxes.push_back(flux);
     }
