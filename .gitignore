@@ -7,5 +7,7 @@ evolve
 *.o
 *.png
 *.pdf
+*.gv
+*.tar.gz
 output/*
 */__pycache__/
