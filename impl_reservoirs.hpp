@@ -42,6 +42,7 @@ void Reservoir::init(void) {
 
     for (int i=0; i<3; i++) {
         s->masses.push_back(values[i].as<double>());
+        s->m0 += values[i].as<double>();
     }
 
     return;

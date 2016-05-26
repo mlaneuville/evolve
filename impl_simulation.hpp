@@ -10,10 +10,13 @@ void Simulation::run(void) {
         }
 
         // apply deltas
+        double curr_mass;
         for (int j=0; j<this->fluxes.size(); j++) {
             this->masses[j] += this->timestep*this->fluxes[j];
             assert(this->masses[j] >= 0);
+            curr_mass += this->masses[j];
         }
+        assert(curr_mass >= this->m0);
 
         this->current_iter++;
         this->time += this->timestep;
@@ -44,6 +47,7 @@ void Simulation::init(string suffix) {
     this->output = config->data["Output"].as<double>();
     this->tmax = config->data["Tmax"].as<double>();
     this->time = 0;
+    this->m0 = 0;
 
     YAML::Node reservoirs = config->data["Reservoirs"];
     this->num_reservoirs = reservoirs.size();
@@ -125,12 +129,12 @@ void Simulation::file_header(void) {
 void Simulation::generate_graph(void) {
     fstream file;
     vector<string> colors;
-    colors.push_back("yellow");
-    colors.push_back("green");
-    colors.push_back("red");
+    colors.push_back("/accent4/1");
+    colors.push_back("/accent4/2");
+    colors.push_back("/accent4/3");
 
     file.open(this->output_file_graph.c_str(), fstream::out);
-    file << "digraph {" << endl;
+    file << "digraph { rankdir=\"LR\"" << endl;
 
     for (int i=0; i<this->num_reservoirs; i++) { // loop over reservoirs
         if (world[i]->num_modules == 0) continue;
@@ -151,6 +155,8 @@ void Simulation::generate_graph(void) {
                 file << "]" << endl;
             }
         }
+
     }
+
     file << "}" << endl;
 }

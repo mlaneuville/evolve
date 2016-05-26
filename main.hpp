@@ -20,7 +20,7 @@ public:
     string output_file_graph, output_file;
     int current_iter;
     double timestep, time;
-    double output, tmax;
+    double output, tmax, m0;
     int num_reservoirs;
 
     map<string,int> idx_map;
