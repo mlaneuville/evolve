@@ -36,7 +36,8 @@
     Impacts: {
         tau: 0.15e9,
         F0: 4.7e6,
-        F1: 4.7e9
+        F1: 4.7e9,
+        oxidizing: 1.0
     },
 
     AbioticFixation: {
