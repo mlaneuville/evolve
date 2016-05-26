@@ -6,6 +6,7 @@ public:
 
     void init(void) {
         this->links.push_back("Atmosphere0 -> Oceans1");
+        this->links.push_back("Atmosphere0 -> Oceans2");
 
         F0 = config->data["Impacts"]["F0"].as<double>();
         F1 = config->data["Impacts"]["F1"].as<double>();
