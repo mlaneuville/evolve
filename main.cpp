@@ -8,8 +8,11 @@ int main(int argc, char** argv) {
     string suffix = "";
 
     if (argc == 2) {
-        fname = string("config_") + argv[1] + ".yaml";
-        suffix = argv[1];
+        fname = argv[1];
+
+        int begin = string(argv[1]).find("config_") + 7;
+        int end = string(argv[1]).find(".yaml", 4);
+        suffix = string(argv[1]).substr(begin, end-begin);
     }
 
     config->Load(fname);
