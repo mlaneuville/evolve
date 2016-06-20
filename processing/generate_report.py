@@ -25,13 +25,13 @@ plots_fluxes["Atmosphere"] = {'cols':["Impacts", "CometDelivery"],
                              'ylabel':"Nitrogen flux [kg N/yr]", 'isLog':True} 
 
 plots_fluxes["Oceans1"] = {'cols':["FreundlichAdsorption", "HydrothermalCirculation"],
-                             'ylabel':"Nitrogen flux [kg N/yr]"} 
+                             'ylabel':"Nitrogen flux [kg N/yr]", 'isLog':True} 
 
 plots_fluxes["Oceans2"] = {'cols':["AbioticFixation", "Henry"],
                              'ylabel':"Nitrogen flux [kg N/yr]"} 
 
 plots_fluxes["Interior"] = {'cols':["Subduction", "Convection", "Volcanism"],
-                             'ylabel':"Nitrogen flux [kg N/yr]"} 
+                             'ylabel':"Nitrogen flux [kg N/yr]", 'isLog':True} 
 
 r.add_subplot(plots_fluxes)
 
@@ -51,19 +51,19 @@ plots_evo = OrderedDict()
 
 plots_evo["Atmosphere"] = {'cols':["Atmosphere0"], 
                        'ylabel':"Nitrogen content [PAL]", 
-                       'norm':[2e19]}
+                       'norm':[4e18]}
 
 plots_evo["Oceans"] = {'cols':["Oceans0", "Oceans1", "Oceans2"], 
-                   'ylabel':"Nitrogen content [umol/L]", 
-                   'norm':[1.8e13], 'isLog':True}
+                   'ylabel':"Nitrogen content [mmol/L]", 
+                   'norm':[1.8e16], 'isLog':True}
 
 plots_evo["Crust"] = {'cols':["OCrust2"], 
                   'ylabel':"Nitrogen content [ppm]", 
-                  'norm':[1.0e15]}
+                  'norm':[1.0e15], 'isLog':True}
 
 plots_evo["Mantle"] = {'cols':["UMantle2", "LMantle2"], 
                    'ylabel':"Nitrogen content [ppm]", 
-                   'norm':[8.2e17, 2.2e18]}
+                   'norm':[8.2e17, 2.2e18], 'isLog':True}
 
 r.add_subplot(plots_evo)
 
