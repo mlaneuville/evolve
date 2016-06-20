@@ -37,7 +37,7 @@ class Report:
                 if value[-1].isdigit():
                     label.append(value[:-1] + " -- " + species[value[-1]])
                 else:
-                    label.append(value)
+                    label.append(value[:17])
         return label
 
 
