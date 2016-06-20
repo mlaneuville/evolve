@@ -1,13 +1,14 @@
 from collections import OrderedDict
 import argparse
 from Report import *
+from glob import glob
 
 parser = argparse.ArgumentParser()
-parser.add_argument('id', type=str, help='Case ID, useful if there is more than one in folder')
+parser.add_argument('-i', '--id', default=False, type=str, help='Case ID, useful if there is more than one in folder')
+parser.add_argument('-f', '--folder', default='output/', type=str, help='folder where out_* are stored')
 
 args = parser.parse_args()
 
-r = Report(args.id)
 
 #r.add_timeseries("Impacts", ylabel="Production flux [kg N/yr]", isLog=True)
 #r.add_timeseries("CometDelivery", ylabel="Production flux [kg N/yr]", isLog=True)
@@ -33,7 +34,6 @@ plots_fluxes["Oceans2"] = {'cols':["AbioticFixation", "Henry"],
 plots_fluxes["Interior"] = {'cols':["Subduction", "Convection", "Volcanism"],
                              'ylabel':"Nitrogen flux [kg N/yr]", 'isLog':True} 
 
-r.add_subplot(plots_fluxes)
 
 #r.add_timeseries("Atmosphere evolution", ["Atmosphere0"],  
 #                 ylabel="Nitrogen content [PAL]", norm=[2e19])
@@ -65,7 +65,24 @@ plots_evo["Mantle"] = {'cols':["UMantle2", "LMantle2"],
                    'ylabel':"Nitrogen content [ppm]", 
                    'norm':[8.2e17, 2.2e18], 'isLog':True}
 
-r.add_subplot(plots_evo)
+if args.id:
+    r = Report(args.id, sim_dir=args.folder)
 
-r.process()
-r.to_file()
+    r.add_subplot(plots_fluxes)
+    r.add_subplot(plots_evo)
+
+    r.process()
+    r.to_file()
+else:
+    output = glob("../"+args.folder+"/*.txt")
+    for out in output:
+        file_id = out.split("out_")[-1]
+        file_id = file_id.split(".txt")[0]
+
+        r = Report(file_id, sim_dir='../'+args.folder)
+    
+        r.add_subplot(plots_fluxes)
+        r.add_subplot(plots_evo)
+    
+        r.process()
+        r.to_file()
