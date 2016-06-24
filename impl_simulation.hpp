@@ -75,7 +75,7 @@ void Simulation::init(string suffix) {
 void Simulation::to_screen(void) {
     printf("TS : %8d, Time: %4g, ", current_iter, time/1e6);
 
-    double m;
+    double m, tot_m;
     for (int i=0; i<world.size(); i++) {
         m = 0;
         cout << world[i]->name.substr(0,2) << ": ";
@@ -84,8 +84,9 @@ void Simulation::to_screen(void) {
         m += masses[idx+1];
         m += masses[idx+2];
         cout << m << ", ";
+        tot_m += m;
     }
-    cout << endl;
+    cout << "TOT: " << tot_m << endl;
 }
 
 
