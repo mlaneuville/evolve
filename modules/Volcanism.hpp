@@ -14,7 +14,7 @@ public:
         F_MORB = config->data["Volcanism"]["F_MORB"].as<double>();
         F_hotspot = config->data["Volcanism"]["F_hotspot"].as<double>();
         // oxidizing = 0.8 corresponds to partitioning in Jim's notes
-        oxidizing = config->data["Volcanism"]["oxidizing"].as<double>();
+        oxidizing = config->data["oxidizing"].as<double>();
         density = config->data["Volcanism"]["density"].as<double>();
         scaling = config->data["Volcanism"]["scaling"].as<double>();
     }

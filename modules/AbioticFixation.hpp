@@ -17,7 +17,7 @@ public:
         int oc = s->idx_map["Oceans"];
 
         double flux_NOx = F_NOx*s->masses[atm]/M_REF;
-        double flux_NH3 = F_NOx*s->masses[atm]/M_REF;
+        double flux_NH3 = F_NH3*s->masses[atm]/M_REF;
 
         s->fluxes[atm] += -(flux_NOx + flux_NH3);
         s->fluxes[oc+2] += flux_NOx + flux_NH3; 

@@ -1,6 +1,6 @@
 '''
 Module to generate a series of initial conditions in a given folder. If
-varchange is set (optional), volcanism/oxidizing is set to varchange/100.
+varchange is set (optional), oxidizing is set to varchange/100.
 '''
 
 from random import randint, choice
@@ -58,7 +58,7 @@ def create_config(folder, varchange):
 
     if varchange != '':
         varchange = float(varchange)/100
-        cfg["Volcanism"]["oxidizing"] = varchange
+        cfg["oxidizing"] = varchange
 
     fname = "config"
     for val in random_seq:

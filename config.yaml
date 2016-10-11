@@ -34,14 +34,14 @@
     },
 
     Impacts: {
+        M_REF: 4e18,
         tau: 0.15e9,
         F0: 4.7e6,
         F1: 4.7e9,
-        oxidizing: 1.0
     },
 
     AbioticFixation: {
-        M_REF: 4e21,
+        M_REF: 4e18,
         F_NOx: 4.0e10,
         F_NH3: 1.6e7
     },
@@ -78,7 +78,6 @@
     },
 
     Volcanism: {
-        oxidizing: 0.95,
         F_arc: 5,
         F_MORB: 20,
         F_hotspot: 2.5, 
@@ -86,6 +85,7 @@
         scaling: 1e21
     },
 
+    oxidizing: 1.0,
     OutFolder: "output",
     Tmax: 4500e6,
     Output: 25e6,
