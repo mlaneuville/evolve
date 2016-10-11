@@ -78,6 +78,7 @@
     },
 
     Volcanism: {
+        oxidizing: 0.95,
         F_arc: 5,
         F_MORB: 20,
         F_hotspot: 2.5, 

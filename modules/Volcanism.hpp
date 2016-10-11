@@ -2,7 +2,7 @@ class Volcanism: public Module {
 public:
     Volcanism(string name): Module(name) { init(); }
 
-    double F_arc, F_MORB, F_hotspot, density, scaling;
+    double F_arc, F_MORB, F_hotspot, density, scaling, oxidizing;
 
     void init(void) {
         this->links.push_back("UMantle2 -> Atmosphere0");
@@ -13,6 +13,8 @@ public:
         F_arc = config->data["Volcanism"]["F_arc"].as<double>();
         F_MORB = config->data["Volcanism"]["F_MORB"].as<double>();
         F_hotspot = config->data["Volcanism"]["F_hotspot"].as<double>();
+        // oxidizing = 0.8 corresponds to partitioning in Jim's notes
+        oxidizing = config->data["Volcanism"]["oxidizing"].as<double>();
         density = config->data["Volcanism"]["density"].as<double>();
         scaling = config->data["Volcanism"]["scaling"].as<double>();
     }
@@ -25,8 +27,8 @@ public:
 
         double factor_um = s->masses[um+2]/scaling;
         double factor_lm = s->masses[lm+2]/scaling;
-        double flux_arc = F_arc*density*1e9*factor_um;
-        double flux_MORB = F_MORB*density*1e9*factor_um;
+        double flux_arc = (1-oxidizing)*(F_MORB+F_arc)*density*1e9*factor_um;
+        double flux_MORB = oxidizing*(F_MORB+F_arc)*density*1e9*factor_um;
         double flux_hotspot = F_hotspot*density*1e9*factor_lm;
 
         s->fluxes[um+2] -= (flux_arc + flux_MORB);
