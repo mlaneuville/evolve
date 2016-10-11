@@ -3,7 +3,7 @@ Module to generate a series of initial conditions in a given folder. If
 varchange is set (optional), oxidizing is set to varchange/100.
 '''
 
-from random import randint, choice
+import random
 import yaml
 import os
 import argparse
@@ -18,24 +18,22 @@ MAP = {0: ["Atmosphere", 0],
        6: ["LMantle", 2]}
 
 def get_random_sequence():
-    '''Generate a sequence of 7 integers which sum is 20.  '''
-    res = np.zeros(7, dtype=int)
-    test = range(len(res))
-    size = 20
-    orig_size = size
+    '''Generate a sequence of 7 integers which sum is 20. The way to do this is
+       to generate 6 random integers, add 0 and 20 to the list, order them and
+       take the differences. The reason this works is that it corresponds to
+       taking a rope and cutting it an random places and putting it back
+       together.'''
 
-    while len(test) >= 1 and size > 0:
-        amount = randint(0, size)
-        if len(test) == 1:
-            amount = size
+    random.seed()
+    reservoirs = []
+    while len(reservoirs) < 6: # we want 6 numbers
+        reservoirs.append(random.randint(0, 20))
 
-        idx = choice(test)
-        res[idx] += amount
-        size -= amount
+    reservoirs.append(0)
+    reservoirs.append(20)
+    reservoirs = sorted(reservoirs)
 
-    assert sum(res) == orig_size
-    return res
-
+    return np.diff(reservoirs)
 
 def get_default_config():
     '''Read config.yaml from main directory to be used as default.'''
