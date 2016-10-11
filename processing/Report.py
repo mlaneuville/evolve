@@ -17,15 +17,15 @@ class Report:
     def __init__(self, name, sim_dir="../output"):
         self.graph_fname = sim_dir + "/out_" + name + ".dot"
         self.fname = sim_dir + "/out_" + name + ".txt"
-        self.data = self.load_data(self.fname)
+        self.data = self.load_data()
         self.output_file = "report_"+name+".pdf"
         self.timeseries = OrderedDict()
         self.subplots = []
         print(self.data.head())
 
 
-    def load_data(self, fname):
-        return pd.read_csv(fname)
+    def load_data(self):
+        return pd.read_csv(self.fname)
 
 
     def get_label(self, name):
@@ -115,7 +115,7 @@ class Report:
                     sub['ax'][idx].set_xlabel("Time since formation [Ma]")
 
 
-    def to_file(self):
+    def to_file(self, with_graph=True):
 
         graph_src = open(self.graph_fname, "r")
         dot = graphviz.Source(graph_src.read(), engine="dot", format="pdf")
@@ -133,8 +133,10 @@ class Report:
 
         graph = PdfFileReader("Source.gv.pdf")
         report = PdfFileReader(self.output_file)
+
         merger = PdfFileMerger()
-        merger.append(graph)
+        if with_graph:
+            merger.append(graph)
         merger.append(report)
         merger.write(self.output_file)
         os.remove("Source.gv.pdf")
