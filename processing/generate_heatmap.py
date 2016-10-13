@@ -6,6 +6,7 @@ scale is a histogram of the distribution of random runs for a given redox value.
 
 from glob import glob
 import os
+import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -28,7 +29,12 @@ NORMS = {"Atmosphere0": 4e18,  # PAL
          "UMantle2": 9.6e17,   # ppm ; v(umantle) = 2.4e20 m3, rho = 4000 kg/m3
          "OCrust2": 1e15}      # ppm ; msed = 1.04e21 kg
 
-DATA_DIRECTORY = "../output/"
+PARSER = argparse.ArgumentParser()
+PARSER.add_argument('-f', '--folder', help='data directory')
+
+ARGS = PARSER.parse_args()
+
+DATA_DIRECTORY = ARGS.folder
 
 def get_full_data(field_, norm, time):
     '''Get data (time and field vectors) for a given time. Fetches output from
@@ -46,7 +52,7 @@ def get_full_data(field_, norm, time):
 
         for data_file in glob(folder+'/*.txt'):
             dataframe = pd.read_csv(data_file)
-            oxi = int(data_file.split("/")[2][4:7])
+            oxi = int(data_file.split("/")[-2][4:7])
 
             reservoir = dataframe[field_].values[time]
             simtime = dataframe["time"].values[time]
