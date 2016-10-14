@@ -78,7 +78,7 @@ def make_time_plot(field_, norm, time):
     plt.figure()
 
     xbins = np.logspace(-2, 2, 26)
-    ybins = np.linspace(75, 100, 26)
+    ybins = np.linspace(np.min(yval), np.max(yval), 26)
     counts, _, _ = np.histogram2d(xval, yval, bins=(xbins, ybins))
     print(counts.shape)
 
