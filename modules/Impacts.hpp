@@ -12,7 +12,7 @@ public:
         F0 = config->data["Impacts"]["F0"].as<double>();
         F1 = config->data["Impacts"]["F1"].as<double>();
         tau = config->data["Impacts"]["tau"].as<double>();
-        oxidizing = config->data["oxidizing"].as<double>();
+        oxidizing = config->data["atm_ox"].as<double>();
     }
 
     void evolve(void) {

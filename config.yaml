@@ -85,7 +85,8 @@
         scaling: 1e21
     },
 
-    oxidizing: 1.0,
+    atm_ox: 0.2,
+    man_ox: 0.2,
     OutFolder: "output",
     Tmax: 4500e6,
     Output: 25e6,

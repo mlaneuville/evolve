@@ -56,7 +56,7 @@ def create_config(folder, varchange):
 
     if varchange != '':
         varchange = float(varchange)/100
-        cfg["oxidizing"] = varchange
+        cfg["man_ox"] = varchange
 
     fname = "config"
     for val in random_seq:
