@@ -6,8 +6,8 @@ public:
 
     void init(void) {
         this->links.push_back("UMantle2 -> Atmosphere0");
-        this->links.push_back("UMantle2 -> Oceans1");
-        this->links.push_back("LMantle2 -> Oceans1");
+        this->links.push_back("UMantle2 -> Oceans2");
+        this->links.push_back("LMantle2 -> Oceans2");
 
         // these are given in km3/yr
         F_arc = config->data["Volcanism"]["F_arc"].as<double>();
@@ -36,7 +36,7 @@ public:
         s->fluxes[atm] += flux_arc;
         // s->fluxes[atm+1] += (flux_MORB + flux_hotspot); this goes directly
         // back to the oceans in practice
-        s->fluxes[oc+1] += (flux_MORB + flux_hotspot);
+        s->fluxes[oc+2] += (flux_MORB + flux_hotspot);
 
         if(DEBUG) {
             cout << "Volcanism: arc=" << flux_arc << endl;
