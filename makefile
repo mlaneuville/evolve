@@ -9,7 +9,7 @@ $(BIN): $(OBJ) *.hpp modules/*.hpp
 $(OBJ): *.hpp
 
 .cpp.o:
-	$(CC) -c $*.cpp
+	$(CC) -c $*.cpp -std=c++11
 
 clean:
 	rm -f evolve *.o

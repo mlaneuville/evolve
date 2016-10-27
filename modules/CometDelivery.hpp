@@ -6,6 +6,8 @@ public:
 
     void init(void) {
         this->links.push_back("Space -> Oceans2");
+        this->numOutputs = 1;
+        this->init_fluxes(1);
 
         F0 = config->data["CometDelivery"]["F0"].as<double>();
         F1 = config->data["CometDelivery"]["F1"].as<double>();
@@ -20,7 +22,9 @@ public:
         s->fluxes[oc+2] += flux; // this is a net source, so no need to balance
 
         if(DEBUG) cout << "CometDelivery: " << flux << endl;
-        this->fluxes.push_back(flux);
+
+        vector<double> output = {flux};
+        this->fluxes.push_back(output);
     }
 
     bool exec(string param) {

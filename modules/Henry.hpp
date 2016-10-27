@@ -7,6 +7,8 @@ public:
     void init(void) {
         this->links.push_back("Atmosphere0 -> Oceans0");
         this->isBidirectional = true;
+        this->numOutputs = 1;
+        this->init_fluxes(1);
 
         H0 = config->data["Henry"]["H0"].as<double>();
         V0 = config->data["Henry"]["V0"].as<double>();
@@ -28,7 +30,9 @@ public:
         s->fluxes[oc] += flux;
 
         if(DEBUG) cout << "Henry: " << flux << endl;
-        this->fluxes.push_back(flux);
+
+        vector<double> output = {flux};
+        this->fluxes.push_back(output);
     }
 
     bool exec(string param) {

@@ -7,6 +7,8 @@ public:
     void init(void) {
         this->links.push_back("Atmosphere0 -> Oceans1");
         this->links.push_back("Atmosphere0 -> Oceans2");
+        this->numOutputs = 1;
+        this->init_fluxes(1);
 
         M_REF = config->data["Impacts"]["M_REF"].as<double>();
         F0 = config->data["Impacts"]["F0"].as<double>();
@@ -27,7 +29,9 @@ public:
         s->fluxes[oc+2] += (1-oxidizing)*flux;
 
         if(DEBUG) cout << "Impacts: " << flux << endl;
-        this->fluxes.push_back(flux);
+
+        vector<double> output = {flux};
+        this->fluxes.push_back(output);
     }
 
     bool exec(string param) {

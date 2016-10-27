@@ -7,6 +7,8 @@ public:
     void init(void) {
         this->links.push_back("Atmosphere0 -> Oceans1");
         this->links.push_back("Atmosphere0 -> Oceans2");
+        this->numOutputs = 2;
+        this->init_fluxes(2);
 
         F_NOx = config->data["AbioticFixation"]["F_NOx"].as<double>();
         F_NH3 = config->data["AbioticFixation"]["F_NH3"].as<double>();
@@ -28,7 +30,9 @@ public:
             cout << "AbioticFixation: NOx=" << flux_NOx << endl;
             cout << "AbioticFixation: NH3=" << flux_NH3 << endl;
         }
-        this->fluxes.push_back(flux_NOx+flux_NH3);
+
+        vector<double> output = {flux_NOx, flux_NH3};
+        this->fluxes.push_back(output);
     }
 
     bool exec(string param) {

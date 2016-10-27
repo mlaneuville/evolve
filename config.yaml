@@ -89,7 +89,7 @@
     man_ox: 0.2,
     OutFolder: "output",
     Tmax: 4500e6,
-    Output: 25e6,
+    Output: 10e6,
     Timestep: 5e3,
     Debug: false
 }

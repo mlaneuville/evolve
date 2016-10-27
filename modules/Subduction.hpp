@@ -6,6 +6,8 @@ public:
 
     void init(void) {
         this->links.push_back("OCrust2 -> UMantle2");
+        this->numOutputs = 1;
+        this->init_fluxes(1);
 
         VCrust = config->data["Subduction"]["VCrust"].as<double>();
         tau = config->data["Subduction"]["tau"].as<double>();
@@ -20,7 +22,9 @@ public:
         s->fluxes[um+2] += flux;
 
         if(DEBUG) cout << "Subduction: " << flux << endl;
-        this->fluxes.push_back(flux);
+
+        vector<double> output = {flux};
+        this->fluxes.push_back(output);
     }
 
     bool exec(string param) {

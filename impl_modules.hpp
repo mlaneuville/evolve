@@ -1,15 +1,22 @@
 class Module {
 public:
     string name;
-    vector<double> fluxes;
+    vector< vector<double> > fluxes;
     vector<string> links;
+    int numOutputs;
     bool isBidirectional;
 
     Module(string name) {
         this->name = name;
-        this->fluxes.push_back(0);
         this->isBidirectional = false;
     }
+
+    void init_fluxes(int num) {
+        vector<double> init;
+        init.assign(num, 0);
+        this->fluxes.push_back(init);
+    }
+
     virtual bool exec(string param) = 0;
 };
 

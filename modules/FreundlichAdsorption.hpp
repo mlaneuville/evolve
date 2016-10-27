@@ -7,6 +7,8 @@ public:
     void init(void) {
         this->links.push_back("Oceans2 -> OCrust2");
         this->isBidirectional = true;
+        this->numOutputs = 1;
+        this->init_fluxes(1);
 
         Kf = config->data["FreundlichAdsorption"]["Kf"].as<double>();
         VSed = config->data["FreundlichAdsorption"]["VSed"].as<double>();
@@ -27,7 +29,9 @@ public:
         s->fluxes[oc+2] += -flux;
 
         if(DEBUG) cout << "FreundlichAdsorption: " << flux << endl;
-        this->fluxes.push_back(flux);
+
+        vector<double> output = {flux};
+        this->fluxes.push_back(output);
     }
 
     bool exec(string param) {

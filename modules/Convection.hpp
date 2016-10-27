@@ -9,6 +9,8 @@ public:
     void init(void) {
         this->links.push_back("UMantle2 -> LMantle2");
         this->isBidirectional = true;
+        this->numOutputs = 1;
+        this->init_fluxes(1);
 
         F0 = config->data["Convection"]["F0"].as<double>();
         F1 = config->data["Convection"]["F1"].as<double>();
@@ -34,7 +36,9 @@ public:
         s->fluxes[lm+2] += flux;
 
         if(DEBUG) cout << "Convection: " << flux << endl;
-        this->fluxes.push_back(flux);
+
+        vector<double> output = {flux};
+        this->fluxes.push_back(output);
     }
 
     bool exec(string param) {

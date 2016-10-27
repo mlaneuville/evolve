@@ -7,6 +7,8 @@ public:
     void init(void) {
         this->links.push_back("Oceans0 -> Oceans2");
         this->links.push_back("Oceans1 -> Oceans2");
+        this->numOutputs = 2;
+        this->init_fluxes(2);
 
         F0 = config->data["HydrothermalCirculation"]["F0"].as<double>();
         F1 = config->data["HydrothermalCirculation"]["F1"].as<double>();
@@ -31,7 +33,9 @@ public:
             cout << "HydrothermalCirculation: NOx=" << f_NOx << endl;
             cout << "HydrothermalCirculation: N2=" << f_N2 << endl;
         }
-        this->fluxes.push_back(f_N2+f_NOx);
+
+        vector<double> output = {f_NOx, f_N2};
+        this->fluxes.push_back(output);
     }
 
     bool exec(string param) {

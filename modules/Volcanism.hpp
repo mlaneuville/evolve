@@ -9,6 +9,9 @@ public:
         this->links.push_back("UMantle2 -> Oceans2");
         this->links.push_back("LMantle2 -> Oceans2");
 
+        this->numOutputs = 3;
+        this->init_fluxes(3);
+
         // these are given in km3/yr
         F_arc = config->data["Volcanism"]["F_arc"].as<double>();
         F_MORB = config->data["Volcanism"]["F_MORB"].as<double>();
@@ -43,7 +46,9 @@ public:
             cout << "Volcanism: morb=" << flux_MORB << endl;
             cout << "Volcanism: hotspot=" << flux_hotspot << endl;
         }
-        this->fluxes.push_back(flux_arc+flux_MORB+flux_hotspot);
+
+        vector<double> output = {flux_arc, flux_MORB, flux_hotspot};
+        this->fluxes.push_back(output);
     }
 
     bool exec(string param) {
