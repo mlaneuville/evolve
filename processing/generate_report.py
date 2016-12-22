@@ -17,16 +17,16 @@ PARSER.add_argument('-f', '--folder', default='output/', type=str,
 ARGS = PARSER.parse_args()
 
 PLOTS_FLUXES = OrderedDict()
-PLOTS_FLUXES["Atmosphere"] = {'cols':["Impacts", "CometDelivery"],
+PLOTS_FLUXES["Atmosphere"] = {'cols':["Impacts0", "CometDelivery0"],
                               'ylabel':"Nitrogen flux [kg N/yr]", 'isLog':True}
 
-PLOTS_FLUXES["Oceans1"] = {'cols':["FreundlichAdsorption", "HydrothermalCirculation"],
+PLOTS_FLUXES["Oceans1"] = {'cols':["FreundlichAdsorption0", "HydrothermalCirculation0"],
                            'ylabel':"Nitrogen flux [kg N/yr]", 'isLog':True}
 
-PLOTS_FLUXES["Oceans2"] = {'cols':["AbioticFixation", "Henry"],
+PLOTS_FLUXES["Oceans2"] = {'cols':["AbioticFixation0", "Henry0"],
                            'ylabel':"Nitrogen flux [kg N/yr]"}
 
-PLOTS_FLUXES["Interior"] = {'cols':["Subduction", "Convection", "Volcanism"],
+PLOTS_FLUXES["Interior"] = {'cols':["Subduction0", "Convection0", "Volcanism0"],
                             'ylabel':"Nitrogen flux [kg N/yr]", 'isLog':True}
 
 # TODO: norms should match that in generate_heatmap
@@ -36,7 +36,8 @@ PLOTS_EVO["Atmosphere"] = {'cols':["Atmosphere0"],
                            'ylabel':"Nitrogen content [PAL]",
                            'norm':[4e18]}
 
-PLOTS_EVO["Oceans"] = {'cols':["Oceans0", "Oceans1", "Oceans2"],
+#PLOTS_EVO["Oceans"] = {'cols':["Oceans0", "Oceans1", "Oceans2"],
+PLOTS_EVO["Oceans"] = {'cols':["Oceans2"],
                        'ylabel':"Nitrogen content [mmol/L]",
                        'norm':[1.8e16], 'isLog':True}
 
@@ -55,7 +56,7 @@ if ARGS.id:
     r.add_subplot(PLOTS_EVO)
 
     r.process()
-    r.to_file()
+    r.to_file(with_graph=False)
 else:
     OUTPUT = glob(ARGS.folder+"/*.txt")
     for out in OUTPUT:
@@ -68,4 +69,4 @@ else:
         r.add_subplot(PLOTS_EVO)
 
         r.process()
-        r.to_file(with_graph=False)
+        r.to_file(with_graph=True)
