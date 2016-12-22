@@ -11,4 +11,5 @@ evolve
 *.gv
 *.tar.gz
 output/*
+*.eps
 */__pycache__/
