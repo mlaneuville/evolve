@@ -1,5 +1,6 @@
 // standard modules
 #include <iostream>
+#include <iomanip> // setprecision
 #include <fstream>
 #include <valarray>
 #include <cstdio>

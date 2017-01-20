@@ -1,4 +1,5 @@
 #include "AbioticFixation.hpp"
+#include "BioticContribution.hpp"
 #include "Henry.hpp"
 #include "Impacts.hpp"
 #include "CometDelivery.hpp"
