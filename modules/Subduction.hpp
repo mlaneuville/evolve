@@ -17,7 +17,8 @@ public:
         int cr = s->idx_map["OCrust"];
         int um = s->idx_map["UMantle"];
 
-        double flux = s->masses[cr+2]*s->timestep/tau;
+        //double flux = s->masses[cr+2]*s->timestep/tau;
+        double flux = s->masses[cr+2]/tau;
         s->fluxes[cr+2] += -flux;
         s->fluxes[um+2] += flux;
 
