@@ -3,27 +3,27 @@
     {
         Atmosphere:
         {
-            InitMasses: [93e17, 0, 0],
-            Processes: ["Impacts", "CometDelivery", "AbioticFixation"]
+            InitMasses: [7e17, 0, 0],
+            Processes: ["AbioticFixation"]
         },
         Oceans:
         {
-            InitMasses: [0, 0, 0],
+            InitMasses: [1e16, 1e17, 1.9e17],
             Processes: ["Henry", "BioticContribution", "HydrothermalCirculation"]
         },
         OCrust:
         {
-            InitMasses: [0, 0, 0],
+            InitMasses: [0, 0, 1e17],
             Processes: ["FreundlichAdsorption", "Subduction"]
         },
         UMantle:
         {
-            InitMasses: [0, 0, 0],
+            InitMasses: [0, 0, 81e17],
             Processes: ["Volcanism"]
         },
         LMantle:
         {
-            InitMasses: [0, 0, 0],
+            InitMasses: [0, 0, 1e17],
             Processes: ["Convection"]
         }
     },
@@ -34,8 +34,13 @@
     },
 
     BioticContribution: {
-        denitrification: 1.0e10,
-        sedimentation: 1.0e10
+        efficiency: true,
+        dbio: 1e8,
+        onset: 1e9,
+        EA: 0,
+        ED: 0,
+        E6i: 0.1,
+        E6f: 0.01
     },
 
     Impacts: {
@@ -96,5 +101,5 @@
     Tmax: 4500e6,
     Output: 10e6,
     Timestep: 5e3,
-    Debug: false
+    Debug: False
 }
