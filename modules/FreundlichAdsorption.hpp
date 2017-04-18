@@ -10,6 +10,9 @@ public:
         this->numOutputs = 1;
         this->init_fluxes(1);
 
+        evolution = config->data["Henry"]["evolution"].as<bool>();
+        change = config->data["Henry"]["change"].as<double>(); // in % (can be +/-)
+
         Kf = config->data["FreundlichAdsorption"]["Kf"].as<double>();
         VSed = config->data["FreundlichAdsorption"]["VSed"].as<double>();
         rhoSed = config->data["FreundlichAdsorption"]["rhoSed"].as<double>();
@@ -20,8 +23,11 @@ public:
         int oc = s->idx_map["Oceans"];
         int cr = s->idx_map["OCrust"];
 
+        double V = VOceans;
+        if (evolution) { V = VOceans*(1 + change*s->time/4.5e9); }
+
         double mtot = s->masses[oc+2] + s->masses[cr+2];
-        double cst = VSed/VOceans*rhoSed*Kf;
+        double cst = VSed/V*rhoSed*Kf;
         double m_oc_eq = mtot/(1+cst);
         double flux = -(m_oc_eq-s->masses[oc+2])/s->timestep;
 
