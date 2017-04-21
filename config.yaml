@@ -4,7 +4,7 @@
         Atmosphere:
         {
             InitMasses: [7e17, 0, 0],
-            Processes: ["AbioticFixation"]
+            Processes: ["Impacts", "CometDelivery", "AbioticFixation"]
         },
         Oceans:
         {

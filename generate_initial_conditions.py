@@ -6,6 +6,7 @@ varchange is set (optional), oxidizing is set to varchange/100.
 import random
 import yaml
 import os
+import sys
 import argparse
 import numpy as np
 from copy import deepcopy
@@ -21,10 +22,11 @@ MAP = {0: ["Atmosphere", 0],
        6: ["LMantle", 2]}
 
 METHODS = {}
-METHODS['redox-mantle'] = {'name':{'man_ox':0}, 'scale':0.01}
-METHODS['redox-atmosphere'] = {'name':{'atm_ox':0}, 'scale':0.01}
-METHODS['comp-conv'] = {'name':{"Convection": {"F0":0, "F1":0}}, 'scale':1e-9}
-METHODS['comp-hydro'] = {'name':{"HydrothermalCirculation": {"F0":0, "F1":0}}, 'scale':1e-8}
+METHODS['man-ox'] = {'name':{'man_ox':0}, 'scale':1}
+METHODS['atm-ox'] = {'name':{'atm_ox':0}, 'scale':1}
+METHODS['man-mix'] = {'name':{"Convection": {"F0":0, "F1":0}}, 'scale':1}
+METHODS['oce-mix'] = {'name':{"HydrothermalCirculation": {"F0":0, "F1":0}}, 'scale':1}
+METHODS['biotic'] = {'name':{"BioticContribution": {"E6i":0}}, 'scale':1}
 
 def get_random_sequence():
     '''Generate a sequence of 7 integers which sum is 20. The way to do this is
@@ -45,11 +47,11 @@ def get_random_sequence():
     return np.diff(reservoirs)
 
 def get_constrained_sequence(d):
-    '''Generate a sequence of 7 integers which sum is 20, under constraints from
+    '''Generate a sequence of 7 integers which sum is TOTAL_BUDGET, under constraints from
     d, a dict which is for instance {0:5, 3:4}.'''
 
     d_ = deepcopy(d)
-    random.seed()
+    
     constrained = len(d_.keys())
     if constrained == 7:
         return list(d_.values())
@@ -95,22 +97,28 @@ def create_config(folder, varchange, method, constraints={}):
     parameters = deepcopy(METHODS[method]['name'])
     scale = METHODS[method]['scale']
 
-    if varchange != '':
-        varchange = float(varchange)*scale
-        
-        for i in parameters.keys():
-            if type(parameters[i]) is dict:
-                for k in parameters[i].keys():
-                    parameters[i][k] = varchange
-                for k in cfg[i].keys():
-                    if k not in parameters[i].keys():
-                        parameters[i][k] = cfg[i][k]
-            else:
-                parameters[i] = varchange        
-            cfg.update(parameters)
+    plist = ''
+    for i in parameters.keys():
+        if type(parameters[i]) is dict:
+            if len(varchange) != len(parameters[i].keys()):
+                print("provide multiple values")
+                sys.exit()
+            for j,k in enumerate(sorted(parameters[i].keys())):
+                parameters[i][k] = '%.2e' % (float(varchange[j])*scale)
+                plist += '_'+k+'_'+varchange[j]
+            for k in cfg[i].keys():
+                if k not in parameters[i].keys():
+                    parameters[i][k] = cfg[i][k]
+        else:
+            parameters[i] = float(varchange[0])*scale
+            plist += '_'+i+'_'+varchange[0]
+        cfg.update(parameters)
 
     fname = "config"
-    for val in random_seq:
+    if constraints:
+        fname += plist
+    else:
+    #for val in random_seq:
         fname += "_" + str(val)
 
     fullname = os.getcwd()+"/"+ARGS.folder+"/"+fname+".yaml"
@@ -127,18 +135,22 @@ if __name__ == "__main__":
     PARSER.add_argument('-n', '--num', default=1, type=int,
                         help='number of config to generate')
     PARSER.add_argument('-f', '--folder', default='output')
-    PARSER.add_argument('-v', '--varchange', type=str, default='')
-    PARSER.add_argument('-m', '--method', type=str, default='redox-mantle')
+    PARSER.add_argument('-v', '--varchange', action='append', type=str, default=[])
+    PARSER.add_argument('-m', '--method', type=str)
+    PARSER.add_argument('-i', '--init', type=bool, default=True)
 
     ARGS = PARSER.parse_args()
 
-    print(ARGS.folder)
     if not os.path.isdir(ARGS.folder):
         os.mkdir(ARGS.folder)
 
     constraints = {}
     for i in range(ARGS.num):
-        #constraints[0] = i+1
-        #for j in range(20-i):
-        #    constraints[6] = max(0, 20-i-j-1)
-        create_config(ARGS.folder, ARGS.varchange, ARGS.method)
+        constraints[1] = 5
+        constraints[2] = 5
+        constraints[3] = 5
+        constraints[4] = 5
+        constraints[5] = 4
+        if ARGS.init:
+            constraints[0] = 20
+        create_config(ARGS.folder, ARGS.varchange, ARGS.method, constraints=constraints)
