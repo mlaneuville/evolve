@@ -2,7 +2,8 @@ class FreundlichAdsorption: public Module {
 public:
     FreundlichAdsorption(string name): Module(name) { init(); }
 
-    double Kf, VSed, VOceans, rhoSed;
+    double Kf, VSed, VOceans, rhoSed, change;
+    bool evolution;
 
     void init(void) {
         this->links.push_back("Oceans2 -> OCrust2");
