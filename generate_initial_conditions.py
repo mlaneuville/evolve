@@ -41,7 +41,9 @@ def get_random_sequence():
     random.seed()
     reservoirs = []
     while len(reservoirs) < 7: # we want 7 numbers
-        reservoirs.append(random.randint(0, TOTAL_BUDGET))
+        # keep each reservoir between 10 and 50% of total budget
+        reservoirs.append(random.randint(int(TOTAL_BUDGET/10),
+                                         int(TOTAL_BUDGET/2)))
 
     reservoirs.append(0)
     reservoirs.append(TOTAL_BUDGET)
