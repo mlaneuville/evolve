@@ -2,7 +2,7 @@ class AbioticFixation: public Module {
 public:
     AbioticFixation(string name): Module(name) { init(); }
 
-    double F_NOx, F_NH3, M_REF;
+    double Fi_NOx, Ff_NOx, Fi_NH3, Ff_NH3, M_REF, tau;
 
     void init(void) {
         this->links.push_back("Atmosphere0 -> Oceans1");
@@ -10,14 +10,20 @@ public:
         this->numOutputs = 2;
         this->init_fluxes(2);
 
-        F_NOx = config->data["AbioticFixation"]["F_NOx"].as<double>();
-        F_NH3 = config->data["AbioticFixation"]["F_NH3"].as<double>();
+        Fi_NOx = config->data["AbioticFixation"]["Fi_NOx"].as<double>();
+        Fi_NH3 = config->data["AbioticFixation"]["Fi_NH3"].as<double>();
+        Ff_NOx = config->data["AbioticFixation"]["Ff_NOx"].as<double>();
+        Ff_NH3 = config->data["AbioticFixation"]["Ff_NH3"].as<double>();
+        tau = config->data["AbioticFixation"]["tau"].as<double>();
         M_REF = config->data["AbioticFixation"]["M_REF"].as<double>();
     }
 
     void evolve(void) {
         int atm = s->idx_map["Atmosphere"];
         int oc = s->idx_map["Oceans"];
+
+        double F_NOx = Ff_NOx + (Fi_NOx-Ff_NOx)*exp(-s->time/tau);
+        double F_NH3 = Ff_NH3 + (Fi_NH3-Ff_NH3)*exp(-s->time/tau);
 
         double flux_NOx = F_NOx*s->masses[atm]/M_REF;
         double flux_NH3 = F_NH3*s->masses[atm]/M_REF;
