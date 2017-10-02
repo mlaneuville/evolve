@@ -26,7 +26,7 @@
             InitMasses: [0, 0, 119e17],
             Processes: ["Convection"]
         },
-        Continents:
+        CCrust:
         {
             InitMasses: [0, 0, 10e17],
             Processes: ["Weathering"]

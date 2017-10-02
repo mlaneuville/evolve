@@ -35,7 +35,7 @@ PLOTS_FLUXES["Interior"] = {'cols':["Subduction0", "Convection0", "Volcanism0"],
 # TODO: norms should match that in generate_heatmap
 
 PLOTS_EVO = OrderedDict()
-PLOTS_EVO["Atmosphere"] = {'cols':["Atmosphere0", "Continents2"],
+PLOTS_EVO["Atmosphere"] = {'cols':["Atmosphere0", "CCrust2"],
                            'ylabel':"Nitrogen content [PAL]", 'isLog':False,
                            'norm':[4e18, 4e18], 'earth':[1, 1]}
 

@@ -6,7 +6,7 @@ public:
 
     void init(void) {
         this->links.push_back("OCrust2 -> UMantle2");
-        this->links.push_back("OCrust2 -> Continents");
+        this->links.push_back("OCrust2 -> CCrust2");
         this->numOutputs = 2;
         this->init_fluxes(2);
 
@@ -18,7 +18,7 @@ public:
     void evolve(void) {
         int cr = s->idx_map["OCrust"];
         int um = s->idx_map["UMantle"];
-        int co = s->idx_map["Continents"];
+        int co = s->idx_map["CCrust"];
 
         //double flux = s->masses[cr+2]*s->timestep/tau;
         double flux = s->masses[cr+2]/tau;

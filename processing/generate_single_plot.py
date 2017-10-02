@@ -37,7 +37,7 @@ PARAMS['Subduction0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'E
 PARAMS['Convection0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
 PARAMS['CometDelivery0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
 PARAMS['Impacts0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
-PARAMS['Continents2'] = {'norm':1, 'ylabel':'N-content [kg]', 'isLog':False, 'Earth':1}
+PARAMS['CCrust2'] = {'norm':1, 'ylabel':'N-content [kg]', 'isLog':False, 'Earth':1}
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument(dest='fnames', nargs='*', help='file to use for plotting')
