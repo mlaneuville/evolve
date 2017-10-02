@@ -5,7 +5,7 @@ using namespace std;
 int main(int argc, char** argv) {
 
     string fname = "config.yaml";
-    string suffix = "";
+    string suffix = "default";
 
     if (argc == 2) {
         fname = argv[1];
