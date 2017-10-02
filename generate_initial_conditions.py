@@ -11,7 +11,7 @@ import argparse
 import numpy as np
 from copy import deepcopy
 
-TOTAL_BUDGET = 93 # 1e17 kg
+TOTAL_BUDGET = 339 # 1e17 kg
 
 MAP = {0: ["Atmosphere", 0],
        1: ["Oceans", 0],

@@ -18,12 +18,12 @@
         },
         UMantle:
         {
-            InitMasses: [0, 0, 81e17],
+            InitMasses: [0, 0, 199e17],
             Processes: ["Volcanism"]
         },
         LMantle:
         {
-            InitMasses: [0, 0, 1e17],
+            InitMasses: [0, 0, 129e17],
             Processes: ["Convection"]
         }
     },
