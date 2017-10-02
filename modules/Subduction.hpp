@@ -2,25 +2,29 @@ class Subduction: public Module {
 public:
     Subduction(string name): Module(name) { init(); }
 
-    double tau, VCrust;
+    double tau, VCrust, accretion;
 
     void init(void) {
         this->links.push_back("OCrust2 -> UMantle2");
+        this->links.push_back("OCrust2 -> Continents");
         this->numOutputs = 1;
         this->init_fluxes(1);
 
         VCrust = config->data["Subduction"]["VCrust"].as<double>();
         tau = config->data["Subduction"]["tau"].as<double>();
+        accretion = config->data["Subduction"]["accretion"].as<double>();
     }
 
     void evolve(void) {
         int cr = s->idx_map["OCrust"];
         int um = s->idx_map["UMantle"];
+        int co = s->idx_map["Continents"];
 
         //double flux = s->masses[cr+2]*s->timestep/tau;
         double flux = s->masses[cr+2]/tau;
         s->fluxes[cr+2] += -flux;
-        s->fluxes[um+2] += flux;
+        s->fluxes[um+2] += (1-accretion)*flux;
+        s->fluxes[co+2] += accretion*flux;
 
         if(DEBUG) cout << "Subduction: " << flux << endl;
 

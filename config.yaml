@@ -23,9 +23,19 @@
         },
         LMantle:
         {
-            InitMasses: [0, 0, 129e17],
+            InitMasses: [0, 0, 119e17],
             Processes: ["Convection"]
+        },
+        Continents:
+        {
+            InitMasses: [0, 0, 10e17],
+            Processes: ["Weathering"]
         }
+    },
+
+    Weathering: {
+        alpha: 0.01,
+        tau: 10e6
     },
 
     Henry: {
@@ -89,6 +99,7 @@
     },
 
     Subduction: {
+        accretion: 0.05,
         tau: 200e6, 
         VCrust: 369e15
     },

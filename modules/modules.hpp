@@ -8,3 +8,4 @@
 #include "FreundlichAdsorption.hpp"
 #include "Volcanism.hpp"
 #include "Convection.hpp"
+#include "Weathering.hpp"
