@@ -72,19 +72,19 @@ def get_constrained_sequence(d):
 
     return list(d_.values())
 
-def get_default_config():
+def get_default_config(fname):
     '''Read config.yaml from main directory to be used as default.'''
-    stream = open("config.yaml", "r")
+    stream = open(fname, "r")
     config = yaml.load(stream)
     stream.close()
 
     return config
 
 
-def create_config(folder, varchange, method, constraints={}):
+def create_config(folder, varchange, method, fname, constraints={}):
     '''Generate the new configuration based of the default config and the random
        sequence.'''
-    cfg = get_default_config()
+    cfg = get_default_config(fname)
     random_seq = get_random_sequence()
 
     if len(constraints.keys()) != 0:
@@ -118,13 +118,14 @@ def create_config(folder, varchange, method, constraints={}):
     if constraints:
         fname += plist
     else:
-    #for val in random_seq:
-        fname += "_" + str(val)
+        for val in random_seq:
+            fname += "_" + str(val)
 
     fullname = os.getcwd()+"/"+ARGS.folder+"/"+fname+".yaml"
-    print(fullname)
     if os.path.isfile(fullname):
-        create_config(folder, varchange, method)
+        print("%s already exists" % fullname)
+        return
+        #create_config(folder, varchange, method, fname)
 
     stream = open(folder+"/"+fname+".yaml", "w")
     yaml.dump(cfg, stream, default_flow_style=True)
@@ -137,6 +138,7 @@ if __name__ == "__main__":
     PARSER.add_argument('-f', '--folder', default='output')
     PARSER.add_argument('-v', '--varchange', action='append', type=str, default=[])
     PARSER.add_argument('-m', '--method', type=str)
+    PARSER.add_argument('-c', '--config', default="config.yaml", help="base config", type=str)
     PARSER.add_argument('-i', '--init', type=bool, default=True)
 
     ARGS = PARSER.parse_args()
@@ -153,4 +155,4 @@ if __name__ == "__main__":
         constraints[5] = 4
         if ARGS.init:
             constraints[0] = 20
-        create_config(ARGS.folder, ARGS.varchange, ARGS.method, constraints=constraints)
+        create_config(ARGS.folder, ARGS.varchange, ARGS.method, ARGS.config, constraints=constraints)
