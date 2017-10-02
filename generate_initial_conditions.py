@@ -26,7 +26,9 @@ METHODS['man-ox'] = {'name':{'man_ox':0}, 'scale':1}
 METHODS['atm-ox'] = {'name':{'atm_ox':0}, 'scale':1}
 METHODS['man-mix'] = {'name':{"Convection": {"F0":0, "F1":0}}, 'scale':1}
 METHODS['oce-mix'] = {'name':{"HydrothermalCirculation": {"F0":0, "F1":0}}, 'scale':1}
+METHODS['subrate'] = {'name':{"Subduction": {"tau":100e6}}, 'scale':1}
 METHODS['biotic'] = {'name':{"BioticContribution": {"E6i":0}}, 'scale':1}
+METHODS['ocvol'] = {'name':{"Henry": {"change":1}}, 'scale':0.01}
 
 def get_random_sequence():
     '''Generate a sequence of 7 integers which sum is 20. The way to do this is
