@@ -65,11 +65,11 @@
 
     AbioticFixation: {
         M_REF: 4e18,
-        Ff_NOx: 4.0e10,
-        Ff_NH3: 1.6e7,
-        Fi_NOx: 2.6e6,
-        Fi_NH3: 1.0e3,
-        tau: 150e9
+        Fi_NOx: 4.0e10,
+        Fi_NH3: 1.6e7,
+        Ff_NOx: 2.6e6,
+        Ff_NH3: 1.0e3,
+        tau: 1.5e9
     },
 
     CometDelivery: {
