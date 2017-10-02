@@ -18,7 +18,7 @@ class Report:
         self.graph_fname = sim_dir + "/out_" + name + ".dot"
         self.fname = sim_dir + "/out_" + name + ".txt"
         self.data = self.load_data()
-        self.output_file = "report_"+name+".pdf"
+        self.output_file = "report_"+self.fname.replace("/","-")[3:]+".pdf"
         self.timeseries = OrderedDict()
         self.subplots = []
         print(self.data.head())
@@ -29,7 +29,7 @@ class Report:
 
 
     def get_label(self, name):
-        species = {"0": "N2", "1": "NOx", "2": "NH4"}
+        species = {"0": "N2", "1": "NOx", "2": "NH4", "3":"NA"}
         label = name
         if isinstance(name, list):
             label = []
@@ -64,6 +64,7 @@ class Report:
         ylabels = []
         norms = []
         islog = []
+        earths = []
         for k, plot in plots.items():
             cols.append(plot['cols'])
             ylabels.append(plot['ylabel'])
@@ -74,7 +75,11 @@ class Report:
             log = True if 'isLog' in plot.keys() else False
             islog.append(log)
 
-        self.subplots.append({'fig':fig, 'ax':axarr, 'cols':cols, 'ylabels':ylabels, 'norms':norms, 'isLog':islog}) 
+            earth = [-1] if 'earth' not in plot.keys() else plot['earth']
+            earths.append(earth)
+
+        self.subplots.append({'fig':fig, 'ax':axarr, 'cols':cols, 'ylabels':ylabels, 
+                              'norms':norms, 'isLog':islog, 'earth':earths}) 
 
     def process(self):
 
@@ -97,12 +102,21 @@ class Report:
             if v['isLog']:
                 v['ax'].set_yscale('log')
 
+        color = ['b', 'g', 'r']
         for sub in self.subplots:
-            for i, (col, norm, log) in enumerate(zip(sub['cols'], sub['norms'], sub['isLog'])):
+            for i, (col, norm, log, earth) in enumerate(zip(sub['cols'], sub['norms'], sub['isLog'], sub['earth'])):
                 idx = (i/2, i%2)
                 data = self.data[col][1:]/norm
+                if col[0][:3] == "Oce":
+                    data["Oceans0"] /= self.data["Henry1"][1:].values
+                    data["Oceans1"] /= self.data["Henry1"][1:].values
+                    data["Oceans2"] /= self.data["Henry1"][1:].values
+                data = np.ma.masked_where(data < 0, data)
                 label = self.get_label(col)
                 sub['ax'][idx].plot(self.data['time'][1:], data, lw=2)
+                if earth[0] > -1:
+                    for c, line in zip(color,earth):
+                        sub['ax'][idx].axhline(y=line, color=c, ls='--', lw=2)
                 sub['ax'][idx].set_xticks(np.arange(0, 4500, 1000))
                 sub['ax'][idx].set_ylabel(sub['ylabels'][i])
                 leg = sub['ax'][idx].legend(labels=label, loc='best')
