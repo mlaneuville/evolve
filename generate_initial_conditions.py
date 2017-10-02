@@ -19,7 +19,8 @@ MAP = {0: ["Atmosphere", 0],
        3: ["Oceans", 2],
        4: ["OCrust", 2],
        5: ["UMantle", 2],
-       6: ["LMantle", 2]}
+       6: ["LMantle", 2],
+       7: ["CCrust", 2]}
 
 METHODS = {}
 METHODS['man-ox'] = {'name':{'man_ox':0}, 'scale':1}
@@ -31,15 +32,15 @@ METHODS['biotic'] = {'name':{"BioticContribution": {"E6i":0}}, 'scale':1}
 METHODS['ocvol'] = {'name':{"Henry": {"change":1}}, 'scale':0.01}
 
 def get_random_sequence():
-    '''Generate a sequence of 7 integers which sum is 20. The way to do this is
-       to generate 6 random integers, add 0 and 20 to the list, order them and
-       take the differences. The reason this works is that it corresponds to
-       taking a rope and cutting it an random places and putting it back
-       together.'''
+    '''Generate a sequence of 8 integers which sum is TOTAL_BUDGET. The way to
+       do this is to generate 7 random integers, add 0 and 20 to the list, order
+       them and take the differences. The reason this works is that it
+       corresponds to taking a rope and cutting it an random places and putting
+       it back together.'''
 
     random.seed()
     reservoirs = []
-    while len(reservoirs) < 6: # we want 6 numbers
+    while len(reservoirs) < 7: # we want 7 numbers
         reservoirs.append(random.randint(0, TOTAL_BUDGET))
 
     reservoirs.append(0)
@@ -49,18 +50,18 @@ def get_random_sequence():
     return np.diff(reservoirs)
 
 def get_constrained_sequence(d):
-    '''Generate a sequence of 7 integers which sum is TOTAL_BUDGET, under constraints from
+    '''Generate a sequence of 8 integers which sum is TOTAL_BUDGET, under constraints from
     d, a dict which is for instance {0:5, 3:4}.'''
 
     d_ = deepcopy(d)
     
     constrained = len(d_.keys())
-    if constrained == 7:
+    if constrained == 8:
         return list(d_.values())
 
     sum_constrained = sum(list(d_.values()))
     reservoirs = []
-    while len(reservoirs) < 6 - constrained:
+    while len(reservoirs) < 7 - constrained:
         reservoirs.append(random.randint(0, TOTAL_BUDGET-sum_constrained))
 
     reservoirs.append(0)
@@ -68,7 +69,7 @@ def get_constrained_sequence(d):
     reservoirs = sorted(reservoirs)
     reservoirs = list(np.diff(reservoirs))
 
-    for i in range(7):
+    for i in range(8):
         if i not in d_.keys():
             d_[i] = reservoirs.pop()
 
@@ -81,7 +82,6 @@ def get_default_config(fname):
     stream.close()
 
     return config
-
 
 def create_config(folder, varchange, method, fname, constraints={}):
     '''Generate the new configuration based of the default config and the random
@@ -127,11 +127,9 @@ def create_config(folder, varchange, method, fname, constraints={}):
     if os.path.isfile(fullname):
         print("%s already exists" % fullname)
         return
-        #create_config(folder, varchange, method, fname)
 
     stream = open(folder+"/"+fname+".yaml", "w")
     yaml.dump(cfg, stream, default_flow_style=True)
-
 
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser()
@@ -139,9 +137,8 @@ if __name__ == "__main__":
                         help='number of config to generate')
     PARSER.add_argument('-f', '--folder', default='output')
     PARSER.add_argument('-v', '--varchange', action='append', type=str, default=[])
-    PARSER.add_argument('-m', '--method', type=str)
+    PARSER.add_argument('-m', '--method', type=str, required=True)
     PARSER.add_argument('-c', '--config', default="config.yaml", help="base config", type=str)
-    PARSER.add_argument('-i', '--init', type=bool, default=True)
 
     ARGS = PARSER.parse_args()
 
@@ -150,11 +147,4 @@ if __name__ == "__main__":
 
     constraints = {}
     for i in range(ARGS.num):
-        constraints[1] = 5
-        constraints[2] = 5
-        constraints[3] = 5
-        constraints[4] = 5
-        constraints[5] = 4
-        if ARGS.init:
-            constraints[0] = 20
         create_config(ARGS.folder, ARGS.varchange, ARGS.method, ARGS.config, constraints=constraints)
