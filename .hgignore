@@ -13,3 +13,4 @@ evolve
 output/*
 *.eps
 */__pycache__/
+*.pyc
