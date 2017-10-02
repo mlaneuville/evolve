@@ -26,8 +26,8 @@ PLOTS_FLUXES["Oceans1"] = {'cols':["FreundlichAdsorption0", "HydrothermalCircula
 PLOTS_FLUXES["Oceans2"] = {'cols':["AbioticFixation0", "Henry0"],
                            'ylabel':"Nitrogen flux [kg N/yr]"}
 
-PLOTS_FLUXES["Biotic"] = {'cols':["Henry1"],
-                           'ylabel':"Relative ocean volume"}
+PLOTS_FLUXES["Continent"] = {'cols':["Weathering0", "Subduction1"],
+                             'ylabel':"Nitrogen flux [kg N/yr]"}
 
 PLOTS_FLUXES["Interior"] = {'cols':["Subduction0", "Convection0", "Volcanism0"],
                             'ylabel':"Nitrogen flux [kg N/yr]", 'isLog':True}
@@ -35,9 +35,9 @@ PLOTS_FLUXES["Interior"] = {'cols':["Subduction0", "Convection0", "Volcanism0"],
 # TODO: norms should match that in generate_heatmap
 
 PLOTS_EVO = OrderedDict()
-PLOTS_EVO["Atmosphere"] = {'cols':["Atmosphere0"],
-                           'ylabel':"Nitrogen content [PAL]",
-                           'norm':[4e18], 'earth':[1]}
+PLOTS_EVO["Atmosphere"] = {'cols':["Atmosphere0", "Continents2"],
+                           'ylabel':"Nitrogen content [PAL]", 'isLog':False,
+                           'norm':[4e18, 4e18], 'earth':[1, 1]}
 
 PLOTS_EVO["Oceans"] = {'cols':["Oceans0", "Oceans1", "Oceans2"],
 #PLOTS_EVO["Oceans"] = {'cols':["Oceans2"],
