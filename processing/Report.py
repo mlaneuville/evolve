@@ -69,7 +69,7 @@ class Report:
             cols.append(plot['cols'])
             ylabels.append(plot['ylabel'])
 
-            norm = [1] if 'norm' not in plot.keys() else plot['norm']
+            norm = [1]*len(plot['cols']) if 'norm' not in plot.keys() else plot['norm']
             norms.append(norm)
 
             log = True if 'isLog' in plot.keys() else False
