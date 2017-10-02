@@ -11,6 +11,8 @@ from Report import Report
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument('-i', '--id', default=False, type=str,
                     help='Case ID, useful if there is more than one in folder')
+PARSER.add_argument('-g', '--graph', default=False, action='store_true',
+                    help='Add graph representation in the report')
 PARSER.add_argument('-f', '--folder', default='output/', type=str,
                     help='folder where out_* are stored')
 
@@ -74,4 +76,4 @@ else:
         r.add_subplot(PLOTS_EVO)
 
         r.process()
-        r.to_file(with_graph=False)
+        r.to_file(with_graph=ARGS.graph)
