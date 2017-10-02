@@ -20,13 +20,17 @@ PARSER = argparse.ArgumentParser()
 PARSER.add_argument('-f', '--folder', default='output')
 ARGS = PARSER.parse_args()
 
+to_pop = []
 CONFIG = glob(ARGS.folder+"/*.yaml")
 for i, yaml in enumerate(CONFIG):
     idx = yaml.split("config_")
     fname = "out_%s.txt" % (idx[1][:-5])
     fullname = os.getcwd()+"/"+ARGS.folder+"/"+fname
     if os.path.isfile(fullname):
-        CONFIG.pop(i)
+        to_pop.append(i)
+
+for i in to_pop[::-1]:
+    CONFIG.pop(i)
 
 print(CONFIG)
 
