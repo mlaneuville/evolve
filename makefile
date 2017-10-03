@@ -26,16 +26,18 @@ prep:
 	mkdir -p paper/figs
 
 configs:
-	python generate_initial_conditions.py -f paper/runs/init -n 4 -m man-ox -v 0.20
+	python generate_initial_conditions.py -f paper/runs/init -n 8 -m man-ox -v 0.20
 
 runs:
 	python run_multi_config.py -f paper/runs/init
 
 figs:
-	python processing/generate_single_plot.py paper/runs/init/*.txt -c Atmosphere0 -e -o paper/figs/FIG3A.eps -n '(a)'
+	python processing/generate_single_plot.py paper/runs/init/*.txt -c Atmosphere0 -c CCrust2  \
+																	-l 'Atmosphere' -l 'Continents' \
+																	-e -o paper/figs/FIG3A.eps -n '(a)'
 	python processing/generate_single_plot.py paper/runs/init/*.txt -c LMantle2 -c UMantle2 \
-                                            -l 'Lower mantle'  -l 'Upper mantle'  \
-                                            -e  -o paper/figs/FIG3B.eps -n '(b)'
+                                            					    -l 'Lower mantle'  -l 'Upper mantle'  \
+                                            						-e  -o paper/figs/FIG3B.eps -n '(b)'
 	python processing/generate_single_plot.py paper/runs/init/*.txt -c Oceans1     -e  -o paper/figs/FIG3C.eps -n '(c)'
 	python processing/generate_single_plot.py paper/runs/init/*.txt -c Oceans2         -o paper/figs/FIG3D.eps -n '(d)'
 
