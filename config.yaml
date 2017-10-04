@@ -68,7 +68,8 @@
         Fi_NH3: 1.6e7,
         Ff_NOx: 2.6e6,
         Ff_NH3: 1.0e3,
-        tau: 1.5e9
+        tau: 0.1e9,
+        goe: 100e9
     },
 
     CometDelivery: {
