@@ -16,7 +16,7 @@ rcParams.update({'font.size': 20,
 PARAMS = {}
 PARAMS['Atmosphere0'] = {'norm':4e18, 'ylabel':'N-content [PAL]', 'isLog':False, 'Earth':1}
 PARAMS['Oceans0'] = {'norm':3.8e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':0.63}
-PARAMS['Oceans1'] = {'norm':5.1e16, 'ylabel':'N-content [mM]', 'isLog':False, 'Earth':1e-2}
+PARAMS['Oceans1'] = {'norm':5.1e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':1e-2}
 PARAMS['Oceans2'] = {'norm':2.4e16, 'ylabel':'N-content [mM]', 'isLog':False, 'Earth':3e-4}
 PARAMS['LMantle2'] = {'norm':2.5e18, 'ylabel':'N-content [ppm]', 'isLog':False, 'Earth':1.4}
 PARAMS['UMantle2'] = {'norm':9.6e17, 'ylabel':'N-content [ppm]', 'isLog':True, 'Earth':3.5}
