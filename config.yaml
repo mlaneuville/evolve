@@ -35,13 +35,12 @@
 
     Erosion: {
         alpha: 5e-4,
-        growth: 2e-10
     },
 
     Henry: {
         H0: 6.1e-6,
         V0: 1.3e18,
-        change: 1,
+        change: 0,
         evolution: true
     },
 
