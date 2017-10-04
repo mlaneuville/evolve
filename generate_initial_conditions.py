@@ -13,6 +13,15 @@ from copy import deepcopy
 
 TOTAL_BUDGET = 339 # 1e17 kg
 
+DEFAULT_CONSTRAINTS = {0: 40,
+                       1:  5,
+                       2:  5,
+                       3:  5,
+                       4:  5,
+                       5:120,
+                       6:119,
+                       7: 40}
+
 MAP = {0: ["Atmosphere", 0],
        1: ["Oceans", 0],
        2: ["Oceans", 1],
@@ -129,6 +138,8 @@ if __name__ == "__main__":
     PARSER.add_argument('-n', '--num', default=1, type=int,
                         help='number of config to generate')
     PARSER.add_argument('-f', '--folder', default='output')
+    PARSER.add_argument('-d', '--default', action='store_true',
+                        help='use default initial nitrogen distribution')
     PARSER.add_argument('-m', '--method', type=str)
     PARSER.add_argument('-c', '--config', default="config.yaml",
                         help="base config", type=str)
@@ -138,15 +149,20 @@ if __name__ == "__main__":
     if not os.path.isdir(ARGS.folder):
         os.mkdir(ARGS.folder)
 
+    constraints = {}
+    if ARGS.default:
+        constraints = DEFAULT_CONSTRAINTS
+
     if not ARGS.method:
         for i in range(ARGS.num):
-            create_config(ARGS.folder, ARGS.config)
+            create_config(ARGS.folder, ARGS.config, constraints=constraints)
     else:
         if not os.path.isdir(ARGS.folder+'/'+ARGS.method):
             os.mkdir(ARGS.folder+'/'+ARGS.method)
 
         for n in range(ARGS.num):
-            constraints = {i: j for i, j in enumerate(get_random_sequence())}
+            if not ARGS.default:
+                constraints = {i: j for i, j in enumerate(get_random_sequence())}
             for v in METHODS[ARGS.method]['values']:
                 create_config(ARGS.folder, ARGS.config, method=ARGS.method,
                               value=v, constraints=constraints)
