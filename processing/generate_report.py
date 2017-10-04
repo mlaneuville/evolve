@@ -28,7 +28,7 @@ PLOTS_FLUXES["Oceans1"] = {'cols':["FreundlichAdsorption0", "HydrothermalCircula
 PLOTS_FLUXES["Oceans2"] = {'cols':["AbioticFixation0", "Henry0"],
                            'ylabel':"Nitrogen flux [kg N/yr]"}
 
-PLOTS_FLUXES["Continent"] = {'cols':["Weathering0", "Subduction1"],
+PLOTS_FLUXES["Continent"] = {'cols':["Erosion0", "Subduction1"],
                              'ylabel':"Nitrogen flux [kg N/yr]"}
 
 PLOTS_FLUXES["Interior"] = {'cols':["Subduction0", "Convection0", "Volcanism0"],

@@ -29,13 +29,13 @@
         CCrust:
         {
             InitMasses: [0, 0, 10e17],
-            Processes: ["Weathering"]
+            Processes: ["Erosion"]
         }
     },
 
-    Weathering: {
-        alpha: 0.01,
-        tau: 10e6
+    Erosion: {
+        alpha: 5e-4,
+        growth: 2e-10
     },
 
     Henry: {
