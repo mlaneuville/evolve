@@ -24,9 +24,14 @@ MAP = {0: ["Atmosphere", 0],
 
 METHODS = {}
 METHODS['man-ox'] = {'name':'man_ox', 
-                     'values': np.linspace(0, 1, 11)}
-METHODS['subrate'] = {'name': 'Subduction:tau', 
-                      'values': np.linspace(50e6, 150e6, 11)}
+                     'values': np.linspace(0, 1, 5)}
+METHODS['subrate'] = {'name': 'Subduction:tau',
+                      'values': np.linspace(50e6, 150e6, 3)}
+METHODS['erosion'] = {'name': 'Erosion:alpha',
+                      'values': np.logspace(-5, -4, 3)}
+METHODS['accretion'] = {'name': 'Subduction:accretion',
+                        'values': np.linspace(0, 1, 3)}
+
 
 def get_random_sequence():
     '''Generate a sequence of 8 integers which sum is TOTAL_BUDGET. The way to
