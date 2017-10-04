@@ -23,13 +23,10 @@ MAP = {0: ["Atmosphere", 0],
        7: ["CCrust", 2]}
 
 METHODS = {}
-METHODS['man-ox'] = {'name':{'man_ox':0}, 'scale':1}
-METHODS['atm-ox'] = {'name':{'atm_ox':0}, 'scale':1}
-METHODS['man-mix'] = {'name':{"Convection": {"F0":0, "F1":0}}, 'scale':1}
-METHODS['oce-mix'] = {'name':{"HydrothermalCirculation": {"F0":0, "F1":0}}, 'scale':1}
-METHODS['subrate'] = {'name':{"Subduction": {"tau":100e6}}, 'scale':1}
-METHODS['biotic'] = {'name':{"BioticContribution": {"E6i":0}}, 'scale':1}
-METHODS['ocvol'] = {'name':{"Henry": {"change":1}}, 'scale':0.01}
+METHODS['man-ox'] = {'name':'man_ox', 
+                     'values': np.linspace(0, 1, 11)}
+METHODS['subrate'] = {'name': 'Subduction:tau', 
+                      'values': np.linspace(50e6, 150e6, 11)}
 
 def get_random_sequence():
     '''Generate a sequence of 8 integers which sum is TOTAL_BUDGET. The way to
@@ -85,7 +82,7 @@ def get_default_config(fname):
 
     return config
 
-def create_config(folder, varchange, method, fname, constraints={}):
+def create_config(folder, fname, method='', value='', constraints={}):
     '''Generate the new configuration based of the default config and the random
        sequence.'''
     cfg = get_default_config(fname)
@@ -96,41 +93,30 @@ def create_config(folder, varchange, method, fname, constraints={}):
 
     for res, val in enumerate(random_seq):
         cfg["Reservoirs"][MAP[res][0]]["InitMasses"][MAP[res][1]] = "%.1e" % (val*1e17)
-    cfg["OutFolder"] = folder
-
-    parameters = deepcopy(METHODS[method]['name'])
-    scale = METHODS[method]['scale']
-
-    plist = ''
-    for i in parameters.keys():
-        if type(parameters[i]) is dict:
-            if len(varchange) != len(parameters[i].keys()):
-                print("provide multiple values")
-                sys.exit()
-            for j,k in enumerate(sorted(parameters[i].keys())):
-                parameters[i][k] = '%.2e' % (float(varchange[j])*scale)
-                plist += '_'+k+'_'+varchange[j]
-            for k in cfg[i].keys():
-                if k not in parameters[i].keys():
-                    parameters[i][k] = cfg[i][k]
-        else:
-            parameters[i] = float(varchange[0])*scale
-            plist += '_'+i+'_'+varchange[0]
-        cfg.update(parameters)
+    cfg["OutFolder"] = folder+'/'+method
 
     fname = "config"
-    if constraints:
-        fname += plist
-    else:
-        for val in random_seq:
-            fname += "_" + str(val)
+    if method:
+        new_config = deepcopy(METHODS[method]['name'])
+        parameter = METHODS[method]['name'].split(':')
+        if len(parameter) == 1:
+            cfg[parameter[0]] = '%.2e' % float(value)
+        elif len(parameter) == 2:
+            cfg[parameter[0]][parameter[1]] = '%.2e' % float(value)
+        else:
+            print("Unrecognized number of arguments")
+            sys.exit(1)
+        fname += "_" + method + '_%.2e' % value
+
+    for val in random_seq:
+        fname += "_" + str(val)
 
     fullname = os.getcwd()+"/"+ARGS.folder+"/"+fname+".yaml"
     if os.path.isfile(fullname):
         print("%s already exists" % fullname)
         return
 
-    stream = open(folder+"/"+fname+".yaml", "w")
+    stream = open(folder+"/"+method+'/'+fname+".yaml", "w")
     yaml.dump(cfg, stream, default_flow_style=True)
 
 if __name__ == "__main__":
@@ -138,15 +124,24 @@ if __name__ == "__main__":
     PARSER.add_argument('-n', '--num', default=1, type=int,
                         help='number of config to generate')
     PARSER.add_argument('-f', '--folder', default='output')
-    PARSER.add_argument('-v', '--varchange', action='append', type=str, default=[])
-    PARSER.add_argument('-m', '--method', type=str, required=True)
-    PARSER.add_argument('-c', '--config', default="config.yaml", help="base config", type=str)
+    PARSER.add_argument('-m', '--method', type=str)
+    PARSER.add_argument('-c', '--config', default="config.yaml",
+                        help="base config", type=str)
 
     ARGS = PARSER.parse_args()
 
     if not os.path.isdir(ARGS.folder):
         os.mkdir(ARGS.folder)
 
-    constraints = {}
-    for i in range(ARGS.num):
-        create_config(ARGS.folder, ARGS.varchange, ARGS.method, ARGS.config, constraints=constraints)
+    if not ARGS.method:
+        for i in range(ARGS.num):
+            create_config(ARGS.folder, ARGS.config)
+    else:
+        if not os.path.isdir(ARGS.folder+'/'+ARGS.method):
+            os.mkdir(ARGS.folder+'/'+ARGS.method)
+
+        for n in range(ARGS.num):
+            constraints = {i: j for i, j in enumerate(get_random_sequence())}
+            for v in METHODS[ARGS.method]['values']:
+                create_config(ARGS.folder, ARGS.config, method=ARGS.method,
+                              value=v, constraints=constraints)
