@@ -96,7 +96,7 @@ def get_default_config(fname):
 
     return config
 
-def create_config(folder, fname, method='', value='', constraints={}):
+def create_config(folder, fname, value='', constraints={}):
     '''Generate the new configuration based of the default config and the random
        sequence.'''
     cfg = get_default_config(fname)
@@ -107,20 +107,20 @@ def create_config(folder, fname, method='', value='', constraints={}):
 
     for res, val in enumerate(random_seq):
         cfg["Reservoirs"][MAP[res][0]]["InitMasses"][MAP[res][1]] = "%.1e" % (val*1e17)
-    cfg["OutFolder"] = folder+'/'+method
+    cfg["OutFolder"] = folder
 
     fname = "config"
-    if method:
-        new_config = deepcopy(METHODS[method]['name'])
-        parameter = METHODS[method]['name'].split(':')
+    for dim in value:
+        parameter = next(iter(dim)).split(':')
+        v = dim[next(iter(dim))]
         if len(parameter) == 1:
-            cfg[parameter[0]] = '%.2e' % float(value)
+            cfg[parameter[0]] = '%.2e' % float(v)
         elif len(parameter) == 2:
-            cfg[parameter[0]][parameter[1]] = '%.2e' % float(value)
+            cfg[parameter[0]][parameter[1]] = '%.2e' % float(v)
         else:
             print("Unrecognized number of arguments")
             sys.exit(1)
-        fname += "_" + method + '_%.2e' % value
+        fname += "_" + parameter[0] + '_%.2e' % v
 
     for val in random_seq:
         fname += "_" + str(val)
@@ -130,7 +130,7 @@ def create_config(folder, fname, method='', value='', constraints={}):
         print("%s already exists" % fullname)
         return
 
-    stream = open(folder+"/"+method+'/'+fname+".yaml", "w")
+    stream = open(folder+'/'+fname+".yaml", "w")
     yaml.dump(cfg, stream, default_flow_style=True)
 
 if __name__ == "__main__":
@@ -140,7 +140,7 @@ if __name__ == "__main__":
     PARSER.add_argument('-f', '--folder', default='output')
     PARSER.add_argument('-d', '--default', action='store_true',
                         help='use default initial nitrogen distribution')
-    PARSER.add_argument('-m', '--method', type=str)
+    PARSER.add_argument('-m', '--method', type=str, action='append')
     PARSER.add_argument('-c', '--config', default="config.yaml",
                         help="base config", type=str)
 
@@ -157,12 +157,22 @@ if __name__ == "__main__":
         for i in range(ARGS.num):
             create_config(ARGS.folder, ARGS.config, constraints=constraints)
     else:
-        if not os.path.isdir(ARGS.folder+'/'+ARGS.method):
-            os.mkdir(ARGS.folder+'/'+ARGS.method)
+        pathname = ARGS.folder + '/' + '-'.join(ARGS.method)
+        if not os.path.isdir(pathname):
+            os.mkdir(pathname)
 
         for n in range(ARGS.num):
             if not ARGS.default:
                 constraints = {i: j for i, j in enumerate(get_random_sequence())}
-            for v in METHODS[ARGS.method]['values']:
-                create_config(ARGS.folder, ARGS.config, method=ARGS.method,
-                              value=v, constraints=constraints)
+
+            for x in METHODS[ARGS.method[0]]['values']:
+                if len(ARGS.method) > 1:
+                    for y in METHODS[ARGS.method[1]]['values']:
+                        newval = [{METHODS[ARGS.method[0]]['name']: x},
+                                  {METHODS[ARGS.method[1]]['name']: y}]
+                        create_config(pathname, ARGS.config,
+                                      value=newval, constraints=constraints)
+                else:
+                        newval = [{METHODS[ARGS.method[0]]['name']: x}]
+                        create_config(pathname, ARGS.config,
+                                      value=newval, constraints=constraints)
