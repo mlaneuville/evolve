@@ -86,7 +86,7 @@
     },
 
     HydrothermalCirculation: {
-        tau: 1e9, 
+        tau: 100e9, 
         F0: 1e-7,
         F1: 3e-7,
         F_NOx: 1,
@@ -94,7 +94,7 @@
     },
 
     Convection: {
-        tau: 1e9, 
+        tau: 100e9, 
         F0: 1e-8,
         F1: 3e-8,
     },
