@@ -33,7 +33,11 @@ MAP = {0: ["Atmosphere", 0],
 
 METHODS = {}
 METHODS['man-ox'] = {'name':'man_ox', 
-                     'values': np.linspace(0, 1, 5)}
+                     'values': np.linspace(0, 1, 20)}
+METHODS['manmix'] = {'name':'Convection:F1',
+                     'values': np.logspace(-10, -6, 20)}
+METHODS['ocemix'] = {'name':'HydrothermalCirculation:F1',
+                     'values': np.logspace(-10, -6, 20)}
 METHODS['subrate'] = {'name': 'Subduction:tau',
                       'values': np.linspace(50e6, 150e6, 3)}
 METHODS['erosion'] = {'name': 'Erosion:alpha',
