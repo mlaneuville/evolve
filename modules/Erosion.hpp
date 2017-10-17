@@ -3,6 +3,7 @@ public:
     Erosion(string name): Module(name) { init(); }
 
     double alpha, A0, M0, rho;
+    bool uniform_growth;
 
     void init(void) {
         this->links.push_back("CCrust2 -> Oceans2");
@@ -11,6 +12,7 @@ public:
         this->init_fluxes(2);
 
         alpha = config->data["Erosion"]["alpha"].as<double>();
+        uniform_growth = config->data["Erosion"]["uniform_growth"].as<bool>();
         A0 = 1.48e14; // m2, today
         M0 = 2.28e22; // kg, today
         rho = 2700; // kg/m3
@@ -26,6 +28,7 @@ public:
         } else {
             relative_area = 0.66 + 0.34*(s->time-1.5e9)/3e9;
         }
+        if (uniform_growth) { relative_area = 0.02 + 0.98*s->time/4.5e9; }
 
         double concentration = s->masses[co+2]/(relative_area*M0);
         double flux = alpha*A0*rho*relative_area*concentration;

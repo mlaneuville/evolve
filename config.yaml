@@ -34,6 +34,7 @@
     },
 
     Erosion: {
+        uniform_growth: false,
         alpha: 5e-4,
     },
 
