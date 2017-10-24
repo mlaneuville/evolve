@@ -142,6 +142,8 @@ if __name__ == "__main__":
     PARSER.add_argument('-n', '--num', default=1, type=int,
                         help='number of config to generate')
     PARSER.add_argument('-f', '--folder', default='output')
+    PARSER.add_argument('-b', '--budget', default=339, type=int,
+                        help='BSE nitrogen content in 1e17 kg unit')
     PARSER.add_argument('-d', '--default', action='store_true',
                         help='use default initial nitrogen distribution')
     PARSER.add_argument('-m', '--method', type=str, action='append')
@@ -149,6 +151,8 @@ if __name__ == "__main__":
                         help="base config", type=str)
 
     ARGS = PARSER.parse_args()
+
+    TOTAL_BUDGET = ARGS.budget
 
     if not os.path.isdir(ARGS.folder):
         os.mkdir(ARGS.folder)
