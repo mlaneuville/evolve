@@ -13,7 +13,7 @@ from math import degrees, atan2
 rcParams.update({'font.size': 20})
 
 PARAMS = {}
-PARAMS['Atmosphere0'] = {'norm':4e18, 'ylabel':'N-content [PAL]', 'isLog':True, 'Earth':1}
+PARAMS['Atmosphere0'] = {'norm':4e18, 'ylabel':'N-content [PAL]', 'isLog':False, 'Earth':1}
 PARAMS['Oceans0'] = {'norm':3.8e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':0.6}
 PARAMS['Oceans1'] = {'norm':5.1e16, 'ylabel':'N-content [mM]', 'isLog':False, 'Earth':0.1}
 PARAMS['Oceans2'] = {'norm':2.4e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':3e-4}
@@ -27,8 +27,18 @@ PARAMS['Volcanism2'] = {'norm':1e11, 'ylabel':'Degassing rate [10$^{11}$ kg yr$^
 PARAMS_DEFAULT = {'norm':1, 'ylabel':'[]', 'isLog':True, 'Earth':1}
 
 PROPERTIES = {}
-PROPERTIES['man-mix'] = {'xlabel':'Mantle mixing rate [-]'}
-PROPERTIES['oce-mix'] = {'xlabel':'Ocean HT. circulation rate [-]'}
+PROPERTIES['subrate-050'] = {'xlabel':'Erosion rate [-]'}
+PROPERTIES['subrate-100'] = {'xlabel':'Erosion rate [-]'}
+PROPERTIES['subrate-150'] = {'xlabel':'Erosion rate [-]'}
+PROPERTIES['accretion-25'] = {'xlabel':'Erosion rate [-]'}
+PROPERTIES['accretion-50'] = {'xlabel':'Erosion rate [-]'}
+PROPERTIES['accretion-75'] = {'xlabel':'Erosion rate [-]'}
+PROPERTIES['manmix-25'] = {'xlabel':'Mantle mixing rate [-]'}
+PROPERTIES['manmix-50'] = {'xlabel':'Mantle mixing rate [-]'}
+PROPERTIES['manmix-75'] = {'xlabel':'Mantle mixing rate [-]'}
+PROPERTIES['ocemix-25'] = {'xlabel':'Ocean HT. circulation rate [-]'}
+PROPERTIES['ocemix-50'] = {'xlabel':'Ocean HT. circulation rate [-]'}
+PROPERTIES['ocemix-75'] = {'xlabel':'Ocean HT. circulation rate [-]'}
 PROPERTIES['man-ox'] = {'xlabel':'Mantle redox state [-]'}
 PROPERTIES['atm-ox'] = {'xlabel':'Atmosphere redox state [-]'}
 PROPERTIES['out2in'] = {'xlabel':'Biotic direction ratio [-]'}
@@ -65,10 +75,10 @@ values = [[ [] for x in ARGS.column ] for y in ARGS.folder]
 for k, folder in enumerate(ARGS.folder):
     xaxis = []
     files = glob(folder+'/*.txt')
-    for data_file in sorted(files, key=lambda x: float(x.split("/")[-1].split("_")[-1][:-4])):
+    for data_file in sorted(files, key=lambda x: float(x.split("/")[-1].split("_")[2])):
         dataframe = pd.read_csv(data_file)
-        param = float(data_file.split("/")[-1].split("_")[-1][:-4])
-        print(data_file,param)
+        param = float(data_file.split("/")[-1].split("_")[2])
+        print(data_file, param)
     
         print(ARGS.column)
         for i, col in enumerate(ARGS.column):
@@ -96,11 +106,11 @@ for i in range(len(ARGS.column)):
 #    plt.fill_between(xaxis, yval-yerr, yval+yerr, facecolor=COLORS[i], alpha=0.5)
 
 #if PARAMS[ARGS.column[0]]['isLog']:
-    #plt.yscale('log')
+#    plt.yscale('log')
 #plt.xscale('log')
 
-plt.ylim(0)
-plt.xlim(0, 1)
+#plt.ylim(0)
+plt.xlim(xaxis[0], xaxis[-1])
 plt.xlabel(PROPERTIES[ARGS.folder[0].split("/")[-2]]['xlabel'])
 
 ylabel = PARAMS.get(col, PARAMS_DEFAULT)['ylabel']
@@ -184,10 +194,11 @@ def labelLines(lines,align=True,xvals=None,legend=None,**kwargs):
     for line,x,label in zip(labLines,xvals,labels):
         labelLine(line,x,label,align,**kwargs)
 
-#labelLines(plt.gca().get_lines(), xvals=[1e-7, 1e-7, 1e-7], legend=ARGS.legend, zorder=2.5)
+#labelLines(plt.gca().get_lines(), xvals=[2e-5, 2e-5, 2e-5], legend=ARGS.legend, zorder=2.5)
 
+#plt.axvline(0.19, ls='--', lw=2, color='black')
 if ARGS.notation:
-    plt.title(ARGS.notation, x=0.9, y=0.7)
+    plt.title(ARGS.notation, x=0.9, y=0.6)
 
 if len(ARGS.legend) != 0:
     plt.legend(ARGS.legend, loc='upper left')

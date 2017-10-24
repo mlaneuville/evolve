@@ -16,8 +16,8 @@ rcParams.update({'font.size': 20,
 PARAMS = {}
 PARAMS['Atmosphere0'] = {'norm':4e18, 'ylabel':'N-content [PAL]', 'isLog':False, 'Earth':1}
 PARAMS['Oceans0'] = {'norm':3.8e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':0.63}
-PARAMS['Oceans1'] = {'norm':5.1e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':1e-2}
-PARAMS['Oceans2'] = {'norm':2.4e16, 'ylabel':'N-content [mM]', 'isLog':False, 'Earth':3e-4}
+PARAMS['Oceans1'] = {'norm':5.1e16, 'ylabel':'NO$_x$-content [mM]', 'isLog':True, 'Earth':1e-2}
+PARAMS['Oceans2'] = {'norm':2.4e16, 'ylabel':'NH$_x$-content [mM]', 'isLog':False, 'Earth':3e-4}
 PARAMS['LMantle2'] = {'norm':2.5e18, 'ylabel':'N-content [ppm]', 'isLog':False, 'Earth':1.4}
 PARAMS['UMantle2'] = {'norm':9.6e17, 'ylabel':'N-content [ppm]', 'isLog':True, 'Earth':3.5}
 PARAMS['OCrust2'] = {'norm':1e15, 'ylabel':'N-content [ppm]', 'isLog':True, 'Earth':200}
@@ -144,7 +144,10 @@ def plot_time_evolution(ARGS):
     plt.xticks(np.arange(500, 4500, 1000))
     
     if len(ARGS.legend) != 0:
-        plt.legend(handles, ARGS.legend, loc='upper left')
+        if ARGS.notation == '(d)' or ARGS.notation == '(c)':
+            plt.legend(handles, ARGS.legend, loc='lower right')
+        else:
+            plt.legend(handles, ARGS.legend, loc='upper left')
     
     if PARAMS[ARGS.column[0]]['isLog']:
         plt.yscale('log')
@@ -156,10 +159,9 @@ def plot_time_evolution(ARGS):
         plt.ylim(0.5, 1.0)
 
     if ARGS.notation:
-        if ARGS.notation == '(d)':
-            plt.title(ARGS.notation, x=0.9, y=0.1)
-        else:
-            plt.title(ARGS.notation, x=0.9, y=0.85)
+        plt.title(ARGS.notation, x=0.9, y=0.85)
+        #if ARGS.notation == '(d)':
+        #    plt.title(ARGS.notation, x=0.9, y=0.1)
     
     plt.grid(ls='dashed')
     plt.savefig(ARGS.outname, format='eps', bbox_inches='tight')
