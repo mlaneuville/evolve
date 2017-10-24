@@ -44,6 +44,8 @@ METHODS['erosion'] = {'name': 'Erosion:alpha',
                       'values': np.logspace(-5, -4, 3)}
 METHODS['accretion'] = {'name': 'Subduction:accretion',
                         'values': np.linspace(0, 1, 3)}
+METHODS['ocvol'] = {'name': 'Henry:change',
+                    'values': [-0.4, 0, 0.4]}
 
 
 def get_random_sequence():
