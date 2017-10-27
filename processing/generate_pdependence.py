@@ -13,7 +13,7 @@ from math import degrees, atan2
 rcParams.update({'font.size': 20})
 
 PARAMS = {}
-PARAMS['Atmosphere0'] = {'norm':4e18, 'ylabel':'N-content [PAL]', 'isLog':False, 'Earth':1}
+PARAMS['Atmosphere0'] = {'norm':4e18, 'ylabel':'pN$_2$ [PAL]', 'isLog':False, 'Earth':1}
 PARAMS['Oceans0'] = {'norm':3.8e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':0.6}
 PARAMS['Oceans1'] = {'norm':5.1e16, 'ylabel':'N-content [mM]', 'isLog':False, 'Earth':0.1}
 PARAMS['Oceans2'] = {'norm':2.4e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':3e-4}
@@ -27,12 +27,12 @@ PARAMS['Volcanism2'] = {'norm':1e11, 'ylabel':'Degassing rate [10$^{11}$ kg yr$^
 PARAMS_DEFAULT = {'norm':1, 'ylabel':'[]', 'isLog':True, 'Earth':1}
 
 PROPERTIES = {}
-PROPERTIES['subrate-050'] = {'xlabel':'Erosion rate [-]'}
-PROPERTIES['subrate-100'] = {'xlabel':'Erosion rate [-]'}
-PROPERTIES['subrate-150'] = {'xlabel':'Erosion rate [-]'}
-PROPERTIES['accretion-25'] = {'xlabel':'Erosion rate [-]'}
-PROPERTIES['accretion-50'] = {'xlabel':'Erosion rate [-]'}
-PROPERTIES['accretion-75'] = {'xlabel':'Erosion rate [-]'}
+PROPERTIES['subrate-050'] = {'xlabel':'Erosion rate [m yr$^{-1}$]'}
+PROPERTIES['subrate-100'] = {'xlabel':'Erosion rate [m yr$^{-1}$]'}
+PROPERTIES['subrate-150'] = {'xlabel':'Erosion rate [m yr$^{-1}$]'}
+PROPERTIES['accretion-25'] = {'xlabel':'Erosion rate [m yr$^{-1}$]'}
+PROPERTIES['accretion-50'] = {'xlabel':'Erosion rate [m yr$^{-1}$]'}
+PROPERTIES['accretion-75'] = {'xlabel':'Erosion rate [m yr$^{-1}$]'}
 PROPERTIES['manmix-25'] = {'xlabel':'Mantle mixing rate [-]'}
 PROPERTIES['manmix-50'] = {'xlabel':'Mantle mixing rate [-]'}
 PROPERTIES['manmix-75'] = {'xlabel':'Mantle mixing rate [-]'}
@@ -57,6 +57,7 @@ ARGS = PARSER.parse_args()
 
 DATA_DIRECTORY = ARGS.folder
 COLORS = ['b', 'g', 'r']
+STYLES = ['-', '-', '-']
 
 
 
@@ -100,14 +101,14 @@ for i in range(len(ARGS.column)):
         yerr = np.array(y_err[k][i])
 
         if len(ARGS.folder) > 1:
-            plt.plot(xaxis, yval, COLORS[k], lw=2, label=ARGS.column[i])
+            plt.plot(xaxis, yval, COLORS[k], lw=2, ls=STYLES[k], label=ARGS.column[i])
         else:
-            plt.plot(xaxis, yval, COLORS[i], lw=2, label=ARGS.column[i])
+            plt.plot(xaxis, yval, COLORS[i], lw=2, ls=STYLES[i], label=ARGS.column[i])
 #    plt.fill_between(xaxis, yval-yerr, yval+yerr, facecolor=COLORS[i], alpha=0.5)
 
 #if PARAMS[ARGS.column[0]]['isLog']:
 #    plt.yscale('log')
-#plt.xscale('log')
+plt.xscale('log')
 
 #plt.ylim(0)
 plt.xlim(xaxis[0], xaxis[-1])
@@ -194,14 +195,14 @@ def labelLines(lines,align=True,xvals=None,legend=None,**kwargs):
     for line,x,label in zip(labLines,xvals,labels):
         labelLine(line,x,label,align,**kwargs)
 
-#labelLines(plt.gca().get_lines(), xvals=[2e-5, 2e-5, 2e-5], legend=ARGS.legend, zorder=2.5)
+labelLines(plt.gca().get_lines(), xvals=[2e-5, 2e-5, 2e-5], legend=ARGS.legend, zorder=2.5)
 
-#plt.axvline(0.19, ls='--', lw=2, color='black')
+plt.axvline(0.19, ls='--', lw=2, color='black')
 if ARGS.notation:
     plt.title(ARGS.notation, x=0.9, y=0.6)
 
-if len(ARGS.legend) != 0:
-    plt.legend(ARGS.legend, loc='upper left')
+#if len(ARGS.legend) != 0:
+#    plt.legend(ARGS.legend, loc='upper left')
 
 plt.grid()
 plt.savefig(ARGS.outname, format='eps', bbox_inches='tight')

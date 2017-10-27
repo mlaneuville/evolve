@@ -14,13 +14,13 @@ rcParams.update({'font.size': 20,
                  'axes.axisbelow': True})
 
 PARAMS = {}
-PARAMS['Atmosphere0'] = {'norm':4e18, 'ylabel':'N-content [PAL]', 'isLog':False, 'Earth':1}
+PARAMS['Atmosphere0'] = {'norm':4e18, 'ylabel':'pN$_2$ [PAL]', 'isLog':False, 'Earth':1}
 PARAMS['Oceans0'] = {'norm':3.8e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':0.63}
-PARAMS['Oceans1'] = {'norm':5.1e16, 'ylabel':'NO$_x$-content [mM]', 'isLog':True, 'Earth':1e-2}
-PARAMS['Oceans2'] = {'norm':2.4e16, 'ylabel':'NH$_x$-content [mM]', 'isLog':False, 'Earth':3e-4}
-PARAMS['LMantle2'] = {'norm':2.5e18, 'ylabel':'N-content [ppm]', 'isLog':False, 'Earth':1.4}
-PARAMS['UMantle2'] = {'norm':9.6e17, 'ylabel':'N-content [ppm]', 'isLog':True, 'Earth':3.5}
-PARAMS['OCrust2'] = {'norm':1e15, 'ylabel':'N-content [ppm]', 'isLog':True, 'Earth':200}
+PARAMS['Oceans1'] = {'norm':5.1e16, 'ylabel':'NO$_x$ [mM]', 'isLog':False, 'Earth':1e-2}
+PARAMS['Oceans2'] = {'norm':2.4e16, 'ylabel':'NH$_x$ [mM]', 'isLog':False, 'Earth':3e-4}
+PARAMS['LMantle2'] = {'norm':2.5e18, 'ylabel':'NH$_x$ [ppm]', 'isLog':False, 'Earth':1.4}
+PARAMS['UMantle2'] = {'norm':9.6e17, 'ylabel':'NH$_x$ [ppm]', 'isLog':True, 'Earth':3.5}
+PARAMS['OCrust2'] = {'norm':1e15, 'ylabel':'NH$_x$ [ppm]', 'isLog':True, 'Earth':200}
 PARAMS['Atmosphere2'] = {'norm':1, 'ylabel':'N-content [kg]', 'isLog':True, 'Earth':1e15} # biosphere
 PARAMS['BioticContribution0'] = {'norm':1, 'ylabel':'N-content [kg]', 'isLog':True, 'Earth':1} # biosphere
 PARAMS['BioticContribution1'] = {'norm':1, 'ylabel':'Synthesis pathway', 'isLog':False, 'Earth':1} # biosphere
@@ -37,7 +37,7 @@ PARAMS['Subduction0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'E
 PARAMS['Convection0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
 PARAMS['CometDelivery0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
 PARAMS['Impacts0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
-PARAMS['CCrust2'] = {'norm':4e18, 'ylabel':'N-content [PAL]', 'isLog':False, 'Earth':0.35}
+PARAMS['CCrust2'] = {'norm':4e18, 'ylabel':'NH$_x$ [PAL]', 'isLog':False, 'Earth':0.35}
 PARAMS['Erosion0'] = {'norm':1e10, 'ylabel':'Erosion rate [1e10 kg/yr]', 'isLog':False, 'Earth':0.35}
 PARAMS['Erosion1'] = {'norm':1, 'ylabel':'Relative continental area', 'isLog':False, 'Earth':0.35}
 
@@ -53,7 +53,8 @@ PARSER.add_argument('-n', '--notation', help='plot description, i.e., (a), (b)..
 
 ARGS = PARSER.parse_args()
 
-COLORS = ['k', 'g', 'r', 'b']
+COLORS = ['k', 'k', 'k', 'k']
+STYLES = ['-', ':', '-.', '--']
 
 FIG = plt.figure(figsize=(8, 8))
 handles = []
@@ -71,7 +72,7 @@ def plot_phase_space(ARGS):
 
         bio = np.where(data["time"] > 1000)[0][0]
         snapshots = [0, -1]
-        colors = ['ko', 'r*']
+        colors = ['ko', 'k*']
         msize = [10, 20]
 
         plt.plot(xaxis, yaxis, 'k')
@@ -95,8 +96,7 @@ def plot_time_evolution(ARGS):
                     yaxis /= yaxis[-1]
                     yaxis = np.gradient(yaxis)
                 h, = plt.plot(data['time'][0:],
-                             yaxis[0:], COLORS[j],
-                             lw=2)
+                             yaxis[0:], COLORS[j], ls=STYLES[j], lw=2)
                 handles.append(h)
                 if ARGS.earth:
                     #plt.axhline(y=PARAMS[col]['Earth'], color=COLORS[i], ls='--', lw=2)
@@ -155,13 +155,17 @@ def plot_time_evolution(ARGS):
     print(ARGS.column[0][:3])
     if ARGS.column[0][:3] == 'Vol': # volcanism
         plt.ylim(1e9, 1e11)
-    if col == "Volcanism0":
-        plt.ylim(0.5, 1.0)
+    if col == "Atmosphere0":
+        plt.ylim(0., 1.5)
+    if col == "LMantle2":
+        plt.ylim(0., 5.)
+    if col == "Oceans1":
+        plt.ylim(0, 10)
+    if col == "Oceans2":
+        plt.ylim(0, 800)
 
     if ARGS.notation:
         plt.title(ARGS.notation, x=0.9, y=0.85)
-        #if ARGS.notation == '(d)':
-        #    plt.title(ARGS.notation, x=0.9, y=0.1)
     
     plt.grid(ls='dashed')
     plt.savefig(ARGS.outname, format='eps', bbox_inches='tight')
