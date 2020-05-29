@@ -27,7 +27,7 @@ public:
     map<string,int> idx_map;
 
     vector<Reservoir*> world;
-//    vector<Module*> mchain;
+    vector<Module*> mchain;
 
     vector<double> fluxes;
     vector<double> masses;

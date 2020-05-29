@@ -4,34 +4,40 @@
         Atmosphere:
         {
             InitMasses: [7e17, 0, 0],
-            Processes: ["Impacts", "CometDelivery", "AbioticFixation"]
         },
         Oceans:
         {
             InitMasses: [1e16, 1e17, 1.9e17],
-            Processes: ["Henry", "HydrothermalCirculation"]
         },
         OCrust:
         {
             InitMasses: [0, 0, 1e17],
-            Processes: ["FreundlichAdsorption", "Subduction"]
         },
         UMantle:
         {
             InitMasses: [0, 0, 199e17],
-            Processes: ["Volcanism"]
         },
         LMantle:
         {
             InitMasses: [0, 0, 119e17],
-            Processes: ["Convection"]
         },
         CCrust:
         {
             InitMasses: [0, 0, 10e17],
-            Processes: ["Erosion"]
         }
     },
+
+    Processes:
+    [
+        "AbioticFixation",
+        "FreundlichAdsorption",
+        "HydrothermalCirculation",
+        "Subduction",
+        "Volcanism",
+        "Convection",
+        "Erosion",
+        "Henry",
+    ],
 
     Erosion: {
         uniform_growth: false,

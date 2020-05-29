@@ -38,7 +38,7 @@ public:
             cout << "Module '" << name << "' was never registered! Exiting..." << endl;
             exit(1);
         }
-        cout << "-- Loading '" << name << "' ..." << endl;
+        cout << "Loading module '" << name << "' ..." << endl;
         return factories[name]->forge();
     }
 };

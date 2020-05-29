@@ -5,8 +5,8 @@ void Simulation::run(void) {
         this->fluxes.assign(3*this->num_reservoirs, 0);
 
         // fetch deltas
-        for (int j=0; j<this->num_reservoirs; j++) {
-            world[j]->run_processes();
+        for (int j=0; j<this->mchain.size(); j++) {
+            this->mchain[j]->exec("Evolve");
         }
 
         // apply deltas
@@ -49,6 +49,7 @@ void Simulation::init(string suffix) {
     this->time = 0;
     this->m0 = 0;
 
+    // reservoirs
     YAML::Node reservoirs = config->data["Reservoirs"];
     this->num_reservoirs = reservoirs.size();
     this->fluxes.resize(3*this->num_reservoirs);
@@ -58,12 +59,20 @@ void Simulation::init(string suffix) {
     for(YAML::const_iterator it=reservoirs.begin(); it != reservoirs.end(); ++it) {
         string name = it->first.as<string>();
         int num_modules = reservoirs[name]["Processes"].size();
-        cout << "Loading reservoir " << name << " with " << num_modules << " modules" << endl;
         this->world.push_back( new Reservoir(name, num_modules) );
     }
-    
+
+    // processes
+    YAML::Node processes = config->data["Processes"];
+
+    if(DEBUG) cout << "Number of processes considered: " << processes.size() << endl;
+
+    for(int i=0;i<processes.size();i++) {
+        this->mchain.push_back( factory.forge(processes[i].as<string>()) );
+    }
+
     cout << "=========================" << endl;
-    this->generate_graph();
+    //this->generate_graph(); TODO: this needs to be fixed
     this->to_screen();
     this->file_header();
     this->to_file();
@@ -97,11 +106,9 @@ void Simulation::to_file(void) {
     file << time/1e6;
     for (int i=0; i<masses.size(); i++) file << "," << setprecision(8) << masses[i];
 
-    for (int i=0; i<this->num_reservoirs; i++) {
-        for (int j=0; j<world[i]->num_modules; j++) {
-            for (int k=0; k<world[i]->mchain[j]->numOutputs; k++) {
-                file << "," << world[i]->mchain[j]->fluxes.back()[k];
-            }
+    for (int j=0; j<this->mchain.size(); j++) {
+        for (int k=0; k<this->mchain[j]->numOutputs; k++) {
+            file << "," << this->mchain[j]->fluxes.back()[k];
         }
     }
 
@@ -119,11 +126,9 @@ void Simulation::file_header(void) {
         for (int j=0; j<3; j++)
             file << "," << world[i]->name << j;
 
-    for (int i=0; i<this->num_reservoirs; i++) {
-        for (int j=0; j<world[i]->num_modules; j++) {
-            for (int k=0; k<world[i]->mchain[j]->numOutputs; k++) {
-                file << "," << world[i]->mchain[j]->name << k;
-            }
+    for (int j=0; j<this->mchain.size(); j++) {
+        for (int k=0; k<this->mchain[j]->numOutputs; k++) {
+            file << "," << this->mchain[j]->name << k;
         }
     }
 
@@ -152,11 +157,11 @@ void Simulation::generate_graph(void) {
         }
         file << "}" << endl;
 
-        for (int j=0; j<world[i]->num_modules; j++) { // over modules within reservoir
-            for (int k=0; k<world[i]->mchain[j]->links.size(); k++) { // over links
-                file << "\t" << world[i]->mchain[j]->links[k];
-                file << "[label=" << world[i]->mchain[j]->name;
-                if (world[i]->mchain[j]->isBidirectional) file << ", dir=\"both\"";
+        for (int j=0; j<this->mchain.size(); j++) {
+            for (int k=0; k<this->mchain[j]->links.size(); k++) { // over links
+                file << "\t" << this->mchain[j]->links[k];
+                file << "[label=" << this->mchain[j]->name;
+                if (this->mchain[j]->isBidirectional) file << ", dir=\"both\"";
                 file << "]" << endl;
             }
         }
