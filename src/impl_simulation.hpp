@@ -136,6 +136,7 @@ void Simulation::file_header(void) {
     file.close();
 }
 
+
 void Simulation::generate_graph(void) {
     fstream file;
     vector<string> colors;
@@ -165,7 +166,6 @@ void Simulation::generate_graph(void) {
                 file << "]" << endl;
             }
         }
-
     }
 
     file << "}" << endl;

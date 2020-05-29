@@ -26,7 +26,7 @@ public:
         s->fluxes[um+2] += (1-accretion)*flux;
         s->fluxes[co+2] += accretion*flux;
 
-        if(DEBUG) cout << "Subduction: " << flux << endl;
+        if(DEBUG) cout << "Subduction::flux::" << flux << endl;
 
         vector<double> output = {(1-accretion)*flux, accretion*flux};
         this->fluxes.push_back(output);

@@ -42,9 +42,9 @@ public:
         s->fluxes[oc+2] += (flux_MORB + flux_hotspot);
 
         if(DEBUG) {
-            cout << "Volcanism: arc=" << flux_arc << endl;
-            cout << "Volcanism: morb=" << flux_MORB << endl;
-            cout << "Volcanism: hotspot=" << flux_hotspot << endl;
+            cout << "Volcanism::flux_arc::" << flux_arc << endl;
+            cout << "Volcanism::flux_MORB::" << flux_MORB << endl;
+            cout << "Volcanism::flux_hotspot::" << flux_hotspot << endl;
         }
 
         vector<double> output = {flux_arc, flux_MORB, flux_hotspot};

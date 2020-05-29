@@ -36,7 +36,10 @@ public:
         s->fluxes[atm] += -flux;
         s->fluxes[oc] += flux;
 
-        if(DEBUG) cout << "Henry: " << flux << endl;
+        if(DEBUG) {
+            cout << "Henry::flux::" << flux << endl;
+            cout << "Henry::V/V0::" << V/V0 << endl;
+        }
 
         vector<double> output = {flux, V/V0};
         this->fluxes.push_back(output);

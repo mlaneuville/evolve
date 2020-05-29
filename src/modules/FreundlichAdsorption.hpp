@@ -35,7 +35,7 @@ public:
         s->fluxes[cr+2] += flux;
         s->fluxes[oc+2] += -flux;
 
-        if(DEBUG) cout << "FreundlichAdsorption: " << flux << endl;
+        if(DEBUG) cout << "FreundlichAdsorption::flux::" << flux << endl;
 
         vector<double> output = {flux};
         this->fluxes.push_back(output);

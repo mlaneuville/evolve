@@ -36,7 +36,10 @@ public:
         s->fluxes[co+2] += -flux;
         s->fluxes[oc+2] += flux;
 
-        if(DEBUG) cout << "Erosion: " << flux << endl;
+        if(DEBUG) {
+            cout << "Erosion::flux::" << flux << endl;
+            cout << "Erosion::relative_area::" << relative_area << endl;
+        }
 
         vector<double> output = {flux, relative_area};
         this->fluxes.push_back(output);

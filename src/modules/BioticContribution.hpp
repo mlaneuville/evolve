@@ -134,7 +134,7 @@ public:
         }
 
         if(DEBUG) {
-            cout << "BioticContribution: BS=" << s->masses[atm+2] << endl;
+            cout << "BioticContribution::BS::" << s->masses[atm+2] << endl;
         }
 
         vector<double> output = {s->masses[atm+2], spathway, apathway, flux/s->timestep};

@@ -28,7 +28,7 @@ public:
         s->fluxes[oc+1] += oxidizing*flux;
         s->fluxes[oc+2] += (1-oxidizing)*flux;
 
-        if(DEBUG) cout << "Impacts: " << flux << endl;
+        if(DEBUG) cout << "Impacts::flux::" << flux << endl;
 
         vector<double> output = {flux};
         this->fluxes.push_back(output);

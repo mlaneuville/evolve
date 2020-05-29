@@ -34,8 +34,8 @@ public:
         s->fluxes[oc+2] += flux_NH3;
 
         if(DEBUG) {
-            cout << "AbioticFixation: NOx=" << flux_NOx << endl;
-            cout << "AbioticFixation: NH3=" << flux_NH3 << endl;
+            cout << "AbioticFixation::flux_NOx::" << flux_NOx << endl;
+            cout << "AbioticFixation::flux_NH3::" << flux_NH3 << endl;
         }
 
         vector<double> output = {flux_NOx, flux_NH3};

@@ -35,7 +35,7 @@ public:
         s->fluxes[um+2] += -flux;
         s->fluxes[lm+2] += flux;
 
-        if(DEBUG) cout << "Convection: " << flux << endl;
+        if(DEBUG) cout << "Convection::flux::" << flux << endl;
 
         vector<double> output = {flux};
         this->fluxes.push_back(output);

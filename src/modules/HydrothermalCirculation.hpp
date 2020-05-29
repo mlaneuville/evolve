@@ -30,8 +30,8 @@ public:
         s->fluxes[oc+2] += (f_N2+f_NOx);
 
         if(DEBUG) {
-            cout << "HydrothermalCirculation: NOx=" << f_NOx << endl;
-            cout << "HydrothermalCirculation: N2=" << f_N2 << endl;
+            cout << "HydrothermalCirculation::f_NOx::" << f_NOx << endl;
+            cout << "HydrothermalCirculation::f_N2::" << f_N2 << endl;
         }
 
         vector<double> output = {f_NOx, f_N2};

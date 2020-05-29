@@ -21,7 +21,7 @@ public:
 
         s->fluxes[oc+2] += flux; // this is a net source, so no need to balance
 
-        if(DEBUG) cout << "CometDelivery: " << flux << endl;
+        if(DEBUG) cout << "CometDelivery::flux::" << flux << endl;
 
         vector<double> output = {flux};
         this->fluxes.push_back(output);
