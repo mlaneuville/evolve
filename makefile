@@ -1,18 +1,23 @@
 BIN = evolve
-OBJ = main.o config.o
+SDIR = src
+
+_OBJ = main.o config.o
+OBJ = $(patsubst %,$(SDIR)/%,$(_OBJ))
+
 CC = g++
 FLAGS = -lyaml-cpp 
 
-$(BIN): $(OBJ) *.hpp modules/*.hpp
+$(BIN): $(OBJ) $(SDIR)/*.hpp $(SDIR)/modules/*.hpp
 	$(CC) -o $(BIN) $(OBJ) $(FLAGS)
 
-$(OBJ): *.hpp
+$(OBJ): $(SDIR)/*.hpp
 
-.cpp.o:
-	$(CC) -c $*.cpp -std=c++11
+$(SDIR)/%.o: $(SDIR)/%.cpp
+	$(CC) -c -o $@ $< -std=c++2a
+
 
 clean:
-	rm -f evolve *.o
+	rm -f evolve $(SDIR)/*.o
 
 all: $(BIN)
 
