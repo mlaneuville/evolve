@@ -9,3 +9,4 @@
 #include "Volcanism.hpp"
 #include "Convection.hpp"
 #include "Erosion.hpp"
+#include "UVLight.hpp"
