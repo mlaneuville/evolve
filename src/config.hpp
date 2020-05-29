@@ -10,5 +10,5 @@ public:
 
     Config() { this->filename = "config.yaml"; }
 
-    void Load(string fname);
+    bool Load(string fname);
 };
