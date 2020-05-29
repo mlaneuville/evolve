@@ -10,13 +10,13 @@ void Simulation::run(void) {
         }
 
         // apply deltas
-        double curr_mass;
+        double curr_mass = 0;
         for (int j=0; j<this->fluxes.size(); j++) {
             this->masses[j] += this->timestep*this->fluxes[j];
             assert(this->masses[j] >= 0);
             curr_mass += this->masses[j];
         }
-        assert(curr_mass >= this->m0);
+        assert(abs(curr_mass-this->m0)/this->m0 < 1e-4);
 
         this->current_iter++;
         this->time += this->timestep;
