@@ -1,13 +1,12 @@
 class Reservoir {
 public:
-    int num_modules;
     vector<double> mass;
 
     void init(void);
 
     string name;
 
-    Reservoir(string name, int num_modules) {
+    Reservoir(string name) {
         this->name = name;
         this->init();
     }

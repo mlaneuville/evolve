@@ -63,8 +63,7 @@ bool Simulation::init(string suffix) {
 
     for(YAML::const_iterator it=reservoirs.begin(); it != reservoirs.end(); ++it) {
         string name = it->first.as<string>();
-        int num_modules = reservoirs[name]["Processes"].size();
-        this->world.push_back( new Reservoir(name, num_modules) );
+        this->world.push_back( new Reservoir(name) );
     }
 
     // processes
@@ -77,7 +76,7 @@ bool Simulation::init(string suffix) {
     }
 
     cout << "=========================" << endl;
-    //this->generate_graph(); TODO: this needs to be fixed
+    this->generate_graph();
     this->to_screen();
     this->file_header();
     this->to_file();
@@ -144,33 +143,56 @@ void Simulation::file_header(void) {
 
 void Simulation::generate_graph(void) {
     fstream file;
-    vector<string> colors;
-    colors.push_back("/accent4/1");
-    colors.push_back("/accent4/2");
-    colors.push_back("/accent4/3");
+    vector<string> reservoirs;
+
+    map<string, string> elements;
+    elements["0"] = "N2";
+    elements["1"] = "NOx";
+    elements["2"] = "NHx";
+
+    map<string, string> colors;
+    colors["Atmosphere"] = "/pastel16/1";
+    colors["Oceans"] = "/pastel16/2";
+    colors["OCrust"] = "/pastel16/3";
+    colors["CCrust"] = "/pastel16/4";
+    colors["UMantle"] = "/pastel16/5";
+    colors["LMantle"] = "/pastel16/6";
 
     file.open(this->output_file_graph.c_str(), fstream::out);
-    file << "digraph { rankdir=\"LR\"" << endl;
+    file << "digraph { ranksep=1.2 nodesep=1.0" << endl;
 
-    for (int i=0; i<this->num_reservoirs; i++) { // loop over reservoirs
-        if (world[i]->num_modules == 0) continue;
+    for (int j=0; j<this->mchain.size(); j++) {
+        for (int k=0; k<this->mchain[j]->links.size(); k++) { // over links
+            file << "\t" << this->mchain[j]->links[k];
+            file << "[label=" << this->mchain[j]->name.substr(0, 3);
+            if (this->mchain[j]->isBidirectional) file << ", dir=\"both\"";
+            file << "]" << endl;
 
-        // draw boxes around reservoirs
-        file << "\tsubgraph cluster_" << i << " { label = \"" << this->world[i]->name << "\"; ";
-        for (int tmp=0; tmp<3; tmp++) {
-            file << this->world[i]->name << tmp << "[style=\"filled\", color=\"black\", ";
-            file << "fillcolor=\"" << colors[tmp] << "\"];";
-        }
-        file << "}" << endl;
-
-        for (int j=0; j<this->mchain.size(); j++) {
-            for (int k=0; k<this->mchain[j]->links.size(); k++) { // over links
-                file << "\t" << this->mchain[j]->links[k];
-                file << "[label=" << this->mchain[j]->name;
-                if (this->mchain[j]->isBidirectional) file << ", dir=\"both\"";
-                file << "]" << endl;
+            // add reservoirs to reservoir list to plot later
+            size_t pos = 0;
+            string s = this->mchain[j]->links[k];
+            string delimiter = "->";
+            string token;
+            while ((pos = s.find(delimiter)) != string::npos) {
+                token = s.substr(0, pos-1);
+                if (find(reservoirs.begin(), reservoirs.end(), token) == reservoirs.end()) {
+                    cout << token << endl;
+                    reservoirs.push_back(token);
+                }
+                s.erase(0, pos + delimiter.length());
             }
+            token = s.substr(1, s.size());
+            if (find(reservoirs.begin(), reservoirs.end(), token) == reservoirs.end())
+                reservoirs.push_back(token);
         }
+    }
+
+    for (int i=0; i<reservoirs.size(); i++) { // loop over reservoirs
+        file << reservoirs[i];
+        file << "[shape=\"octagon\", style=\"filled\", ";
+        file << "label=\"" << reservoirs[i].substr(0, reservoirs[i].size()-1) << "\\n";
+        file << elements[reservoirs[i].substr(reservoirs[i].size()-1, reservoirs[i].size())] << "\", ";
+        file << "fillcolor=\"" << colors[reservoirs[i].substr(0, reservoirs[i].size()-1)] << "\"]" << endl;
     }
 
     file << "}" << endl;
