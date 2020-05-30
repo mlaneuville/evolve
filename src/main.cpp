@@ -23,11 +23,9 @@ int main(int argc, char** argv) {
         suffix = string(argv[1]).substr(begin, end-begin);
     }
 
-    if (config->Load(fname)) {
-        s->init(suffix);
-        s->run();
-        return 1;
-    }
+    if (config->Load(fname)) 
+        if (s->init(suffix))
+            s->run();
     
     return 0;
 }

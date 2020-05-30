@@ -32,12 +32,17 @@ void Simulation::run(void) {
 }
 
 
-void Simulation::init(string suffix) { 
+bool Simulation::init(string suffix) {
 
     fstream file;
     this->output_file = config->data["OutFolder"].as<string>() + "/out_" + suffix + ".txt";
     this->output_file_graph = config->data["OutFolder"].as<string>() + "/out_" + suffix + ".dot";
     file.open(this->output_file.c_str(), fstream::out);
+    if (file.fail()) {
+        cout << "Couldn't create output file. Your output folder likely doesn't exist." << endl;
+        cout << "Check 'OutFolder' value in your config file." << endl;
+        return false;
+    }
     file.close();
 
     DEBUG = config->data["Debug"].as<bool>();
@@ -77,7 +82,7 @@ void Simulation::init(string suffix) {
     this->file_header();
     this->to_file();
 
-    return; 
+    return true;
 }
 
 
