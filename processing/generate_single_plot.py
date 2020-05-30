@@ -10,36 +10,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 
-rcParams.update({'font.size': 20,
-                 'axes.axisbelow': True})
+from constants import Constants
 
-PARAMS = {}
-PARAMS['Atmosphere0'] = {'norm':4e18, 'ylabel':'pN$_2$ [PAL]', 'isLog':False, 'Earth':1}
-PARAMS['Oceans0'] = {'norm':3.8e16, 'ylabel':'N-content [mM]', 'isLog':True, 'Earth':0.63}
-PARAMS['Oceans1'] = {'norm':5.1e16, 'ylabel':'NO$_x$ [mM]', 'isLog':False, 'Earth':1e-2}
-PARAMS['Oceans2'] = {'norm':2.4e16, 'ylabel':'NH$_x$ [mM]', 'isLog':False, 'Earth':3e-4}
-PARAMS['LMantle2'] = {'norm':2.5e18, 'ylabel':'NH$_x$ [ppm]', 'isLog':False, 'Earth':1.4}
-PARAMS['UMantle2'] = {'norm':9.6e17, 'ylabel':'NH$_x$ [ppm]', 'isLog':True, 'Earth':3.5}
-PARAMS['OCrust2'] = {'norm':1e15, 'ylabel':'NH$_x$ [ppm]', 'isLog':True, 'Earth':200}
-PARAMS['Atmosphere2'] = {'norm':1, 'ylabel':'N-content [kg]', 'isLog':True, 'Earth':1e15} # biosphere
-PARAMS['BioticContribution0'] = {'norm':1, 'ylabel':'N-content [kg]', 'isLog':True, 'Earth':1} # biosphere
-PARAMS['BioticContribution1'] = {'norm':1, 'ylabel':'Synthesis pathway', 'isLog':False, 'Earth':1} # biosphere
-PARAMS['BioticContribution2'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':False, 'Earth':1} # biosphere
-PARAMS['Henry0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':False, 'Earth':1} # biosphere
-PARAMS['AbioticFixation0'] = {'norm':1e10, 'ylabel':'Abiotic fixation [1e10 kg/yr]', 'isLog':False, 'Earth':1} # biosphere
-PARAMS['HydrothermalCirculation0'] = {'norm':1e10, 'ylabel':'HT. circulation from NO$_x$ [1e10 kg/yr]', 'isLog':False, 'Earth':1} # biosphere
-PARAMS['HydrothermalCirculation1'] = {'norm':1e6, 'ylabel':'HT. circulation from N$_2$ [1e6 kg/yr]', 'isLog':False, 'Earth':1} # biosphere
-PARAMS['FreundlichAdsorption0'] = {'norm':1e10, 'ylabel':'Freundlich adsorption [1e10 kg/yr]', 'isLog':False, 'Earth':1} # biosphere
-PARAMS['Volcanism0'] = {'norm':1e10, 'ylabel':'Volcanic N-flux as N$_2$ [1e10 kg/yr]', 'isLog':False, 'Earth':1} # biosphere 
-PARAMS['Volcanism1'] = {'norm':1, 'ylabel':'Volcanic N-flux as NH$_x$ [kg/yr]', 'isLog':True, 'Earth':1} # biosphere
-PARAMS['Volcanism2'] = {'norm':1, 'ylabel':'Volcanic N-flux as NH$_x$ [kg/yr]', 'isLog':True, 'Earth':1} # biosphere
-PARAMS['Subduction0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
-PARAMS['Convection0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
-PARAMS['CometDelivery0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
-PARAMS['Impacts0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1} # biosphere
-PARAMS['CCrust2'] = {'norm':4e18, 'ylabel':'NH$_x$ [PAL]', 'isLog':False, 'Earth':0.35}
-PARAMS['Erosion0'] = {'norm':1e10, 'ylabel':'Erosion rate [1e10 kg/yr]', 'isLog':False, 'Earth':0.35}
-PARAMS['Erosion1'] = {'norm':1, 'ylabel':'Relative continental area', 'isLog':False, 'Earth':0.35}
+
+rcParams.update({'font.size': 20, 'axes.axisbelow': True})
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument(dest='fnames', nargs='*', help='file to use for plotting')
@@ -52,6 +26,7 @@ PARSER.add_argument('-p', '--phase', action='store_true', help='plot phase space
 PARSER.add_argument('-n', '--notation', help='plot description, i.e., (a), (b)...')
 
 ARGS = PARSER.parse_args()
+PARAMS = Constants().params
 
 COLORS = ['k', 'k', 'k', 'k']
 STYLES = ['-', ':', '-.', '--']
