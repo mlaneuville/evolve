@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 
-from constants import Constants
+from parameters import Parameters
 
 
 rcParams.update({'font.size': 20, 'axes.axisbelow': True})
@@ -26,7 +26,7 @@ PARSER.add_argument('-p', '--phase', action='store_true', help='plot phase space
 PARSER.add_argument('-n', '--notation', help='plot description, i.e., (a), (b)...')
 
 ARGS = PARSER.parse_args()
-PARAMS = Constants().params
+PARAMS = Parameters().params
 
 COLORS = ['k', 'k', 'k', 'k']
 STYLES = ['-', ':', '-.', '--']
@@ -40,12 +40,11 @@ def plot_phase_space(ARGS):
         data = pd.read_csv(fname)
 
         xaxis = data[ARGS.column[0]].values[1:]
-        xaxis /= PARAMS[ARGS.column[0]]['norm']
+        xaxis /= PARAMS[ARGS.column[0]].norm
 
         yaxis = data[ARGS.column[1]].values[1:]
-        yaxis /= PARAMS[ARGS.column[1]]['norm']
+        yaxis /= PARAMS[ARGS.column[1]].norm
 
-        bio = np.where(data["time"] > 1000)[0][0]
         snapshots = [0, -1]
         colors = ['ko', 'k*']
         msize = [10, 20]
@@ -54,8 +53,8 @@ def plot_phase_space(ARGS):
         for idx, col, size in zip(snapshots, colors, msize):
             plt.plot(xaxis[idx], yaxis[idx], col, markersize=size)
 
-    plt.xlabel(PARAMS[ARGS.column[0]]['ylabel'])
-    plt.ylabel(PARAMS[ARGS.column[1]]['ylabel'])
+    plt.xlabel(PARAMS[ARGS.column[0]].ylabel)
+    plt.ylabel(PARAMS[ARGS.column[1]].ylabel)
     plt.grid()
     plt.savefig(ARGS.outname, format='eps', bbox_inches='tight')
 
@@ -66,7 +65,7 @@ def plot_time_evolution(ARGS):
             data = pd.read_csv(fname)
             for i, col in enumerate(ARGS.column):
                 yaxis = data[col].values
-                yaxis /= PARAMS[col]['norm']
+                yaxis /= PARAMS[col].norm
                 if ARGS.deriv:
                     yaxis /= yaxis[-1]
                     yaxis = np.gradient(yaxis)
@@ -75,7 +74,7 @@ def plot_time_evolution(ARGS):
                 handles.append(h)
                 if ARGS.earth:
                     #plt.axhline(y=PARAMS[col]['Earth'], color=COLORS[i], ls='--', lw=2)
-                    plt.axhline(y=PARAMS[col]['Earth'], color='k', ls='--', lw=2)
+                    plt.axhline(y=PARAMS[col].earthscale, color='k', ls='--', lw=2)
                 #if col == "FreundlichAdsorption0":
                 #    plt.ylim(1, 3)
                 if col == "Oceans21":
@@ -103,17 +102,17 @@ def plot_time_evolution(ARGS):
                 max_vals = np.maximum(max_vals, data[col].values)
     
             h = plt.fill_between(data['time'][1:],
-                                 min_vals[1:]/PARAMS[col]['norm'],
-                                 max_vals[1:]/PARAMS[col]['norm'],
+                                 min_vals[1:]/PARAMS[col].norm,
+                                 max_vals[1:]/PARAMS[col].norm,
                                  lw=None, edgecolor=COLORS[i], facecolor=COLORS[i])
             handles.append(h)
     
             if ARGS.earth:
-                plt.axhline(y=PARAMS[col]['Earth'], color=COLORS[i], ls='--', lw=2)
+                plt.axhline(y=PARAMS[col].earthscale, color=COLORS[i], ls='--', lw=2)
         
     
     #plt.title(ARGS.column[0])
-    plt.ylabel(PARAMS[ARGS.column[0]]['ylabel'])
+    plt.ylabel(PARAMS[ARGS.column[0]].ylabel)
     plt.xlabel('Time since formation [Ma]')
     plt.xlim(0, 4500)
     plt.xticks(np.arange(500, 4500, 1000))
@@ -124,7 +123,7 @@ def plot_time_evolution(ARGS):
         else:
             plt.legend(handles, ARGS.legend, loc='upper left')
     
-    if PARAMS[ARGS.column[0]]['isLog']:
+    if PARAMS[ARGS.column[0]].islog:
         plt.yscale('log')
 
     print(ARGS.column[0][:3])
