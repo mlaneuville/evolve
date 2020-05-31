@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Axis:
     def __init__(self, norm, ylabel, islog=False, earthscale=1):
         self.norm = norm
@@ -54,7 +56,7 @@ def loadfile(fname, columns, PARAMS, xaxis='time'):
 
     xa = data[xaxis].values[1:]
     if xaxis != 'time':
-        xa/= PARAMS[ARGS.column[0]].norm
+        xa/= PARAMS[columns[0]].norm
 
     ya = []
     for col in columns:
