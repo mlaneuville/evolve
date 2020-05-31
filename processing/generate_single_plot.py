@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 
-from parameters import Parameters
+from tools import Parameters, loadfile
 
 rcParams.update({'font.size': 20, 'axes.axisbelow': True})
 
@@ -36,17 +36,12 @@ handles = []
 
 def plot_time_evolution(ARGS):
     if len(ARGS.fnames) < 5:
-        for j,fname in enumerate(sorted(ARGS.fnames)):
-            print(fname)
-            data = pd.read_csv(fname)
+        for j, fname in enumerate(sorted(ARGS.fnames)):
+            xaxis, yaxis = loadfile(fname, ARGS.column, PARAMS)
+            if xaxis is None:
+                continue
             for i, col in enumerate(ARGS.column):
-                yaxis = data[col].values
-                yaxis /= PARAMS[col].norm
-                if ARGS.deriv:
-                    yaxis /= yaxis[-1]
-                    yaxis = np.gradient(yaxis)
-                h, = plt.plot(data['time'][0:],
-                             yaxis[0:], COLORS[j], ls=STYLES[j], lw=2)
+                h, = plt.plot(xaxis, yaxis[i], COLORS[j], ls=STYLES[j], lw=2)
                 handles.append(h)
                 if ARGS.earth:
                     #plt.axhline(y=PARAMS[col]['Earth'], color=COLORS[i], ls='--', lw=2)

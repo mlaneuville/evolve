@@ -38,3 +38,29 @@ class Parameters:
 #        PARAMS['Erosion1'] = {'norm':1, 'ylabel':'Relative continental area', 'isLog':False, 'Earth':0.35}
 
         self.params = PARAMS
+
+def loadfile(fname, columns, PARAMS, xaxis='time'):
+    if type(columns) != list:
+        columns = [columns]
+
+    try:
+        data = pd.read_csv(fname)
+    except:
+        data = pd.DataFrame()
+
+    if not sum([x in data.columns for x in columns]):
+        print("File doesn't seem to be an output file, skipping", fname)
+        return None, None
+
+    xa = data[xaxis].values[1:]
+    if xaxis != 'time':
+        xa/= PARAMS[ARGS.column[0]].norm
+
+    ya = []
+    for col in columns:
+        y = data[col].values[1:]
+        y /= PARAMS[col].norm
+        ya.append(y)
+
+    print(fname)
+    return xa, ya

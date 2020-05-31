@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 
-from parameters import Parameters
+from tools import Parameters, loadfile
 
 rcParams.update({'font.size': 20, 'axes.axisbelow': True})
 
@@ -19,22 +19,18 @@ PARAMS = Parameters().params
 
 def plot_phase_space(ARGS):
     for fname in ARGS.fnames:
-        print(fname)
-        data = pd.read_csv(fname)
 
-        xaxis = data[ARGS.column[0]].values[1:]
-        xaxis /= PARAMS[ARGS.column[0]].norm
-
-        yaxis = data[ARGS.column[1]].values[1:]
-        yaxis /= PARAMS[ARGS.column[1]].norm
+        xaxis, yaxis = loadfile(fname, ARGS.column[1], PARAMS, xaxis=ARGS.column[0])
+        if xaxis is None:
+            continue
 
         snapshots = [0, -1]
         colors = ['ko', 'k*']
         msize = [10, 20]
 
-        plt.plot(xaxis, yaxis, 'k')
+        plt.plot(xaxis, yaxis[0], 'k')
         for idx, col, size in zip(snapshots, colors, msize):
-            plt.plot(xaxis[idx], yaxis[idx], col, markersize=size)
+            plt.plot(xaxis[idx], yaxis[0][idx], col, markersize=size)
 
     plt.xlabel(PARAMS[ARGS.column[0]].ylabel)
     plt.ylabel(PARAMS[ARGS.column[1]].ylabel)
