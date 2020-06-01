@@ -3,6 +3,7 @@ public:
     Volcanism(string name): Module(name) { init(); }
 
     double F_arc, F_MORB, F_hotspot, density, scaling, oxidizing;
+    int n2, nhx, atm, oc, um, lm;
 
     void init(void) {
         this->links.push_back("UMantle2 -> Atmosphere0");
@@ -20,17 +21,17 @@ public:
         oxidizing = config->data["man_ox"].as<double>();
         density = config->data["Volcanism"]["density"].as<double>();
         scaling = config->data["Volcanism"]["scaling"].as<double>();
+
+        n2 = s->element_map["n2"];
+        nhx = s->element_map["nhx"];
+
+        atm = s->reservoir_map["Atmosphere"];
+        oc = s->reservoir_map["Oceans"];
+        um = s->reservoir_map["UMantle"];
+        lm = s->reservoir_map["LMantle"];
     }
 
     void evolve(void) {
-        int n2 = s->element_map["n2"];
-        int nhx = s->element_map["nhx"];
-
-        int atm = s->reservoir_map["Atmosphere"];
-        int oc = s->reservoir_map["Oceans"];
-        int um = s->reservoir_map["UMantle"];
-        int lm = s->reservoir_map["LMantle"];
-
         double factor_um = s->world[um]->masses[nhx]/scaling;
         double factor_lm = s->world[lm]->masses[nhx]/scaling;
         double flux_arc = oxidizing*(F_MORB+F_arc)*density*1e9*factor_um;

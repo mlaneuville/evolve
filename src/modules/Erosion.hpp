@@ -4,6 +4,7 @@ public:
 
     double alpha, A0, M0, rho;
     bool uniform_growth;
+    int nhx, co, oc;
 
     void init(void) {
         this->links.push_back("CCrust2 -> Oceans2");
@@ -16,14 +17,14 @@ public:
         A0 = 1.48e14; // m2, today
         M0 = 2.28e22; // kg, today
         rho = 2700; // kg/m3
+
+        nhx = s->element_map["nhx"];
+
+        co = s->reservoir_map["CCrust"];
+        oc = s->reservoir_map["Oceans"];
     }
 
     void evolve(void) {
-        int nhx = s->element_map["nhx"];
-
-        int co = s->reservoir_map["CCrust"];
-        int oc = s->reservoir_map["Oceans"];
-
         double relative_area;
         if (s->time < 1.5e9) { 
             relative_area = 0.02 + 0.64*s->time/1.5e9;

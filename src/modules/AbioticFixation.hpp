@@ -3,6 +3,7 @@ public:
     AbioticFixation(string name): Module(name) { init(); }
 
     double Fi_NOx, Ff_NOx, Fi_NH3, Ff_NH3, M_REF, tau, goe;
+    int n2, nox, nhx, atm, oc;
 
     void init(void) {
         this->links.push_back("Atmosphere0 -> Oceans1");
@@ -17,16 +18,16 @@ public:
         tau = config->data["AbioticFixation"]["tau"].as<double>();
         goe = config->data["AbioticFixation"]["goe"].as<double>();
         M_REF = config->data["AbioticFixation"]["M_REF"].as<double>();
+
+        n2 = s->element_map["n2"];
+        nox = s->element_map["nox"];
+        nhx = s->element_map["nhx"];
+
+        atm = s->reservoir_map["Atmosphere"];
+        oc = s->reservoir_map["Oceans"];
     }
 
     void evolve(void) {
-        int n2 = s->element_map["n2"];
-        int nox = s->element_map["nox"];
-        int nhx = s->element_map["nhx"];
-
-        int atm = s->reservoir_map["Atmosphere"];
-        int oc = s->reservoir_map["Oceans"];
-
         double F_NOx = Ff_NOx + Fi_NOx*(1-1/(1+exp(-(s->time-goe)/tau)));
         double F_NH3 = Ff_NH3 + Fi_NH3*(1-1/(1+exp(-(s->time-goe)/tau)));
 

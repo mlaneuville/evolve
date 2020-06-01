@@ -4,6 +4,7 @@ public:
 
     double MN2, H0, V0, Mref, Pref, change;
     bool evolution;
+    int n2, nhx, atm, oc;
 
     void init(void) {
         this->links.push_back("Atmosphere0 -> Oceans0");
@@ -19,15 +20,15 @@ public:
         MN2 = 28e-3; // the masses are in kg
         Pref = 0.8e5;
         Mref = 4e18;
+
+        n2 = s->element_map["n2"];
+        nhx = s->element_map["nhx"];
+
+        atm = s->reservoir_map["Atmosphere"];
+        oc = s->reservoir_map["Oceans"];
     }
 
     void evolve(void) {
-        int n2 = s->element_map["n2"];
-        int nhx = s->element_map["nhx"];
-
-        int atm = s->reservoir_map["Atmosphere"];
-        int oc = s->reservoir_map["Oceans"];
-
         double V = V0;
         if (evolution) { V = V0*(1 + change*s->time/4.5e9); }
 

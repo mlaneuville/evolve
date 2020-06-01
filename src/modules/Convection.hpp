@@ -5,6 +5,7 @@ public:
     double tau, F0, F1, density;
     double vol_umantle;
     double vol_lmantle;
+    int nhx, um, lm;
 
     void init(void) {
         this->links.push_back("UMantle2 -> LMantle2");
@@ -19,14 +20,14 @@ public:
 
         vol_umantle = 2.4e20; // m3
         vol_lmantle = 6.3e20; // m3
+
+        nhx = s->element_map["nhx"];
+
+        um = s->reservoir_map["UMantle"];
+        lm = s->reservoir_map["LMantle"];
     }
 
     void evolve(void) {
-        int nhx = s->element_map["nhx"];
-
-        int um = s->reservoir_map["UMantle"];
-        int lm = s->reservoir_map["LMantle"];
-
         // convection should homogeneize both reservoirs
         double vol_fraction = F0 + (F1-F0)*exp(-s->time/tau);
         double c_umantle = s->world[um]->masses[nhx]/9.6e17/1e6; // wt.%

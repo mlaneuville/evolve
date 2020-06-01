@@ -3,6 +3,7 @@ public:
     FreundlichAdsorption(string name): Module(name) { init(); }
 
     double Kf, VSed, VOceans, rhoSed, change;
+    int nhx, cr, oc;
     bool evolution;
 
     void init(void) {
@@ -18,14 +19,14 @@ public:
         VSed = config->data["FreundlichAdsorption"]["VSed"].as<double>();
         rhoSed = config->data["FreundlichAdsorption"]["rhoSed"].as<double>();
         VOceans = config->data["Henry"]["V0"].as<double>();
+
+        nhx = s->element_map["nhx"];
+
+        cr = s->reservoir_map["OCrust"];
+        oc = s->reservoir_map["Oceans"];
     }
 
     void evolve(void) {
-        int nhx = s->element_map["nhx"];
-
-        int cr = s->reservoir_map["OCrust"];
-        int oc = s->reservoir_map["Oceans"];
-
         double V = VOceans;
         if (evolution) { V = VOceans*(1 + change*s->time/4.5e9); }
 

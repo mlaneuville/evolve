@@ -3,6 +3,7 @@ public:
     Subduction(string name): Module(name) { init(); }
 
     double tau, VCrust, accretion;
+    int nhx, cr, co, um;
 
     void init(void) {
         this->links.push_back("OCrust2 -> UMantle2");
@@ -13,15 +14,15 @@ public:
         VCrust = config->data["Subduction"]["VCrust"].as<double>();
         tau = config->data["Subduction"]["tau"].as<double>();
         accretion = config->data["Subduction"]["accretion"].as<double>();
+
+        nhx = s->element_map["nhx"];
+
+        cr = s->reservoir_map["OCrust"];
+        co = s->reservoir_map["CCrust"];
+        um = s->reservoir_map["UMantle"];
     }
 
     void evolve(void) {
-        int nhx = s->element_map["nhx"];
-
-        int cr = s->reservoir_map["OCrust"];
-        int co = s->reservoir_map["CCrust"];
-        int um = s->reservoir_map["UMantle"];
-
         //double flux = s->masses[cr+2]*s->timestep/tau;
         double flux = s->world[cr]->masses[nhx]/tau;
         s->world[cr]->fluxes[nhx] += -flux;
