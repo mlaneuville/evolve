@@ -4,7 +4,7 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-    string fname = "config.yaml";
+    string fname = "config_default.yaml";
     string suffix = "default";
 
     if (argc == 2) {

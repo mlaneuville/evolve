@@ -8,7 +8,7 @@ public:
     string filename;
     YAML::Node data; 
 
-    Config() { this->filename = "config.yaml"; }
+    Config() { this->filename = "config_default.yaml"; }
 
     bool Load(string fname);
 };
