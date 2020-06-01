@@ -96,17 +96,14 @@ class Report:
             p = PARAMS.get(col, PARAMS['default'])
             fig, ax = plt.subplots(1, 1)
             self.timeseries[col] = {'fig':fig, 'ax':ax, 'ylabel':p.ylabel,
-                                     'isLog':p.islog, 'colnames':[col], 'norm':[p.norm]}
+                                    'colnames':[col], 'norm':[p.norm]}
 
         for k, v in self.timeseries.items():
             print("Plotting "+k)
             for column, norm in zip(v['colnames'], v['norm']):
                 label = self.get_label(column)
                 data = self.data[column][1:]/norm
-                if v['isLog']:
-                    data = abs(data)
-                v['ax'].plot(self.data['time'][1:], data, 
-                             lw=2, label=label)
+                v['ax'].plot(self.data['time'][1:], data, lw=2, label=label)
 
             v['ax'].legend(loc='best')
             v['ax'].set_ylabel(v['ylabel'])
@@ -115,7 +112,7 @@ class Report:
             v['ax'].set_xlim(0, 4500)
             v['ax'].grid()
 
-            if v['isLog']:
+            if np.max(data)/np.min(data) > 10 and np.min(data) > 0:
                 v['ax'].set_yscale('log')
 
         color = ['b', 'g', 'r']

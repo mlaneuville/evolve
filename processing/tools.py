@@ -1,10 +1,9 @@
 import pandas as pd
 
 class Axis:
-    def __init__(self, norm, ylabel, islog=False, earthscale=1):
+    def __init__(self, norm, ylabel, earthscale=1):
         self.norm = norm
         self.ylabel = ylabel
-        self.islog = islog
         self.earthscale = earthscale
 
 class Parameters:
@@ -19,7 +18,7 @@ class Parameters:
         PARAMS['Oceans2'] = Axis(2.4e16, 'NH$_x$ [mM]', earthscale=3e-4)
         PARAMS['LMantle2'] = Axis(2.5e18, 'NH$_x$ [ppm]', earthscale=1.4)
         PARAMS['UMantle2'] = Axis(9.6e17, 'NH$_x$ [ppm]', earthscale=3.5)
-        PARAMS['OCrust2'] = Axis(1e15, 'NH$_x$ [ppm]', islog=True, earthscale=200)
+        PARAMS['OCrust2'] = Axis(1e15, 'NH$_x$ [ppm]', earthscale=200)
         PARAMS['CCrust2'] = Axis(4e18, 'NH$_x$ [PAL]', earthscale=0.35)
 
 #        PARAMS['Atmosphere2'] = {'norm':1, 'ylabel':'N-content [kg]', 'isLog':True, 'Earth':1e15}
