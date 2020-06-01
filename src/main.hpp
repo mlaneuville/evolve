@@ -1,6 +1,7 @@
 // standard modules
 #include <iostream>
 #include <iomanip> // setprecision
+#include <filesystem>
 #include <fstream>
 #include <valarray>
 #include <cstdio>
@@ -10,6 +11,7 @@
 #include "config.hpp"
 
 using namespace std;
+namespace fs = std::filesystem;
 
 // forward declaration
 class Module;

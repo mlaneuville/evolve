@@ -5,7 +5,7 @@ _OBJ = main.o config.o
 OBJ = $(patsubst %,$(SDIR)/%,$(_OBJ))
 
 CC = g++
-FLAGS = -lyaml-cpp 
+FLAGS = -lyaml-cpp -lstdc++fs
 
 $(BIN): $(OBJ) $(SDIR)/*.hpp $(SDIR)/modules/*.hpp
 	$(CC) -o $(BIN) $(OBJ) $(FLAGS)

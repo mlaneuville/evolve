@@ -45,6 +45,11 @@ bool Simulation::init(string suffix) {
     }
     file.close();
 
+    // saves a copy of the config file in the output folder
+    fs::copy(config->filename,
+             config->data["OutFolder"].as<string>() + "/" + config->filename,
+             fs::copy_options::overwrite_existing);
+
     DEBUG = config->data["Debug"].as<bool>();
 
     this->current_iter = 0;
