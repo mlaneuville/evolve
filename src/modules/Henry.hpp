@@ -22,19 +22,22 @@ public:
     }
 
     void evolve(void) {
-        int atm = s->idx_map["Atmosphere"];
-        int oc = s->idx_map["Oceans"];
+        int n2 = s->element_map["n2"];
+        int nhx = s->element_map["nhx"];
+
+        int atm = s->reservoir_map["Atmosphere"];
+        int oc = s->reservoir_map["Oceans"];
 
         double V = V0;
         if (evolution) { V = V0*(1 + change*s->time/4.5e9); }
 
-        double mtot = s->masses[atm] + s->masses[oc];
+        double mtot = s->world[atm]->masses[n2] + s->world[oc]->masses[n2];
         double cst = Pref/Mref*H0;
         double m_oc_eq = mtot*cst/(1./V/MN2-cst);
-        double flux = (m_oc_eq-s->masses[oc])/s->timestep;
+        double flux = (m_oc_eq-s->world[oc]->masses[n2])/s->timestep;
 
-        s->fluxes[atm] += -flux;
-        s->fluxes[oc] += flux;
+        s->world[atm]->fluxes[n2] += -flux;
+        s->world[oc]->fluxes[n2] += flux;
 
         if(DEBUG) {
             cout << "Henry::flux::" << flux << endl;

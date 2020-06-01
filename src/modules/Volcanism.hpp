@@ -23,23 +23,26 @@ public:
     }
 
     void evolve(void) {
-        int um = s->idx_map["UMantle"];
-        int lm = s->idx_map["LMantle"];
-        int atm = s->idx_map["Atmosphere"];
-        int oc = s->idx_map["Oceans"];
+        int n2 = s->element_map["n2"];
+        int nhx = s->element_map["nhx"];
 
-        double factor_um = s->masses[um+2]/scaling;
-        double factor_lm = s->masses[lm+2]/scaling;
+        int atm = s->reservoir_map["Atmosphere"];
+        int oc = s->reservoir_map["Oceans"];
+        int um = s->reservoir_map["UMantle"];
+        int lm = s->reservoir_map["LMantle"];
+
+        double factor_um = s->world[um]->masses[nhx]/scaling;
+        double factor_lm = s->world[lm]->masses[nhx]/scaling;
         double flux_arc = oxidizing*(F_MORB+F_arc)*density*1e9*factor_um;
         double flux_MORB = (1-oxidizing)*(F_MORB+F_arc)*density*1e9*factor_um;
         double flux_hotspot = F_hotspot*density*1e9*factor_lm;
 
-        s->fluxes[um+2] -= (flux_arc + flux_MORB);
-        s->fluxes[lm+2] -= flux_hotspot;
-        s->fluxes[atm] += flux_arc;
+        s->world[um]->fluxes[nhx] -= (flux_arc + flux_MORB);
+        s->world[lm]->fluxes[nhx] -= flux_hotspot;
+        s->world[atm]->fluxes[n2] += flux_arc;
         // s->fluxes[atm+1] += (flux_MORB + flux_hotspot); this goes directly
         // back to the oceans in practice
-        s->fluxes[oc+2] += (flux_MORB + flux_hotspot);
+        s->world[oc]->fluxes[nhx] += (flux_MORB + flux_hotspot);
 
         if(DEBUG) {
             cout << "Volcanism::flux_arc::" << flux_arc << endl;

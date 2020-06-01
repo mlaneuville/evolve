@@ -11,7 +11,7 @@
             InitMasses: {
                 n2: 1e16, 
                 nox: 1e17,
-                nhx': 1.9e17
+                nhx: 1.9e17
             },
         },
         OCrust: {

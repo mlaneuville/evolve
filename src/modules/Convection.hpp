@@ -22,18 +22,20 @@ public:
     }
 
     void evolve(void) {
-        int um = s->idx_map["UMantle"];
-        int lm = s->idx_map["LMantle"];
+        int nhx = s->element_map["nhx"];
+
+        int um = s->reservoir_map["UMantle"];
+        int lm = s->reservoir_map["LMantle"];
 
         // convection should homogeneize both reservoirs
         double vol_fraction = F0 + (F1-F0)*exp(-s->time/tau);
-        double c_umantle = s->masses[um+2]/9.6e17/1e6; // wt.%
-        double c_lmantle = s->masses[lm+2]/2.5e18/1e6; // wt.%
+        double c_umantle = s->world[um]->masses[nhx]/9.6e17/1e6; // wt.%
+        double c_lmantle = s->world[lm]->masses[nhx]/2.5e18/1e6; // wt.%
 
         double flux = density*vol_lmantle*vol_fraction*(c_umantle-c_lmantle)*0.5;
 
-        s->fluxes[um+2] += -flux;
-        s->fluxes[lm+2] += flux;
+        s->world[um]->fluxes[nhx] += -flux;
+        s->world[lm]->fluxes[nhx] += flux;
 
         if(DEBUG) cout << "Convection::flux::" << flux << endl;
 

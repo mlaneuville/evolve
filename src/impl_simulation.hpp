@@ -2,19 +2,18 @@ void Simulation::run(void) {
 
     double lastout = 0;
     while(this->time < this->tmax) {
-        this->fluxes.assign(3*this->num_reservoirs, 0);
-
         // fetch deltas
-        for (int j=0; j<this->mchain.size(); j++) {
-            this->mchain[j]->exec("Evolve");
-        }
+        for (int j=0; j<this->mchain.size(); j++) { this->mchain[j]->exec("Evolve"); }
 
         // apply deltas
         double curr_mass = 0;
-        for (int j=0; j<this->fluxes.size(); j++) {
-            this->masses[j] += this->timestep*this->fluxes[j];
-            assert(this->masses[j] >= 0);
-            curr_mass += this->masses[j];
+        for (int i=0; i<this->world.size(); i++) {
+            for (int j=0; j<this->world[i]->masses.size(); j++) {
+                this->world[i]->masses[j] += this->timestep*this->world[i]->fluxes[j];
+                this->world[i]->fluxes[j] = 0; // reset to 0 for next timestep
+                assert(this->world[i]->masses[j] >= 0);
+                curr_mass += this->world[i]->masses[j];
+            }
         }
         assert(abs(curr_mass-this->m0)/this->m0 < 1e-4);
 
@@ -59,16 +58,22 @@ bool Simulation::init(string suffix) {
     this->time = 0;
     this->m0 = 0;
 
+    this->element_map.insert( pair<string,int>("n2", 0) );
+    this->element_map.insert( pair<string,int>("nox", 1) );
+    this->element_map.insert( pair<string,int>("nhx", 2) );
+
     // reservoirs
     YAML::Node reservoirs = config->data["Reservoirs"];
     this->num_reservoirs = reservoirs.size();
-    this->fluxes.resize(3*this->num_reservoirs);
 
     if(DEBUG) cout << "Number of reservoirs considered: " << this->num_reservoirs << endl;
 
+    int i=0;
     for(YAML::const_iterator it=reservoirs.begin(); it != reservoirs.end(); ++it) {
         string name = it->first.as<string>();
         this->world.push_back( new Reservoir(name) );
+        s->reservoir_map.insert( pair<string,int>(name, i) );
+        i++;
     }
 
     // processes
@@ -94,13 +99,12 @@ void Simulation::to_screen(void) {
     printf("TS : %8d, Time: %4g, ", current_iter, time/1e6);
 
     double m, tot_m;
-    for (int i=0; i<world.size(); i++) {
+    for (int i=0; i<this->world.size(); i++) {
         m = 0;
-        cout << world[i]->name.substr(0,2) << ": ";
-        int idx = idx_map[world[i]->name];
-        m += masses[idx];
-        m += masses[idx+1];
-        m += masses[idx+2];
+        cout << this->world[i]->name.substr(0,2) << ": ";
+        m += this->world[i]->masses[0];
+        m += this->world[i]->masses[1];
+        m += this->world[i]->masses[2];
         cout << m << ", ";
         tot_m += m;
     }
@@ -113,13 +117,13 @@ void Simulation::to_file(void) {
     file.open(this->output_file.c_str(), fstream::app);
     file << current_iter << ",";
     file << time/1e6;
-    for (int i=0; i<masses.size(); i++) file << "," << setprecision(8) << masses[i];
+    for (int i=0; i<this->world.size(); i++)
+        for (int j=0; j<this->world[i]->masses.size(); j++)
+            file << "," << setprecision(8) << this->world[i]->masses[j];
 
-    for (int j=0; j<this->mchain.size(); j++) {
-        for (int k=0; k<this->mchain[j]->numOutputs; k++) {
+    for (int j=0; j<this->mchain.size(); j++)
+        for (int k=0; k<this->mchain[j]->numOutputs; k++)
             file << "," << this->mchain[j]->fluxes.back()[k];
-        }
-    }
 
     file << endl;
     file.close();

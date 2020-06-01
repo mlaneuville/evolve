@@ -21,19 +21,21 @@ public:
     }
 
     void evolve(void) {
-        int oc = s->idx_map["Oceans"];
-        int cr = s->idx_map["OCrust"];
+        int nhx = s->element_map["nhx"];
+
+        int cr = s->reservoir_map["OCrust"];
+        int oc = s->reservoir_map["Oceans"];
 
         double V = VOceans;
         if (evolution) { V = VOceans*(1 + change*s->time/4.5e9); }
 
-        double mtot = s->masses[oc+2] + s->masses[cr+2];
+        double mtot = s->world[oc]->masses[nhx] + s->world[cr]->masses[nhx];
         double cst = VSed/V*rhoSed*Kf;
         double m_oc_eq = mtot/(1+cst);
-        double flux = -(m_oc_eq-s->masses[oc+2])/s->timestep;
+        double flux = -(m_oc_eq-s->world[oc]->masses[nhx])/s->timestep;
 
-        s->fluxes[cr+2] += flux;
-        s->fluxes[oc+2] += -flux;
+        s->world[cr]->fluxes[nhx] += flux;
+        s->world[oc]->fluxes[nhx] += -flux;
 
         if(DEBUG) cout << "FreundlichAdsorption::flux::" << flux << endl;
 

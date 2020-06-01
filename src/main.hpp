@@ -26,13 +26,10 @@ public:
     double output, tmax, m0;
     int num_reservoirs;
 
-    map<string,int> idx_map;
+    map<string,int> reservoir_map, element_map;
 
     vector<Reservoir*> world;
     vector<Module*> mchain;
-
-    vector<double> fluxes;
-    vector<double> masses;
 
     Simulation() {};
     bool init(string);

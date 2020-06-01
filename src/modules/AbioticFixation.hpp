@@ -20,18 +20,22 @@ public:
     }
 
     void evolve(void) {
-        int atm = s->idx_map["Atmosphere"];
-        int oc = s->idx_map["Oceans"];
+        int n2 = s->element_map["n2"];
+        int nox = s->element_map["nox"];
+        int nhx = s->element_map["nhx"];
+
+        int atm = s->reservoir_map["Atmosphere"];
+        int oc = s->reservoir_map["Oceans"];
 
         double F_NOx = Ff_NOx + Fi_NOx*(1-1/(1+exp(-(s->time-goe)/tau)));
         double F_NH3 = Ff_NH3 + Fi_NH3*(1-1/(1+exp(-(s->time-goe)/tau)));
 
-        double flux_NOx = F_NOx*s->masses[atm]/M_REF;
-        double flux_NH3 = F_NH3*s->masses[atm]/M_REF;
+        double flux_NOx = F_NOx*s->world[atm]->masses[n2]/M_REF;
+        double flux_NH3 = F_NH3*s->world[atm]->masses[n2]/M_REF;
 
-        s->fluxes[atm] += -(flux_NOx + flux_NH3);
-        s->fluxes[oc+1] += flux_NOx;
-        s->fluxes[oc+2] += flux_NH3;
+        s->world[atm]->fluxes[n2] += -(flux_NOx + flux_NH3);
+        s->world[oc]->fluxes[nox] += flux_NOx;
+        s->world[oc]->fluxes[nhx] += flux_NH3;
 
         if(DEBUG) {
             cout << "AbioticFixation::flux_NOx::" << flux_NOx << endl;

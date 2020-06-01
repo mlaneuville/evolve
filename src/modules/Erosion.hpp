@@ -19,9 +19,11 @@ public:
     }
 
     void evolve(void) {
-        int co = s->idx_map["CCrust"];
-        int oc = s->idx_map["Oceans"];
-        
+        int nhx = s->element_map["nhx"];
+
+        int co = s->reservoir_map["CCrust"];
+        int oc = s->reservoir_map["Oceans"];
+
         double relative_area;
         if (s->time < 1.5e9) { 
             relative_area = 0.02 + 0.64*s->time/1.5e9;
@@ -30,11 +32,11 @@ public:
         }
         if (uniform_growth) { relative_area = 0.02 + 0.98*s->time/4.5e9; }
 
-        double concentration = s->masses[co+2]/(relative_area*M0);
+        double concentration = s->world[co]->masses[nhx]/(relative_area*M0);
         double flux = alpha*A0*rho*relative_area*concentration;
 
-        s->fluxes[co+2] += -flux;
-        s->fluxes[oc+2] += flux;
+        s->world[co]->fluxes[nhx] += -flux;
+        s->world[oc]->fluxes[nhx] += flux;
 
         if(DEBUG) {
             cout << "Erosion::flux::" << flux << endl;

@@ -18,16 +18,20 @@ public:
     }
 
     void evolve(void) {
-        int oc = s->idx_map["Oceans"];
-        int cr = s->idx_map["OCrust"];
+        int n2 = s->element_map["n2"];
+        int nox = s->element_map["nox"];
+        int nhx = s->element_map["nhx"];
+
+        int cr = s->reservoir_map["OCrust"];
+        int oc = s->reservoir_map["Oceans"];
 
         double vol_fraction = F0 + (F1-F0)*exp(-s->time/tau);
-        double f_NOx = s->masses[oc+1]*vol_fraction*F_NOx;
-        double f_N2 = s->masses[oc]*vol_fraction*F_N2;
+        double f_NOx = s->world[oc]->masses[nox]*vol_fraction*F_NOx;
+        double f_N2 = s->world[oc]->masses[n2]*vol_fraction*F_N2;
 
-        s->fluxes[oc] += -f_N2;
-        s->fluxes[oc+1] += -f_NOx;
-        s->fluxes[oc+2] += (f_N2+f_NOx);
+        s->world[oc]->fluxes[n2] += -f_N2;
+        s->world[oc]->fluxes[nox] += -f_NOx;
+        s->world[oc]->fluxes[nhx] += (f_N2+f_NOx);
 
         if(DEBUG) {
             cout << "HydrothermalCirculation::f_NOx::" << f_NOx << endl;
