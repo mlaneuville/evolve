@@ -1,6 +1,8 @@
 syntax: glob
 
 evolve
+*.swp
+*.orig
 *.dat
 *.txt
 *.ps
