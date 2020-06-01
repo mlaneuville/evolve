@@ -21,24 +21,26 @@ class Parameters:
         PARAMS['OCrust2'] = Axis(1e15, 'NH$_x$ [ppm]', earthscale=200)
         PARAMS['CCrust2'] = Axis(4e18, 'NH$_x$ [PAL]', earthscale=0.35)
 
+        PARAMS['Volcanism0'] = Axis(1, 'Volcanic flux as N$_2$ [kg/yr]', earthscale=1)
+        PARAMS['Volcanism1'] = Axis(1, 'Volcanic flux as NH$_x$ [kg/yr]', earthscale=1)
+        PARAMS['Volcanism2'] = Axis(1, 'Volcanic flux as NH$_x$ [kg/yr]', earthscale=1)
+        PARAMS['Subduction0'] = Axis(1, 'Subduction flux as NH$_x$ [kg/yr]', earthscale=1)
+        PARAMS['Convection0'] = Axis(1, 'Convection flux as NH$_x$ [kg/yr]', earthscale=1)
+        PARAMS['Henry0'] = Axis(1, 'Ocean-Atmosphere equilibration flux [kg/yr]', earthscale=1)
+        PARAMS['AbioticFixation0'] = Axis(1, 'Abiotic fixation to NO$_x$ [kg/yr]', earthscale=1)
+        PARAMS['AbioticFixation1'] = Axis(1, 'Abiotic fixation to NH$_x$ [kg/yr]', earthscale=1)
+        PARAMS['HydrothermalCirculation0'] = Axis(1e10, 'HT. circulation from NO$_x$ [1e10 kg/yr]', earthscale=1)
+        PARAMS['HydrothermalCirculation1'] = Axis(1e6, 'HT. circulation from N$_2$ [1e6 kg/yr]', earthscale=1)
+        PARAMS['FreundlichAdsorption0'] = Axis(1e10, 'Freundlich adsorption [1e10 kg/yr]', earthscale=1)
+        PARAMS['Erosion0'] = Axis(1e10, 'Erosion rate [1e10 kg/yr]', earthscale=1)
+        PARAMS['Erosion1'] = Axis(1, 'Relative continental area', earthscale=0.35)
+
 #        PARAMS['Atmosphere2'] = {'norm':1, 'ylabel':'N-content [kg]', 'isLog':True, 'Earth':1e15}
 #        PARAMS['BioticContribution0'] = {'norm':1, 'ylabel':'N-content [kg]', 'isLog':True, 'Earth':1}
 #        PARAMS['BioticContribution1'] = {'norm':1, 'ylabel':'Synthesis pathway', 'isLog':False, 'Earth':1}
 #        PARAMS['BioticContribution2'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':False, 'Earth':1}
-#        PARAMS['Henry0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':False, 'Earth':1}
-#        PARAMS['AbioticFixation0'] = {'norm':1e10, 'ylabel':'Abiotic fixation [1e10 kg/yr]', 'isLog':False, 'Earth':1}
-#        PARAMS['HydrothermalCirculation0'] = {'norm':1e10, 'ylabel':'HT. circulation from NO$_x$ [1e10 kg/yr]', 'isLog':False, 'Earth':1}
-#        PARAMS['HydrothermalCirculation1'] = {'norm':1e6, 'ylabel':'HT. circulation from N$_2$ [1e6 kg/yr]', 'isLog':False, 'Earth':1}
-#        PARAMS['FreundlichAdsorption0'] = {'norm':1e10, 'ylabel':'Freundlich adsorption [1e10 kg/yr]', 'isLog':False, 'Earth':1}
-#        PARAMS['Volcanism0'] = {'norm':1e10, 'ylabel':'Volcanic N-flux as N$_2$ [1e10 kg/yr]', 'isLog':False, 'Earth':1}
-#        PARAMS['Volcanism1'] = {'norm':1, 'ylabel':'Volcanic N-flux as NH$_x$ [kg/yr]', 'isLog':True, 'Earth':1}
-#        PARAMS['Volcanism2'] = {'norm':1, 'ylabel':'Volcanic N-flux as NH$_x$ [kg/yr]', 'isLog':True, 'Earth':1}
-#        PARAMS['Subduction0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1}
-#        PARAMS['Convection0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1}
 #        PARAMS['CometDelivery0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1}
 #        PARAMS['Impacts0'] = {'norm':1, 'ylabel':'Assimil. pathway', 'isLog':True, 'Earth':1}
-#        PARAMS['Erosion0'] = {'norm':1e10, 'ylabel':'Erosion rate [1e10 kg/yr]', 'isLog':False, 'Earth':0.35}
-#        PARAMS['Erosion1'] = {'norm':1, 'ylabel':'Relative continental area', 'isLog':False, 'Earth':0.35}
 
         self.params = PARAMS
 
