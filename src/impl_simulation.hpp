@@ -1,6 +1,7 @@
 void Simulation::run(void) {
 
     double lastout = 0;
+    double tstep = this->timestep/1000;
     while(this->time < this->tmax) {
         // fetch deltas
         for (int j=0; j<this->mchain.size(); j++) { this->mchain[j]->exec("Evolve"); }
@@ -9,7 +10,7 @@ void Simulation::run(void) {
         double curr_mass = 0;
         for (int i=0; i<this->world.size(); i++) {
             for (int j=0; j<this->world[i]->masses.size(); j++) {
-                this->world[i]->masses[j] += this->timestep*this->world[i]->fluxes[j];
+                this->world[i]->masses[j] += tstep*this->world[i]->fluxes[j];
                 this->world[i]->fluxes[j] = 0; // reset to 0 for next timestep
                 assert(this->world[i]->masses[j] >= 0);
                 curr_mass += this->world[i]->masses[j];
@@ -25,6 +26,7 @@ void Simulation::run(void) {
             this->to_file();
             lastout = this->time;
         }
+        tstep = min(2*tstep, this->timestep);
     }
 
     return; 
