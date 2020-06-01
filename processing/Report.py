@@ -13,6 +13,10 @@ import graphviz
 import os
 import sys
 
+from tools import Parameters
+
+PARAMS = Parameters().params
+
 class Report:
     def __init__(self, name, sim_dir="../output"):
         self.graph_fname = sim_dir + "/out_" + name + ".dot"
@@ -21,7 +25,6 @@ class Report:
         self.output_file = "report_"+self.fname.replace("/","-")[3:]+".pdf"
         self.timeseries = OrderedDict()
         self.subplots = []
-        print(self.data.head())
 
 
     def load_data(self):
@@ -39,6 +42,12 @@ class Report:
                 else:
                     label.append(value[:17])
         return label
+
+    def add_plot(self, name):
+        p = PARAMS[name]
+        fig, ax = plt.subplots(1, 1)
+        self.timeseries[name] = {'fig':fig, 'ax':ax, 'ylabel':p.ylabel,
+                                 'isLog':p.islog, 'colnames':[name], 'norm':[p.norm]}
 
 
     def add_timeseries(self, name, colnames=[], ylabel="", isLog=False, norm=[]):
@@ -83,6 +92,16 @@ class Report:
 
     def process(self):
 
+        for col in self.data.columns:
+            if col in ['iter', 'time']:
+                continue
+            if len(np.unique(self.data[col].iloc[1:])) == 1:
+                continue
+
+            if col in PARAMS.keys():
+                print(col)
+                self.add_plot(col)
+
         for k, v in self.timeseries.items():
             print("Plotting "+k)
             for column, norm in zip(v['colnames'], v['norm']):
@@ -97,6 +116,7 @@ class Report:
             v['ax'].set_ylabel(v['ylabel'])
             v['ax'].set_xlabel("Time since formation [Ma]")
             v['ax'].set_title(k)
+            v['ax'].set_xlim(0, 4500)
             v['ax'].grid()
 
             if v['isLog']:
