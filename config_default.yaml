@@ -1,29 +1,46 @@
 {
-    Reservoirs:
-    {
-        Atmosphere:
-        {
-            InitMasses: [7e17, 0, 0],
+    Reservoirs: {
+        Atmosphere: {
+            InitMasses: {
+                n2: 7e17, 
+                nox: 0,
+                nhx: 0
+            },
         },
-        Oceans:
-        {
-            InitMasses: [1e16, 1e17, 1.9e17],
+        Oceans: {
+            InitMasses: {
+                n2: 1e16, 
+                nox: 1e17,
+                nhx': 1.9e17
+            },
         },
-        OCrust:
-        {
-            InitMasses: [0, 0, 1e17],
+        OCrust: {
+            InitMasses: {
+                n2: 0, 
+                nox: 0,
+                nhx: 1e17
+            },
         },
-        UMantle:
-        {
-            InitMasses: [0, 0, 199e17],
+        UMantle: {
+            InitMasses: {
+                n2: 0, 
+                nox: 0,
+                nhx: 199e17
+            },
         },
-        LMantle:
-        {
-            InitMasses: [0, 0, 119e17],
+        LMantle: {
+            InitMasses: {
+                n2: 0, 
+                nox: 0,
+                nhx: 119e17
+            },
         },
-        CCrust:
-        {
-            InitMasses: [0, 0, 10e17],
+        CCrust: {
+            InitMasses: {
+                n2: 0, 
+                nox: 0,
+                nhx: 10e17
+            },
         }
     },
 

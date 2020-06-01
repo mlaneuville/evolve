@@ -11,6 +11,9 @@ import argparse
 import numpy as np
 from copy import deepcopy
 
+print("This will no longer work with the current config file structure.")
+sys.exit()
+
 TOTAL_BUDGET = 339 # 1e17 kg
 
 DEFAULT_CONSTRAINTS = {0: 40,

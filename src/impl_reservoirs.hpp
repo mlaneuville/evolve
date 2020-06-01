@@ -24,9 +24,11 @@ void Reservoir::init(void) {
         exit(1);
     }
 
-    for (int i=0; i<3; i++) {
-        s->masses.push_back(values[i].as<double>());
-        s->m0 += values[i].as<double>();
+    double v;
+    for(YAML::const_iterator it=values.begin();it!=values.end();++it) {
+        v = it->second.as<double>();
+        s->masses.push_back(v);
+        s->m0 += v;
     }
 
     return;
