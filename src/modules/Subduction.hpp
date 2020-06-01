@@ -7,8 +7,8 @@ public:
     void init(void) {
         this->links.push_back("OCrust2 -> UMantle2");
         this->links.push_back("OCrust2 -> CCrust2");
-        this->numOutputs = 2;
-        this->init_fluxes(2);
+        this->numOutputs = 1;
+        this->init_fluxes(1);
 
         VCrust = config->data["Subduction"]["VCrust"].as<double>();
         tau = config->data["Subduction"]["tau"].as<double>();
@@ -30,7 +30,7 @@ public:
 
         if(DEBUG) cout << "Subduction::flux::" << flux << endl;
 
-        vector<double> output = {(1-accretion)*flux, accretion*flux};
+        vector<double> output = {(1-accretion)*flux};
         this->fluxes.push_back(output);
     }
 
