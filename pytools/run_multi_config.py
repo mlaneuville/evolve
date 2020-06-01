@@ -8,8 +8,10 @@ import argparse
 import logging
 import threading
 import os
+import sys
 import time
 import subprocess
+import yaml
 
 logging.basicConfig(level=logging.DEBUG,
                     format="%(asctime)s (%(threadName)-2s) %(message)s")
@@ -22,15 +24,25 @@ ARGS = PARSER.parse_args()
 
 to_pop = []
 CONFIG = glob(ARGS.folder+"/*.yaml")
-for i, yaml in enumerate(CONFIG):
-    idx = yaml.split("config_")
+for i, yml in enumerate(CONFIG):
+    print("Loading", yml)
+    with open(yml) as f:
+        cfg = yaml.safe_load(f)
+
+    idx = yml.split("config_")
     fname = "out_%s.txt" % (idx[1][:-5])
-    fullname = os.getcwd()+"/"+ARGS.folder+"/"+fname
+    outfolder = cfg['OutFolder']
+    fullname = os.getcwd() + "/" + ARGS.folder + "/" + outfolder + "/" + fname
     if os.path.isfile(fullname):
+        print("Output file already exists, skipping...")
         to_pop.append(i)
 
 for i in to_pop[::-1]:
     CONFIG.pop(i)
+
+if not os.path.isfile("evolve"):
+    print("Couldn't find executable `evolve'. Please run script from main folder")
+    sys.exit()
 
 print(CONFIG)
 
