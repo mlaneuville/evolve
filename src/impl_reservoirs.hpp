@@ -18,13 +18,8 @@ void Reservoir::init(void) {
     cout << "Loading reservoir '" << name << "' ..." << endl;
 
     YAML::Node values = config->data["Reservoirs"][this->name]["InitMasses"];
-    this->masses.assign(values.size(), 0);
-    this->fluxes.assign(values.size(), 0);
-
-    if (values.size() != 3) {
-        cout << "Error: you should initialize all 3 fields!" << endl;
-        exit(1);
-    }
+    this->masses.assign(s->element_map.size(), 0);
+    this->fluxes.assign(s->element_map.size(), 0);
 
     double v;
     int idx;

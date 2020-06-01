@@ -3,8 +3,6 @@
         Atmosphere: {
             InitMasses: {
                 n2: 7e17, 
-                nox: 0,
-                nhx: 0
             },
         },
         Oceans: {
@@ -16,29 +14,21 @@
         },
         OCrust: {
             InitMasses: {
-                n2: 0, 
-                nox: 0,
                 nhx: 1e17
             },
         },
         UMantle: {
             InitMasses: {
-                n2: 0, 
-                nox: 0,
                 nhx: 199e17
             },
         },
         LMantle: {
             InitMasses: {
-                n2: 0, 
-                nox: 0,
                 nhx: 119e17
             },
         },
         CCrust: {
             InitMasses: {
-                n2: 0, 
-                nox: 0,
                 nhx: 10e17
             },
         }
