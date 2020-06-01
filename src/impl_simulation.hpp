@@ -2,6 +2,7 @@ void Simulation::run(void) {
 
     double lastout = 0;
     double tstep = this->timestep/1000;
+    int lastscreen = 0;
     while(this->time < this->tmax) {
         // fetch deltas
         for (int j=0; j<this->mchain.size(); j++) { this->mchain[j]->exec("Evolve"); }
@@ -21,11 +22,17 @@ void Simulation::run(void) {
         this->current_iter++;
         this->time += this->timestep;
 
-        if (this->time - lastout >= this->output) {
+        int ctime = floor(this->time/1e6);
+        if (ctime % 100 == 0 and ctime != lastscreen) {
             this->to_screen();
+            lastscreen = ctime;
+        }
+
+        if (this->time - lastout >= this->output) {
             this->to_file();
             lastout = this->time;
         }
+
         tstep = min(2*tstep, this->timestep);
     }
 
@@ -107,7 +114,7 @@ void Simulation::to_screen(void) {
         m += this->world[i]->masses[0];
         m += this->world[i]->masses[1];
         m += this->world[i]->masses[2];
-        cout << m << ", ";
+        printf("%7.5e ", m);
         tot_m += m;
     }
     cout << "TOT: " << tot_m << endl;
