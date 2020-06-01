@@ -43,12 +43,6 @@ class Report:
                     label.append(value[:17])
         return label
 
-    def add_plot(self, name):
-        p = PARAMS[name]
-        fig, ax = plt.subplots(1, 1)
-        self.timeseries[name] = {'fig':fig, 'ax':ax, 'ylabel':p.ylabel,
-                                 'isLog':p.islog, 'colnames':[name], 'norm':[p.norm]}
-
 
     def add_timeseries(self, name, colnames=[], ylabel="", isLog=False, norm=[]):
         if len(colnames) == 0:
@@ -98,9 +92,11 @@ class Report:
             if len(np.unique(self.data[col].iloc[1:])) == 1:
                 continue
 
-            if col in PARAMS.keys():
-                print(col)
-                self.add_plot(col)
+            print(col)
+            p = PARAMS.get(col, PARAMS['default'])
+            fig, ax = plt.subplots(1, 1)
+            self.timeseries[col] = {'fig':fig, 'ax':ax, 'ylabel':p.ylabel,
+                                     'isLog':p.islog, 'colnames':[col], 'norm':[p.norm]}
 
         for k, v in self.timeseries.items():
             print("Plotting "+k)

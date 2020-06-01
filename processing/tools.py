@@ -11,6 +11,8 @@ class Parameters:
     # TODO: define a default set of values when an unknown category is accessed
     def __init__(self):
         PARAMS = {}
+        PARAMS['default'] = Axis(1, 'undefined axis')
+
         PARAMS['Atmosphere0'] = Axis(4e18, 'pN$_2$ [PAL]')
         PARAMS['Oceans0'] = Axis(3.8e16, 'N content [mM]', earthscale=0.63)
         PARAMS['Oceans1'] = Axis(5.1e16, 'NO$_x$ [mM]', earthscale=1e-2)
