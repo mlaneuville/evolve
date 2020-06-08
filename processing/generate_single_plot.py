@@ -42,6 +42,7 @@ def plot_time_evolution(ARGS):
                 if ARGS.earth:
                     plt.axhline(y=PARAMS[col].earthscale, color='k', ls='--', lw=2)
     else: # fill_between plot
+        islog = False
         for i, col in enumerate(ARGS.columns):
             min_vals = None
             max_vals = None
@@ -63,6 +64,9 @@ def plot_time_evolution(ARGS):
                                  lw=None, edgecolor=COLORS[i], facecolor=COLORS[i])
             handles.append(h)
     
+            if np.max(yaxis[0])/np.min(yaxis[0]) > 10 and np.min(yaxis[0]) > 0:
+                islog = True
+
             if ARGS.earth:
                 plt.axhline(y=PARAMS[col].earthscale, color=COLORS[i], ls='--', lw=2)
         
@@ -72,7 +76,7 @@ def plot_time_evolution(ARGS):
     plt.xlim(0, 4500)
     plt.xticks(np.arange(500, 4500, 1000))
     
-    if PARAMS[ARGS.columns[0]].islog:
+    if islog:
         plt.yscale('log')
 
     plt.grid(ls='dashed')
