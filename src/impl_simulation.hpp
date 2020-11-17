@@ -113,9 +113,8 @@ void Simulation::to_screen(void) {
     for (int i=0; i<this->world.size(); i++) {
         m = 0;
         cout << this->world[i]->name.substr(0,2) << ": ";
-        m += this->world[i]->masses[0];
-        m += this->world[i]->masses[1];
-        m += this->world[i]->masses[2];
+        for (int j=0; j<this->world[i]->masses.size(); j++)
+            m += this->world[i]->masses[j];
         printf("%7.5e ", m);
         tot_m += m;
     }
@@ -147,7 +146,7 @@ void Simulation::file_header(void) {
     file << "iter,time";
 
     for (int i=0; i<world.size(); i++)
-        for (int j=0; j<3; j++)
+        for (int j=0; j<this->world[i]->masses.size(); j++)
             file << "," << world[i]->name << j;
 
     for (int j=0; j<this->mchain.size(); j++) {
