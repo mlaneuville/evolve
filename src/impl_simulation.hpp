@@ -195,7 +195,6 @@ void Simulation::generate_graph(void) {
             while ((pos = s.find(delimiter)) != string::npos) {
                 token = s.substr(0, pos-1);
                 if (find(reservoirs.begin(), reservoirs.end(), token) == reservoirs.end()) {
-                    cout << token << endl;
                     reservoirs.push_back(token);
                 }
                 s.erase(0, pos + delimiter.length());
