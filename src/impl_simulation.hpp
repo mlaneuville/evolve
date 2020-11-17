@@ -69,9 +69,10 @@ bool Simulation::init(string suffix) {
     this->time = 0;
     this->m0 = 0;
 
-    this->element_map.insert( pair<string,int>("n2", 0) );
-    this->element_map.insert( pair<string,int>("nox", 1) );
-    this->element_map.insert( pair<string,int>("nhx", 2) );
+    // species
+    YAML::Node species = config->data["Species"];
+    for(int i=0; i<species.size(); i++)
+        this->element_map.insert( pair<string,int>(species[i].as<string>(), i) );
 
     // reservoirs
     YAML::Node reservoirs = config->data["Reservoirs"];

@@ -1,4 +1,5 @@
 {
+    Species: ["n2", "nox", "nhx"],
     Reservoirs: {
         Atmosphere: {
             InitMasses: {
